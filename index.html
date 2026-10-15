@@ -1,0 +1,2382 @@
+<meta charset="utf-8">
+<title>Lincoln Kariuki Chege</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: instrument-panel dark page. Lens dial hero, tick-scale details, tabbed trail galleries. */
+:root {
+  color-scheme: dark;
+  --bg: #1d1c1b;
+  --surface: #262423;
+  --raise: #2f2c2a;
+  --line: #3d3936;
+  --fg: #eeebe5;
+  --muted: #9b958d;
+  --ember: #ff6a3d;
+  --moss: #5fc58c;
+  --sky: #5aa9ff;
+  --paper: #f2efe9;
+  --ink: #1d1c1b;
+  --ink-soft: #5d5953;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --gutter: max(16px, 4vw, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, 4vw, env(safe-area-inset-right, 0px));
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; background: var(--bg); scroll-padding-top: 72px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--bg);
+  background-image: radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--fg) 7%, transparent) 1px, transparent 0);
+  background-size: 28px 28px;
+  color: var(--fg); font: 400 16px/1.6 var(--body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: inherit; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
+:focus-visible { outline: 2px solid var(--ember); outline-offset: 3px; border-radius: 4px; }
+.mono { font-family: var(--mono); font-size: 12px; letter-spacing: .04em; }
+.muted { color: var(--muted); }
+.wrap { max-width: none; margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter-r); }
+.eyebrow { font: 500 12px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 18px; display: flex; align-items: center; gap: 10px; }
+.eyebrow::before { content: ""; width: 18px; height: 2px; background: var(--ember); }
+h1, h2 { font-family: var(--display); text-wrap: balance; margin: 0; letter-spacing: -.02em; }
+h2 { font-size: clamp(32px, 5vw, 56px); line-height: 1.02; font-weight: 800; }
+.sec-head { margin-bottom: 40px; }
+section { padding-block: clamp(64px, 10vw, 120px); }
+
+/* nav */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+.nav-in { max-width: none; margin: 0 auto; padding: 14px var(--gutter-r) 14px var(--gutter); display: flex; align-items: center; gap: 24px; }
+.mark { font: 800 22px/1 var(--display); text-decoration: none; letter-spacing: -.03em; display: flex; align-items: flex-start; }
+.mark .dot { cursor: default; width: 6px; height: 6px; background: var(--ember); border-radius: 50%; margin-left: 2px; }
+.links { display: flex; gap: 22px; margin-left: auto; }
+.links a { text-decoration: none; color: var(--muted); font-size: 14px; transition: color .2s; }
+.links a:hover, .links a.on { color: var(--fg); }
+.links a.on { text-decoration: underline; text-decoration-color: var(--ember); text-underline-offset: 6px; }
+@media (max-width: 640px) { .links { gap: 16px; } }
+
+/* hero */
+.hero { max-width: 1240px; margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter-r); padding-block: clamp(40px, 7vw, 96px) clamp(40px, 6vw, 72px); display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
+.hero-copy { min-width: 0; }
+.hero h1 { font-size: clamp(54px, 9.4vw, 128px); line-height: .9; font-weight: 800; letter-spacing: -.045em; margin-bottom: 28px; }
+.word { display: block; overflow: hidden; padding-bottom: .14em; margin-bottom: -.1em; }
+.word > span { display: inline-block; }
+.word:last-child > span { color: var(--ember); }
+.lede { font-size: clamp(17px, 1.6vw, 20px); color: var(--muted); max-width: 34ch; margin: 0 0 32px; }
+.cta { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 10px; padding: 14px 20px; font: 500 13px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; text-decoration: none; transition: border-color .2s, background .2s, transform .2s; }
+.btn:hover { border-color: var(--fg); transform: translateY(-2px); }
+.btn.solid { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.btn.solid:hover { background: var(--ember); border-color: var(--ember); color: var(--bg); }
+.btn.sm { padding: 8px 12px; font-size: 11px; }
+@media (max-width: 880px) { .hero { grid-template-columns: 1fr; } }
+
+/* lens */
+.lens { margin: 0; min-width: 0; display: grid; gap: 18px; justify-items: center; }
+.lens svg { width: 100%; max-width: 520px; height: auto; overflow: visible; }
+.lens-body { fill: var(--surface); stroke: var(--line); }
+.lens-inner { fill: #121110; stroke: var(--line); stroke-width: 2; }
+.lens-rim { fill: none; stroke: color-mix(in srgb, var(--fg) 18%, transparent); stroke-width: 1.5; }
+.tick { stroke: var(--muted); stroke-width: 1.2; opacity: .55; transform-box: view-box; }
+.tick.major { stroke: var(--fg); stroke-width: 2; opacity: .9; }
+.arc { fill: none; stroke-width: 4; stroke-linecap: round; filter: drop-shadow(0 0 6px currentColor); }
+.blades { opacity: 0; }
+.blades path { fill: none; stroke: color-mix(in srgb, var(--fg) 14%, transparent); stroke-width: 1; }
+.readout { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; font: 400 12px/1 var(--mono); color: var(--muted); }
+.readout span { border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 9px 12px; }
+.readout b { color: var(--fg); font-weight: 500; font-variant-numeric: tabular-nums; }
+.lens-cap { display: flex; gap: 14px; align-items: baseline; flex-wrap: wrap; justify-content: center; font-size: 14px; text-align: center; }
+
+/* stats */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding-block: 0; }
+.stats > div { padding: 28px 20px; border-left: 1px solid var(--line); display: grid; gap: 6px; min-width: 0; }
+.stats > div:first-child { border-left: 0; padding-left: 0; }
+.stats b { font: 800 clamp(30px, 4vw, 44px)/1 var(--display); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.stats > div > span { color: var(--muted); font-size: 14px; }
+@media (max-width: 760px) { .stats { grid-template-columns: 1fr 1fr; } .stats > div:nth-child(3) { border-left: 0; padding-left: 0; } .stats > div:nth-child(n+3) { border-top: 1px solid var(--line); } }
+
+/* work */
+.tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 28px; }
+.tab { text-align: left; border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; display: grid; gap: 6px; background: var(--surface); position: relative; overflow: hidden; transition: border-color .25s, transform .25s; }
+.tab::after { content: ""; position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: var(--c); transform: scaleX(0); transform-origin: left; transition: transform .5s cubic-bezier(.2,.8,.2,1); }
+.tab:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--c) 50%, var(--line)); }
+.tab.on { border-color: var(--c); }
+.tab.on::after { transform: scaleX(1); }
+.tab-name { font: 800 clamp(22px, 2.6vw, 30px)/1.05 var(--display); letter-spacing: -.02em; }
+.tab.on .tab-name { color: var(--c); }
+@media (max-width: 640px) { .tabs { grid-template-columns: 1fr; } }
+.j-intro { display: flex; gap: 24px; align-items: end; justify-content: space-between; flex-wrap: wrap; margin-bottom: 28px; }
+.j-intro p { margin: 0; max-width: 60ch; color: var(--muted); font-size: 17px; }
+.link { font: 500 13px/1.4 var(--mono); color: var(--fg); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; transition: border-color .2s, color .2s; }
+.link:hover { color: var(--ember); border-color: var(--ember); }
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: clamp(150px, 17vw, 230px); grid-auto-flow: dense; gap: 10px; }
+.tile { position: relative; overflow: hidden; border-radius: 10px; background: var(--raise); }
+.tile.tall { grid-row: span 2; }
+.tile.wide { grid-column: span 2; grid-row: span 2; }
+.tile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .9s cubic-bezier(.2,.8,.2,1), filter .5s; }
+.tile:hover img, .tile:focus-visible img { transform: scale(1.05); filter: brightness(.72); }
+.tile-cap { position: absolute; inset: auto 0 0 0; padding: 14px; display: grid; gap: 4px; text-align: left; font-size: 14px; font-weight: 500; transform: translateY(8px); opacity: 0; transition: transform .4s, opacity .4s; background: linear-gradient(transparent, rgba(0,0,0,.55)); color: #f4f1ec; }
+.tile:hover .tile-cap, .tile:focus-visible .tile-cap { transform: none; opacity: 1; }
+@media (hover: none) { .tile-cap { opacity: 1; transform: none; } }
+@media (max-width: 880px) { .grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 42vw; } }
+
+/* lightbox */
+.lb { position: fixed; inset: 0; z-index: 50; background: rgba(14,13,12,.96); display: grid; grid-template-rows: auto 1fr auto; padding: max(16px, env(safe-area-inset-top, 0px)) var(--gutter-r) max(16px, env(safe-area-inset-bottom, 0px)) var(--gutter); gap: 14px; }
+.lb-top { display: flex; justify-content: space-between; align-items: center; color: var(--muted); }
+.lb-close { font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; color: var(--fg); }
+.lb-stage { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; min-height: 0; }
+.lb-stage img { max-width: 100%; max-height: 100%; object-fit: contain; justify-self: center; border-radius: 6px; min-height: 0; height: 100%; width: 100%; }
+.lb-arrow { width: 48px; height: 48px; border: 1px solid var(--line); border-radius: 50%; font-size: 18px; transition: border-color .2s, background .2s; }
+.lb-arrow:hover { border-color: var(--fg); background: var(--surface); }
+.lb-foot { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; align-items: end; }
+.lb-cap { margin: 0 0 4px; font: 600 20px/1.2 var(--display); }
+.scrub { display: flex; gap: 4px; align-items: end; height: 36px; padding: 0 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.st { width: 14px; height: 100%; display: flex; align-items: center; justify-content: center; }
+.st i { display: block; width: 2px; height: 10px; background: var(--muted); border-radius: 2px; transform-origin: center; transition: background .2s, height .2s; }
+.st:hover i { background: var(--fg); height: 16px; }
+.st.on i { background: var(--ember); height: 22px; }
+@media (max-width: 640px) { .lb-arrow { width: 40px; height: 40px; } .lb-stage { grid-template-columns: 1fr 1fr; } .lb-stage img { grid-column: 1 / -1; grid-row: 1; } .lb-stage .lb-arrow { grid-row: 2; justify-self: start; } .lb-stage .lb-arrow:last-child { justify-self: end; } }
+
+/* about / meet */
+.meet { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: clamp(32px, 6vw, 88px); align-items: center; }
+.portrait { margin: 0; position: relative; aspect-ratio: 4 / 5; max-width: 100%; border-radius: 8px; overflow: hidden; background: var(--surface); }
+.portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.portrait-empty { position: absolute; inset: 0; display: grid; place-items: center;
+  background:
+    linear-gradient(var(--line), var(--line)) 33.33% 0 / 1px 100% no-repeat,
+    linear-gradient(var(--line), var(--line)) 66.66% 0 / 1px 100% no-repeat,
+    linear-gradient(var(--line), var(--line)) 0 33.33% / 100% 1px no-repeat,
+    linear-gradient(var(--line), var(--line)) 0 66.66% / 100% 1px no-repeat,
+    radial-gradient(120% 90% at 30% 20%, var(--raise), var(--surface)); }
+.pm { font: 800 clamp(72px, 12vw, 150px)/1 var(--display); letter-spacing: -.06em; color: color-mix(in srgb, var(--fg) 10%, transparent); }
+.vf { position: absolute; width: 28px; height: 28px; border: 0 solid var(--fg); transition: all .6s cubic-bezier(.16,1,.3,1); }
+.vf.tl { top: 16px; left: 16px; border-top-width: 2px; border-left-width: 2px; }
+.vf.tr { top: 16px; right: 16px; border-top-width: 2px; border-right-width: 2px; }
+.vf.bl { bottom: 16px; left: 16px; border-bottom-width: 2px; border-left-width: 2px; }
+.vf.br { bottom: 16px; right: 16px; border-bottom-width: 2px; border-right-width: 2px; }
+.portrait:hover .vf { width: 40px; height: 40px; border-color: var(--ember); }
+.portrait:hover .vf.tl, .portrait:hover .vf.tr { top: 26px; } .portrait:hover .vf.bl, .portrait:hover .vf.br { bottom: 26px; }
+.portrait:hover .vf.tl, .portrait:hover .vf.bl { left: 26px; } .portrait:hover .vf.tr, .portrait:hover .vf.br { right: 26px; }
+.af { position: absolute; left: 50%; top: 42%; width: 44px; height: 44px; translate: -50% -50%; border: 1.5px solid var(--ember); border-radius: 4px; opacity: .85; animation: af 3.2s cubic-bezier(.16,1,.3,1) infinite; }
+@keyframes af { 0%, 100% { scale: 1; } 12% { scale: .82; } 22% { scale: 1; } }
+@media (prefers-reduced-motion: reduce) { .af { animation: none; } }
+.portrait figcaption { position: absolute; left: 16px; right: 16px; bottom: 54px; text-align: center; color: #f4f1ec; text-shadow: 0 1px 8px rgba(0,0,0,.6); }
+.meet-text { min-width: 0; }
+.meet-text h2 { margin-bottom: 24px; }
+.meet-text > p:not(.eyebrow) { margin: 0 0 16px; font-size: 18px; max-width: 56ch; }
+.meet-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin: 28px 0 0; padding-top: 20px; border-top: 1px solid var(--line); }
+.meet-facts div { display: grid; gap: 4px; min-width: 0; }
+.meet-facts dd { margin: 0; font-weight: 600; }
+.do { margin-top: clamp(64px, 9vw, 110px); }
+.do .sec-head { margin-bottom: 8px; }
+.skills { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; }
+.skill { display: grid; grid-template-columns: 36px 1fr auto; gap: 16px; padding: 22px 0; border-bottom: 1px solid var(--line); align-items: center; }
+.skill b { font: 600 clamp(19px, 2vw, 23px)/1.2 var(--display); }
+.skill p { margin: 4px 0 0; color: var(--muted); font-size: 15px; }
+.bar { display: flex; gap: 3px; }
+.bar i { width: 2px; height: 18px; background: var(--line); transform-origin: left; }
+.skill:hover .bar i { background: var(--ember); }
+@media (max-width: 880px) { .meet { grid-template-columns: 1fr; } .portrait { max-width: 460px; } .skills { grid-template-columns: 1fr; } .meet-facts { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .bar { display: none; } .skill { grid-template-columns: 30px 1fr; } }
+
+/* cv */
+.cv-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: clamp(28px, 5vw, 64px); align-items: start; }
+.cv-side { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 96px); display: grid; gap: 22px; justify-items: start; }
+.cv-side p { margin: 0; color: var(--muted); font-size: 17px; max-width: 32ch; }
+.cv-facts { margin: 0; display: grid; gap: 14px; border-top: 1px solid var(--line); padding-top: 18px; width: 100%; }
+.cv-facts div { display: grid; gap: 2px; }
+.cv-facts dd { margin: 0; }
+.sheet { background: var(--paper); color: var(--ink); border-radius: 6px; padding: clamp(24px, 4vw, 52px); box-shadow: 0 30px 80px -30px rgba(0,0,0,.7); min-width: 0; }
+.sheet-head { display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; padding-bottom: 20px; border-bottom: 3px solid var(--ink); margin-bottom: 8px; }
+.sheet h3 { font: 800 clamp(26px, 3.4vw, 38px)/1 var(--display); letter-spacing: -.03em; margin: 0 0 8px; }
+.sheet-role { margin: 0; font: 600 12px/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: #d4471d; }
+.sheet-contact { margin: 0; color: var(--ink-soft); text-align: right; line-height: 1.7; }
+.sheet-block { padding-top: 22px; }
+.sheet h4 { margin: 0 0 12px; font: 600 11px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); display: flex; align-items: center; gap: 10px; }
+.sheet h4::after { content: ""; flex: 1; height: 1px; background: color-mix(in srgb, var(--ink) 18%, transparent); }
+.sheet-block > p { margin: 0; font-size: 15.5px; line-height: 1.65; max-width: 68ch; }
+.sheet-job { padding-bottom: 14px; }
+.sheet-line { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: baseline; }
+.sheet-line b { font-size: 16px; }
+.sheet-line .mono { color: var(--ink-soft); }
+.sheet-org { margin: 2px 0 6px; color: #d4471d; font-weight: 600; font-size: 14px; }
+.sheet ul { margin: 0; padding-left: 18px; font-size: 14.5px; line-height: 1.6; }
+.sheet li::marker { color: #d4471d; }
+@media (max-width: 880px) { .cv-cols { grid-template-columns: 1fr; } .cv-side { position: static; } .sheet-contact { text-align: left; } }
+
+/* smooth scroll */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* cinematic layer */
+.grain { position: fixed; inset: -50%; z-index: 90; pointer-events: none; opacity: .07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 1s steps(6) infinite; }
+@keyframes grain { 0% { transform: translate(0, 0); } 20% { transform: translate(-3%, 2%); } 40% { transform: translate(2%, -4%); } 60% { transform: translate(-4%, -2%); } 80% { transform: translate(3%, 3%); } 100% { transform: translate(0, 0); } }
+.vignette { position: fixed; inset: 0; z-index: 89; pointer-events: none; background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(0,0,0,.42) 100%); }
+.curtain { position: fixed; inset: 0; z-index: 200; background: #050505; transform: scaleY(0); display: grid; place-items: center; pointer-events: none; }
+.curtain span { opacity: 0; color: var(--muted); letter-spacing: .5em; font-size: 13px; }
+@media (prefers-reduced-motion: reduce) { .grain { animation: none; } }
+
+/* camera scene */
+.scene { position: relative; height: 560vh; padding: 0; }
+.scene-pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: #0d0c0b; }
+.spot { position: absolute; inset: 0; background: radial-gradient(50% 45% at 50% 48%, rgba(255,236,214,.13), transparent 70%), radial-gradient(30% 22% at 50% 82%, rgba(255,106,61,.08), transparent 70%); }
+.stage { position: absolute; inset: 0; display: grid; place-items: center; perspective: 1700px; perspective-origin: 50% 45%; }
+.fit { position: relative; width: 0; height: 0; transform-style: preserve-3d; }
+.rig { position: absolute; left: 0; top: 0; transform-style: preserve-3d; will-change: transform; }
+.box, .cyl, .lens3d, .focus { position: absolute; left: 0; top: 0; transform-style: preserve-3d; }
+.face, .slat, .glass { position: absolute; left: 0; top: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.body .f-front { background: linear-gradient(160deg, #3a3734, #1c1a19 70%); border-radius: 10px; }
+.body .f-back { background: linear-gradient(160deg, #302d2b, #181716 75%); border-radius: 10px; }
+.f-top { background: linear-gradient(#4a4642, #2d2a28); }
+.f-bottom { background: #100f0e; }
+.f-left, .f-right { background: linear-gradient(90deg, #2a2725, #181716); }
+.leather { position: absolute; inset: 12px; border-radius: 8px; background: radial-gradient(circle at 1px 1px, rgba(255,255,255,.07) 1px, transparent 1.5px) 0 0 / 4px 4px, #191817; }
+.grip .face { background: linear-gradient(160deg, #2b2826, #141312); }
+.grip .f-front .leather { inset: 6px; }
+.badge { position: absolute; left: 22px; top: 18px; font: 800 15px/1 var(--display); letter-spacing: .02em; color: #d9d3cb; }
+.af-lamp { position: absolute; right: 108px; top: 22px; width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ffb08f, #a3381a); box-shadow: 0 0 10px rgba(255,106,61,.6); }
+.hump .face { background: linear-gradient(170deg, #3b3835, #1d1b1a); border-radius: 6px 6px 0 0; }
+.hump .f-top { background: linear-gradient(#55504b, #34312e); }
+.hump-mark { position: absolute; inset: 0; display: grid; place-items: center; font-size: 10px; letter-spacing: .25em; color: #bdb6ad; }
+.eyepiece { position: absolute; left: 50%; top: 10px; width: 70px; height: 46px; margin-left: -35px; border-radius: 10px; background: radial-gradient(circle at 50% 45%, #2b3036 0 30%, #070707 34%); box-shadow: inset 0 0 0 5px #0b0a0a; }
+.cam-top { position: absolute; inset: 0; }
+.dial { position: absolute; left: 30px; top: 22px; width: 56px; height: 56px; border-radius: 50%; background: repeating-conic-gradient(#5a5550 0 6deg, #2a2725 6deg 12deg); box-shadow: inset 0 0 0 9px #3b3734; }
+.shutter { position: absolute; right: 44px; top: 30px; width: 30px; height: 30px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #d8d2ca, #6d6862); box-shadow: 0 0 0 5px #24211f; }
+.pwr { position: absolute; right: 108px; top: 38px; width: 18px; height: 8px; border-radius: 4px; background: #1a1817; }
+.slat { background-color: #1c1b1a; }
+.ring .slat { background-image: repeating-linear-gradient(90deg, rgba(0,0,0,.55) 0 2px, transparent 2px 4px); }
+.glass { width: 146px; height: 146px; margin: -73px 0 0 -73px; border-radius: 50%; display: grid; place-items: start center;
+  background: radial-gradient(circle at 36% 30%, rgba(255,255,255,.4) 0 5%, transparent 6%), radial-gradient(circle at 62% 66%, rgba(120,90,255,.35), transparent 32%), radial-gradient(circle at 45% 55%, rgba(80,200,160,.22), transparent 40%), radial-gradient(circle, #0f1418 0 52%, #050607 53% 61%, #2d2a27 62% 64%, #0d0c0c 65%); }
+.glass span { margin-top: 8px; font: 500 7px/1 var(--mono); letter-spacing: .2em; color: #8f8a84; }
+.cam-back { position: absolute; inset: 0; }
+.lcd { position: absolute; border-radius: 4px; overflow: hidden; background: #000; box-shadow: 0 0 0 7px #0b0a0a, 0 0 0 8px #3a3633; }
+.lcd img { width: 100%; height: 100%; object-fit: cover; display: block; animation: lcdIn .5s ease-out; }
+@keyframes lcdIn { from { opacity: .2; filter: brightness(1.8); } to { opacity: 1; filter: none; } }
+.lcd::after { content: ""; position: absolute; inset: 0; background: linear-gradient(125deg, rgba(255,255,255,.14), transparent 38%); pointer-events: none; }
+.lcd-ui { position: absolute; inset: 0; padding: 6px 8px; display: flex; justify-content: space-between; align-items: flex-start; font-size: 8px; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.8); }
+.lcd-ex { position: absolute; left: 8px; bottom: 6px; }
+.bat { width: 16px; height: 8px; border: 1px solid #fff; border-radius: 2px; padding: 1px; }
+.bat i { display: block; height: 100%; width: 70%; background: #fff; }
+.lcd-off { position: absolute; inset: 0; background: #050505; }
+.btns { position: absolute; right: 22px; top: 40px; width: 84px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 10px; justify-items: center; }
+.b { width: 26px; height: 26px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #3d3936, #1a1817); display: grid; place-items: center; font: 500 6px/1 var(--mono); color: #b7b0a7; box-shadow: 0 1px 0 #4b4642; }
+.dpad { grid-column: 1 / -1; width: 66px; height: 66px; border-radius: 50%; background: radial-gradient(circle at 45% 40%, #3a3633, #191716); box-shadow: 0 0 0 2px #0c0b0b; display: grid; place-items: center; }
+.dpad i { width: 26px; height: 26px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #4a4541, #232120); }
+.lbx { position: absolute; left: 0; right: 0; height: 11vh; background: #000; z-index: 3; transform: scaleY(0); }
+.lbx.top { top: 0; transform-origin: 50% 0; }
+.lbx.bot { bottom: 0; transform-origin: 50% 100%; }
+.scene-hud { position: absolute; left: 0; right: 0; bottom: 0; z-index: 4; display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; padding: 0 var(--gutter-r) max(22px, calc(env(safe-area-inset-bottom, 0px) + 18px)) var(--gutter); pointer-events: none; }
+.sub { animation: subIn .9s cubic-bezier(.16,1,.3,1); max-width: 40ch; }
+.sub p { margin: 0; }
+.sub .mono { color: var(--ember); letter-spacing: .14em; text-transform: uppercase; margin-bottom: 6px; }
+.sub-t { font: 600 clamp(18px, 2.2vw, 26px)/1.25 var(--display); color: #f4f1ec; text-wrap: balance; }
+@keyframes subIn { from { opacity: 0; transform: translateY(14px); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
+.hud-r { display: grid; justify-items: end; gap: 8px; color: #cfc9c1; font-variant-numeric: tabular-nums; }
+.rec { display: flex; align-items: center; gap: 6px; color: var(--ember); }
+.rec i { width: 8px; height: 8px; border-radius: 50%; background: var(--ember); animation: blink 1.2s steps(2) infinite; }
+@keyframes blink { 50% { opacity: .15; } }
+.scrub-line { width: 140px; height: 2px; background: rgba(255,255,255,.18); }
+.scrub-line i { display: block; height: 100%; background: var(--ember); transform-origin: left; transform: scaleX(0); }
+.takeover { position: absolute; inset: 0; z-index: 2; opacity: 0; pointer-events: none; }
+.takeover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.scene-fade { position: absolute; inset: 0; z-index: 5; background: var(--bg); opacity: 0; pointer-events: none; }
+@media (max-width: 640px) { .scene { height: 460vh; } .hud-r { display: none; } .lbx { height: 8vh; } }
+
+/* gallery page */
+.gallery { padding-top: clamp(40px, 7vw, 90px); }
+.g-head h1 { font-size: clamp(54px, 10vw, 140px); line-height: .9; font-weight: 800; letter-spacing: -.045em; margin-bottom: 36px; }
+.g-head .word:last-child > span { color: var(--ember); }
+.chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
+.chip { border: 1px solid var(--line); border-radius: 99px; padding: 10px 16px; display: flex; gap: 10px; align-items: center; font-weight: 500; transition: border-color .3s, background .3s, color .3s; }
+.chip .mono { color: var(--muted); }
+.chip:hover { border-color: var(--c); }
+.chip.on { background: var(--c); border-color: var(--c); color: var(--bg); }
+.chip.on .mono { color: var(--bg); }
+.masonry { column-count: 3; column-gap: 12px; }
+.m-tile { display: block; width: 100%; margin: 0 0 12px; break-inside: avoid; position: relative; overflow: hidden; border-radius: 8px; background: var(--raise); }
+.m-tile img { width: 100%; height: auto; display: block; transition: transform 1s cubic-bezier(.16,1,.3,1), filter .5s; }
+.m-tile:hover img, .m-tile:focus-visible img { transform: scale(1.05); filter: brightness(.72); }
+.m-tile:hover .tile-cap, .m-tile:focus-visible .tile-cap { transform: none; opacity: 1; }
+.g-foot { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 40px; }
+@media (max-width: 880px) { .masonry { column-count: 2; } }
+.j-links { display: flex; gap: 20px; flex-wrap: wrap; }
+
+/* ===== v4: opening title over the camera ===== */
+.scene-title { position: absolute; left: 0; right: 0; top: 50%; translate: 0 -46%; z-index: 4; pointer-events: none; }
+.scene-title .wrap { max-width: none; }
+.scene-title a, .scene-title button { pointer-events: auto; }
+.scene-title .eyebrow { color: #d8d2ca; }
+.title { font: 800 clamp(52px, 8.6vw, 140px)/.86 var(--display); letter-spacing: -.055em; margin: 0 0 28px; color: #f4f1ec; text-wrap: initial; }
+.t-line { display: block; white-space: nowrap; }
+.ch { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .08em; margin-bottom: -.08em; }
+.ch > span { display: inline-block; transform-origin: 0 100%; }
+.ch.dot > span { color: var(--ember); }
+.sp { display: inline-block; width: .26em; }
+.scene-title .lede { color: #cfc9c1; max-width: 36ch; margin: 0 0 26px; font-size: clamp(16px, 1.5vw, 19px); }
+.btn.ghost { background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.24); color: #f4f1ec; }
+@media (max-width: 760px) { .scene-title { top: calc(env(safe-area-inset-top, 0px) + 84px); translate: none; } .scene-title .lede { display: none; } .title { font-size: clamp(46px, 15vw, 80px); margin-bottom: 18px; } }
+
+/* ===== v4: 3D scene + film reel ===== */
+.scene { height: 1000vh; }
+.lbx { transform: scaleY(1); }
+.gl { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.nogl { position: absolute; inset: 0; display: grid; place-items: center; }
+.nogl-screen { width: min(70vw, 640px); aspect-ratio: 3 / 2; border-radius: 8px; overflow: hidden; box-shadow: 0 0 0 10px #0b0a0a, 0 0 0 11px #3a3633; }
+.nogl-screen img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.reel { position: absolute; inset: 0; z-index: 2; opacity: 0; transform-origin: 50% 50%; will-change: transform; --dim: 0; }
+.reel::after { content: ""; position: absolute; inset: -40%; background: var(--bg); opacity: var(--dim); pointer-events: none; }
+.reel-track { position: absolute; left: 50%; top: 50%; display: flex; gap: max(18px, 2.5vw); align-items: center; translate: 0 -50%; will-change: transform; }
+.film { position: relative; flex: none; overflow: hidden; border-radius: 3px; background: #000; cursor: zoom-in; padding: 0; }
+.film img { width: 100%; height: 100%; object-fit: cover; display: block; will-change: transform; }
+.sprockets { position: absolute; left: 0; right: 0; height: 18px; background: #050505; }
+.sprockets::before { content: ""; position: absolute; inset: 5px 0; background: repeating-linear-gradient(90deg, transparent 0 9px, rgba(244,241,236,.22) 9px 19px); }
+.sprockets.top { top: 0; } .sprockets.bot { bottom: 0; }
+.film-no { position: absolute; left: 10px; bottom: 24px; color: #ffb08f; font-size: 11px; text-shadow: 0 1px 4px #000; }
+.sub-ex { color: #bdb6ad !important; letter-spacing: .04em !important; text-transform: none !important; margin-top: 6px !important; }
+@media (max-width: 640px) { .scene { height: 820vh; } }
+
+/* ===== v4: resume component ===== */
+.resume .r-contact { display: grid; justify-items: end; gap: 4px; color: var(--ink-soft); font-size: 12px; }
+.r-mail { font: inherit; color: #c4401a; text-decoration: underline dotted; text-underline-offset: 3px; }
+.r-profile { margin: 18px 0 22px; font-size: 15.5px; line-height: 1.65; max-width: 68ch; }
+.r-tabs { position: relative; display: flex; gap: 4px; border-bottom: 1px solid rgba(29,28,27,.15); margin-bottom: 14px; overflow-x: auto; }
+.r-tabs button { padding: 12px 14px; font: 600 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); transition: color .3s; }
+.r-tabs button.on, .r-tabs button:hover { color: var(--ink); }
+.r-ind { position: absolute; bottom: 0; height: 3px; background: #c4401a; left: 0; width: 0; }
+.r-body { min-height: 200px; }
+.r-timeline { list-style: none; padding: 0; margin: 0; position: relative; }
+.r-timeline::before { content: ""; position: absolute; left: 7px; top: 22px; bottom: 22px; width: 1px; background: rgba(29,28,27,.2); }
+.r-item + .r-item { border-top: 1px solid rgba(29,28,27,.1); }
+.r-item-head { width: 100%; display: grid; grid-template-columns: 16px 1fr auto 20px; gap: 14px; align-items: center; text-align: left; padding: 14px 0; color: var(--ink); }
+.r-dot { width: 15px; height: 15px; border-radius: 50%; border: 2px solid #c4401a; background: var(--paper); position: relative; z-index: 1; transition: background .3s; }
+.r-item.open .r-dot { background: #c4401a; }
+.r-item-main { display: grid; gap: 2px; min-width: 0; }
+.r-item-main b { font-size: 16px; }
+.r-org { color: #c4401a; font-weight: 600; font-size: 14px; }
+.r-item-meta { display: grid; justify-items: end; gap: 6px; color: var(--ink-soft); }
+.r-tag { font: 600 10px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; border: 1px solid rgba(29,28,27,.25); border-radius: 99px; padding: 4px 8px; }
+.r-tag.now { background: #c4401a; border-color: #c4401a; color: #fff; }
+.r-chev { font: 400 22px/1 var(--mono); color: var(--ink-soft); transition: transform .6s cubic-bezier(.16,1,.3,1), color .3s; }
+.r-item.open .r-chev { transform: rotate(45deg); color: #c4401a; }
+.r-item-body { overflow: hidden; padding-left: 30px; }
+.r-item-body ul { margin: 0 0 16px; padding-left: 18px; font-size: 14.5px; line-height: 1.6; }
+.r-item-body li::marker { color: #c4401a; }
+.r-edu { padding: 6px 0 14px; border-bottom: 1px solid rgba(29,28,27,.12); margin-bottom: 12px; }
+.r-group { margin-bottom: 22px; }
+.r-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.r-chips span { border: 1px solid rgba(29,28,27,.25); border-radius: 99px; padding: 7px 12px; font-size: 13.5px; font-weight: 500; }
+.r-chips.soft span { background: rgba(29,28,27,.06); border-color: transparent; }
+.r-langs { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.r-langs li { display: grid; grid-template-columns: 100px auto 1fr; gap: 14px; align-items: center; }
+.r-meter { display: flex; gap: 4px; }
+.r-meter i { width: 18px; height: 6px; border-radius: 2px; background: rgba(29,28,27,.15); }
+.r-meter i.on { background: #c4401a; }
+.r-langs .mono { color: var(--ink-soft); }
+.r-foot { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 18px; padding-top: 16px; border-top: 3px solid var(--ink); font-size: 14px; }
+.r-foot a { color: var(--ink); font-weight: 600; }
+.r-foot .mono { color: var(--ink-soft); }
+@media (max-width: 560px) { .r-item-head { grid-template-columns: 16px 1fr 20px; } .r-item-meta { grid-column: 2; grid-row: 2; justify-items: start; } .resume .r-contact { justify-items: start; } }
+
+/* ===== v4: transitions, gallery, lightbox ===== */
+.shutter-fx { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 300; visibility: hidden; pointer-events: none; }
+.sec-sub { color: var(--muted); margin: 14px 0 0; max-width: 52ch; }
+.gallery { padding-top: clamp(64px, 10vw, 120px); }
+.lb { background: rgba(10,9,8,.96); }
+.lb-imgwrap { display: grid; place-items: center; min-height: 0; height: 100%; }
+.lb-stage img { width: auto; height: auto; max-width: 100%; max-height: calc(100svh - 210px); object-fit: contain; border-radius: 4px; will-change: transform; }
+@media (max-width: 640px) { .lb-imgwrap { grid-column: 1 / -1; grid-row: 1; } }
+
+/* ===== v5: full-width CV ===== */
+.cvx { border-top: 1px solid var(--line); }
+.cvx-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 28px; flex-wrap: wrap; padding: 34px 0 26px; border-bottom: 1px solid var(--line); }
+.cvx-id h3 { font: 800 clamp(34px, 5vw, 64px)/.95 var(--display); letter-spacing: -.04em; margin: 0 0 12px; }
+.cvx-role { margin: 0; font: 500 12px/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ember); }
+.cvx-actions { display: grid; gap: 14px; justify-items: end; }
+.cvx-contact { display: grid; justify-items: end; gap: 4px; color: var(--fg); font-size: 12px; }
+.cvx .r-mail { color: var(--fg); text-decoration-color: var(--ember); }
+.cvx-profile { font: 400 clamp(18px, 2vw, 24px)/1.5 var(--body); max-width: 62ch; margin: 30px 0 10px; color: var(--fg); }
+.cvx-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 88px); margin-top: 30px; }
+.cvx-col { min-width: 0; }
+.cvx-h { margin: 30px 0 14px; font: 600 11px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 10px; }
+.cvx-h::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.cvx-col > .cvx-h:first-child, .cvx-side .r-group:first-child .cvx-h { margin-top: 0; }
+.cvx .r-timeline::before { background: var(--line); }
+.cvx .r-item + .r-item { border-top: 1px solid var(--line); }
+.cvx .r-item-head { color: var(--fg); padding: 18px 0; }
+.cvx .r-item-main b { font: 600 clamp(18px, 1.8vw, 22px)/1.2 var(--display); }
+.cvx .r-dot { border-color: var(--ember); background: var(--bg); }
+.cvx .r-item.open .r-dot, .cvx .r-tag.now { background: var(--ember); border-color: var(--ember); }
+.cvx .r-org { color: var(--ember); }
+.cvx .r-item-meta { color: var(--muted); }
+.cvx .r-tag { border-color: var(--line); color: var(--muted); }
+.cvx .r-tag.now { color: var(--bg); }
+.cvx .r-chev { color: var(--muted); }
+.cvx .r-item.open .r-chev { color: var(--ember); }
+.cvx .r-item-body ul { color: #d9d4cc; font-size: 15.5px; }
+.cvx .r-item-body li::marker { color: var(--ember); }
+.cvx .r-edu { border-bottom: 1px solid var(--line); padding: 4px 0 16px; margin-bottom: 16px; }
+.r-edu-line { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: baseline; }
+.r-edu-line b { font: 600 18px/1.3 var(--display); }
+.r-edu-line .mono { color: var(--muted); }
+.cvx .r-edu .r-org { margin: 4px 0 0; font-weight: 600; }
+.cvx .r-chips span { border-color: var(--line); color: var(--fg); background: var(--surface); }
+.cvx .r-chips.soft span { background: transparent; border-color: var(--line); color: var(--muted); }
+.cvx .r-meter i { background: var(--line); }
+.cvx .r-meter i.on { background: var(--ember); }
+.cvx-side { padding: 26px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); align-self: start; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 88px); }
+.btn.dl { gap: 12px; padding: 16px 22px; font-size: 13px; }
+.dl-ico { width: 14px; height: 16px; position: relative; display: inline-block; }
+.dl-ico::before { content: ""; position: absolute; left: 6px; top: 0; width: 2px; height: 11px; background: currentColor; }
+.dl-ico::after { content: ""; position: absolute; left: 2px; top: 5px; width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); }
+.dl-ico i { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: currentColor; }
+.btn.dl:hover .dl-ico::before, .btn.dl:hover .dl-ico::after { animation: dlb .9s cubic-bezier(.16,1,.3,1) infinite; }
+@keyframes dlb { 0% { translate: 0 -3px; opacity: .3; } 60%, 100% { translate: 0 0; opacity: 1; } }
+.btn.dl.busy { opacity: .75; }
+.btn.dl.done { background: var(--moss); border-color: var(--moss); }
+.btn.dl.err { background: transparent; color: var(--fg); border-color: var(--ember); }
+.dl-meta { opacity: .55; font-size: 11px; }
+@media (max-width: 880px) { .cvx-grid { grid-template-columns: 1fr; } .cvx-side { position: static; } .cvx-actions, .cvx-contact { justify-items: start; } }
+
+/* ===== v6: admin editor ===== */
+.edit-btn { margin-left: 8px; display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--ember); color: var(--fg); border-radius: 99px; padding: 8px 14px; font: 500 12px/1 var(--mono); letter-spacing: .06em; transition: background .25s, color .25s; }
+.edit-btn:hover { background: var(--ember); color: var(--bg); }
+.adm { position: fixed; inset: 0; z-index: 400; background: rgba(0,0,0,.45); display: flex; justify-content: flex-end; }
+.adm-panel { width: min(600px, 100vw); height: 100%; background: var(--surface); border-left: 1px solid var(--line); display: grid; grid-template-rows: auto auto 1fr auto; box-shadow: -30px 0 80px rgba(0,0,0,.5); }
+.adm-head { display: flex; justify-content: space-between; gap: 16px; padding: max(20px, env(safe-area-inset-top, 0px)) max(22px, env(safe-area-inset-right, 0px)) 14px 22px; border-bottom: 1px solid var(--line); }
+.adm-head h2 { font-size: 30px; margin: 4px 0 6px; }
+.adm-kicker { color: var(--ember); letter-spacing: .14em; text-transform: uppercase; margin: 0; }
+.adm-note { margin: 0; color: var(--muted); font-size: 14px; max-width: 46ch; }
+.adm-x { width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 50%; flex: none; }
+.adm-x:hover { border-color: var(--fg); }
+.adm-tabs { display: flex; gap: 4px; padding: 10px 16px 0; border-bottom: 1px solid var(--line); overflow-x: auto; }
+.adm-tabs button { padding: 10px 12px 12px; font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid transparent; white-space: nowrap; }
+.adm-tabs button.on { color: var(--fg); border-bottom-color: var(--ember); }
+.adm-body { overflow-y: auto; overscroll-behavior: contain; padding: 18px 22px 30px; display: grid; gap: 14px; align-content: start; }
+.adm-field { display: grid; gap: 6px; min-width: 0; }
+.adm-label { font: 500 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.adm-label em { font-style: normal; text-transform: none; letter-spacing: 0; margin-left: 8px; color: #7d776f; }
+.adm-field input, .adm-field textarea, .adm-field select, .adm-cap input { width: 100%; background: var(--bg); color: var(--fg); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font: 400 15px/1.5 var(--body); resize: vertical; transition: border-color .2s; }
+.adm-field input:focus, .adm-field textarea:focus, .adm-field select:focus, .adm-cap input:focus { outline: none; border-color: var(--ember); }
+.adm-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.adm-row.three { grid-template-columns: 1.2fr 1fr .8fr; }
+.adm-sub { margin: 14px 0 0; font: 600 18px/1.2 var(--display); }
+.adm-list { display: grid; gap: 10px; }
+.adm-card { border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 10px; background: color-mix(in srgb, var(--bg) 50%, var(--surface)); }
+.adm-card-bar { display: flex; justify-content: space-between; align-items: center; gap: 10px; color: var(--muted); }
+.adm-card-bar .mono { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.adm-card-tools { display: flex; gap: 6px; flex: none; }
+.adm-card-tools button { border: 1px solid var(--line); border-radius: 6px; padding: 4px 9px; font: 500 12px/1.2 var(--mono); }
+.adm-card-tools button:disabled { opacity: .3; cursor: default; }
+.adm-card-tools .danger:hover { border-color: var(--ember); color: var(--ember); }
+.adm-add { border: 1px dashed var(--line); border-radius: 10px; padding: 12px; color: var(--muted); font: 500 13px/1 var(--mono); }
+.adm-add:hover { border-color: var(--fg); color: var(--fg); }
+.adm-hint { color: var(--muted); font-size: 13px; margin: 6px 0 0; }
+.adm-caps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.adm-cap { display: grid; gap: 6px; }
+.adm-cap img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 6px; display: block; }
+.adm-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px max(22px, env(safe-area-inset-right, 0px)) max(14px, env(safe-area-inset-bottom, 0px)) 22px; border-top: 1px solid var(--line); background: var(--surface); }
+.adm-status { color: var(--muted); font-size: 13px; flex: 1; min-width: 180px; }
+.adm-status.saved { color: var(--moss); }
+.adm-status.error, .adm-status.denied { color: var(--ember); }
+.adm-actions { display: flex; gap: 8px; }
+.adm-actions .btn:disabled { opacity: .45; cursor: default; transform: none; }
+@media (max-width: 560px) { .adm-row, .adm-row.three { grid-template-columns: 1fr; } .edit-btn { padding: 7px 10px; } .links { gap: 12px; } }
+
+/* ===== v7: pages ===== */
+.page { padding-top: clamp(40px, 7vw, 90px); }
+.page-head { margin-bottom: clamp(32px, 5vw, 56px); }
+.page-title { font-size: clamp(56px, 11vw, 168px); margin-bottom: 22px; }
+.page-head .lede { color: var(--muted); max-width: 52ch; font-size: clamp(17px, 1.6vw, 20px); margin: 0; }
+.sec-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
+.more-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 36px; }
+.masonry.big { column-count: 4; }
+@media (max-width: 1100px) { .masonry.big { column-count: 3; } }
+@media (max-width: 760px) { .masonry.big { column-count: 2; } }
+.cv-teaser { padding-top: clamp(40px, 6vw, 80px); }
+.teaser-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.teaser-list li { display: grid; grid-template-columns: 180px 1fr auto; gap: 20px; align-items: baseline; padding: 22px 0; border-bottom: 1px solid var(--line); }
+.teaser-list b { font: 600 clamp(19px, 2vw, 24px)/1.25 var(--display); }
+.t-org { color: var(--ember); font-weight: 600; }
+@media (max-width: 640px) { .teaser-list li { grid-template-columns: 1fr; gap: 4px; } }
+.links a.on { color: var(--fg); }
+@media (max-width: 640px) { .links .opt { display: none; } .edit-t { display: none; } .edit-btn { padding: 7px 10px; margin-left: 4px; } }
+
+/* ===== v7: camera backdrop ===== */
+.scene-bg { position: absolute; inset: -6%; opacity: .62; will-change: transform, opacity; }
+.scene-bg img { width: 100%; height: 100%; object-fit: cover; display: block; filter: blur(14px) saturate(.85) brightness(.55); }
+.scene-bg::after { content: ""; position: absolute; inset: 0; background: radial-gradient(60% 55% at 62% 50%, rgba(13,12,11,.15), rgba(13,12,11,.85) 100%), linear-gradient(90deg, rgba(13,12,11,.85), transparent 55%); }
+.spot { z-index: 0; }
+.gl { z-index: 1; }
+
+/* ===== v7: spec panel stats ===== */
+.stats-wrap { padding-block: clamp(48px, 7vw, 90px); }
+.spec { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 16px; background: linear-gradient(180deg, var(--surface), color-mix(in srgb, var(--surface) 60%, var(--bg))); box-shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 30px 60px -40px rgba(0,0,0,.8); overflow: hidden; }
+.spec-cell { display: grid; gap: 12px; align-content: start; padding: 26px clamp(18px, 2.4vw, 30px) 28px; border-left: 1px solid var(--line); min-width: 0; transition: background .4s; }
+.spec-cell:first-child { border-left: 0; }
+.spec-cell:hover { background: rgba(255,255,255,.025); }
+.spec-k { display: flex; align-items: center; gap: 8px; color: var(--muted); letter-spacing: .16em; text-transform: uppercase; font-size: 11px; }
+.spec-v { font: 800 clamp(38px, 4.6vw, 64px)/1 var(--display); letter-spacing: -.04em; font-variant-numeric: tabular-nums; display: flex; align-items: baseline; gap: 10px; }
+.spec-v small { font-size: 12px; letter-spacing: .08em; color: var(--ember); font-weight: 500; }
+.gauge { display: flex; gap: 3px; height: 14px; align-items: flex-end; }
+.gauge i { flex: 1; height: 100%; max-width: 6px; background: var(--line); border-radius: 1px; transform-origin: bottom; }
+.gauge i.on { background: var(--ember); }
+.gauge i:nth-child(6n) { height: 140%; }
+.spec-s { color: var(--muted); font-size: 14px; line-height: 1.45; }
+@media (max-width: 900px) { .spec { grid-template-columns: 1fr 1fr; } .spec-cell:nth-child(3) { border-left: 0; } .spec-cell:nth-child(n+3) { border-top: 1px solid var(--line); } }
+@media (max-width: 460px) { .spec { grid-template-columns: 1fr; } .spec-cell { border-left: 0; } .spec-cell + .spec-cell { border-top: 1px solid var(--line); } }
+
+/* ===== v8: scene rail ===== */
+.rail { position: fixed; right: max(18px, env(safe-area-inset-right, 0px)); top: 50%; translate: 0 -50%; z-index: 30; display: grid; gap: 16px; padding: 6px 0; }
+.rail-line { position: absolute; right: 5px; top: 0; bottom: 0; width: 1px; background: var(--line); }
+.rail-line i { position: absolute; inset: 0; background: var(--ember); transform-origin: top; transform: scaleY(0); }
+.rail a { position: relative; display: flex; align-items: center; justify-content: flex-end; gap: 12px; text-decoration: none; color: var(--muted); font: 500 11px/1 var(--mono); letter-spacing: .08em; }
+.rail a i { width: 11px; height: 11px; border: 1.5px solid var(--muted); border-radius: 2px; background: var(--bg); flex: none; transition: border-color .3s, background .3s, box-shadow .3s; }
+.rail a:hover i { border-color: var(--fg); }
+.rail a.on i { background: var(--ember); border-color: var(--ember); box-shadow: 0 0 12px var(--ember); }
+.rail .lbl { display: flex; gap: 8px; align-items: center; padding: 6px 10px; border-radius: 6px; background: rgba(13,12,11,.78); backdrop-filter: blur(6px); color: var(--fg); opacity: 0; translate: 10px 0; transition: opacity .35s, translate .5s cubic-bezier(.16,1,.3,1); pointer-events: none; white-space: nowrap; }
+.rail .lbl .mono { color: var(--ember); }
+.rail a:hover .lbl, .rail a:focus-visible .lbl { opacity: 1; translate: 0 0; }
+.rail a.on { color: var(--fg); }
+@media (max-width: 900px) { .rail { display: none; } }
+
+/* ===== v9: opening ident ===== */
+.intro { position: fixed; inset: 0; z-index: 600; background: #000; display: grid; place-items: center; overflow: hidden; cursor: pointer; }
+.intro-stage { position: relative; display: grid; place-items: center; will-change: transform; }
+.intro-logo { position: relative; z-index: 2; display: flex; font: 800 clamp(90px, 18vw, 240px)/1 var(--display); letter-spacing: -.06em; color: #f4f1ec; text-shadow: 0 0 40px rgba(255,106,61,.55), 0 0 90px rgba(255,106,61,.35); }
+.intro-logo span { display: inline-block; opacity: 0; }
+.intro-logo span:last-child { color: var(--ember); }
+.ribbons { position: absolute; z-index: 1; left: 50%; top: 50%; width: clamp(160px, 30vw, 420px); height: 120vh; translate: -50% -50%; display: flex; justify-content: center; gap: 2px; pointer-events: none; }
+.ribbon { flex: 1; transform-origin: 50% 0; opacity: 0;
+  background: linear-gradient(180deg, transparent 0%, hsl(calc(8 + var(--h) * .3) 95% 58%) 35%, hsl(calc(350 + var(--h) * .2) 85% 45%) 70%, transparent 100%);
+  filter: blur(1px); mix-blend-mode: screen; }
+.intro-skip { position: absolute; bottom: max(22px, env(safe-area-inset-bottom, 0px)); right: max(22px, env(safe-area-inset-right, 0px)); color: #6d6862; font-size: 11px; letter-spacing: .1em; }
+
+/* ===== v10: full-width layout ===== */
+@media (min-width: 1500px) { .masonry { column-count: 4; } }
+.portrait { width: min(100%, 66vh); justify-self: center; }
+@media (min-width: 1600px) { .masonry.big { column-count: 5; } }
+@media (min-width: 2200px) { .masonry.big { column-count: 6; } }
+
+/* contact */
+.big { font-size: clamp(40px, 7vw, 92px); line-height: .95; max-width: 14ch; margin-bottom: 48px; }
+.contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; border-top: 1px solid var(--line); padding-top: 28px; }
+.contact-grid > div { display: grid; gap: 12px; align-content: start; min-width: 0; }
+.copy { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.copy-text { font-size: 17px; overflow-wrap: anywhere; user-select: all; }
+@media (max-width: 880px) { .contact-grid { grid-template-columns: 1fr; } }
+.foot { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 80px; padding-top: 20px; border-top: 1px solid var(--line); }
+</style>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/geometries/RoundedBoxGeometry.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/environments/RoomEnvironment.js"></script>
+<script>window.__META__ = {"kathandeniforest-0": {"w": 1024, "h": 683, "mm": 195, "f": 5.0, "s": 0.016666666666666666, "iso": 200}, "kathandeniforest-104": {"w": 1024, "h": 683, "mm": 85, "f": 4.5, "s": 0.002, "iso": 640}, "kathandeniforest-150": {"w": 1024, "h": 683, "mm": 116, "f": 4.8, "s": 0.003125, "iso": 400}, "kathandeniforest-16": {"w": 1024, "h": 1110, "mm": 110, "f": 4.8, "s": 0.004, "iso": 200}, "kathandeniforest-23": {"w": 1024, "h": 683, "mm": 55, "f": 4.5, "s": 0.004, "iso": 200}, "kathandeniforest-41": {"w": 1024, "h": 1536, "mm": 70, "f": 4.5, "s": 0.008, "iso": 500}, "kathandeniforest-42": {"w": 1024, "h": 683, "mm": 70, "f": 4.5, "s": 0.008, "iso": 500}, "kathandeniforest-51": {"w": 1024, "h": 1536, "mm": 92, "f": 4.5, "s": 0.0025, "iso": 500}, "kathandeniforest-67": {"w": 1024, "h": 683, "mm": 62, "f": 4.5, "s": 0.003125, "iso": 640}, "kathandeniforest-74": {"w": 1024, "h": 683, "mm": 62, "f": 4.5, "s": 0.0025, "iso": 640}, "kathandeniforest-75": {"w": 1024, "h": 1536, "mm": 55, "f": 4.5, "s": 0.0025, "iso": 640}, "kathandeniforest-84": {"w": 1024, "h": 1536, "mm": 100, "f": 4.8, "s": 0.0025, "iso": 640}, "kipipirihike-14": {"w": 1024, "h": 1536, "mm": 280, "f": 5.6, "s": 0.001, "iso": 200}, "kipipirihike-22": {"w": 1024, "h": 683, "mm": 18, "f": 4.5, "s": 0.0015625, "iso": 200}, "kipipirihike-24": {"w": 1024, "h": 683, "mm": 18, "f": 4.5, "s": 0.00125, "iso": 200}, "kipipirihike-33": {"w": 1024, "h": 683, "mm": 92, "f": 4.5, "s": 0.001, "iso": 200}, "kipipirihike-43": {"w": 1024, "h": 683, "mm": 195, "f": 5.0, "s": 0.0015625, "iso": 200}, "kipipirihike-46": {"w": 1024, "h": 1536, "mm": 102, "f": 4.8, "s": 0.00125, "iso": 200}, "kipipirihike-58": {"w": 1024, "h": 1536, "mm": 55, "f": 4.5, "s": 0.002, "iso": 200}, "kipipirihike-65": {"w": 1024, "h": 683, "mm": 55, "f": 4.5, "s": 0.0015625, "iso": 200}, "kipipirihike-67": {"w": 1024, "h": 683, "mm": 125, "f": 4.8, "s": 0.0015625, "iso": 200}, "kipipirihike-98": {"w": 1024, "h": 683, "mm": 38, "f": 4.8, "s": 0.005, "iso": 200}, "lakeellis-1": {"w": 1024, "h": 683, "mm": 42, "f": 5.0, "s": 0.0008, "iso": 250}, "lakeellis-12": {"w": 1024, "h": 683, "mm": 55, "f": 4.5, "s": 0.0015625, "iso": 250}, "lakeellis-18": {"w": 1024, "h": 683, "mm": 58, "f": 4.5, "s": 0.005, "iso": 250}, "lakeellis-20": {"w": 1024, "h": 1536, "mm": 125, "f": 4.8, "s": 0.00125, "iso": 250}, "lakeellis-27": {"w": 1024, "h": 1536, "mm": 220, "f": 5.3, "s": 0.00125, "iso": 250}, "lakeellis-36": {"w": 1024, "h": 683, "mm": 98, "f": 4.5, "s": 0.0015625, "iso": 250}, "lakeellis-7": {"w": 1024, "h": 683, "mm": 55, "f": 4.5, "s": 0.002, "iso": 250}, "lakeellis-80": {"w": 1024, "h": 683, "mm": 34, "f": 4.5, "s": 0.003125, "iso": 250}, "lakeellis-9": {"w": 1024, "h": 683, "mm": 55, "f": 4.5, "s": 0.00125, "iso": 250}, "lakeellis-98": {"w": 1024, "h": 1941, "mm": 300, "f": 5.6, "s": 0.00625, "iso": 250}, "lakeellis-33": {"w": 1024, "h": 1536}, "lakeellis-66": {"w": 1024, "h": 683}, "kathandeniforest-85": {"w": 1024, "h": 1536}, "kathandeniforest-60": {"w": 1024, "h": 1536}, "lakeellis-13": {"w": 1024, "h": 683}, "lakeellis-30": {"w": 1024, "h": 1536}, "kathandeniforest-125": {"w": 1024, "h": 683}, "kipipirihike-72": {"w": 1024, "h": 1536}, "kipipirihike-53": {"w": 1024, "h": 683}, "kipipirihike-29": {"w": 1024, "h": 683}, "lakeellis-19": {"w": 1024, "h": 1483}, "kipipirihike-37": {"w": 1024, "h": 1536}, "lakeellis-97": {"w": 1024, "h": 958}, "kathandeniforest-40": {"w": 1024, "h": 1536}, "kathandeniforest-14": {"w": 1024, "h": 683}, "kipipirihike-77": {"w": 1024, "h": 683}, "kathandeniforest-48": {"w": 1024, "h": 683}, "kipipirihike-69": {"w": 1024, "h": 683}, "kipipirihike-17": {"w": 1024, "h": 683}, "lakeellis-28": {"w": 1024, "h": 1536}, "kipipirihike-45": {"w": 1024, "h": 1536}, "kipipirihike-15": {"w": 1024, "h": 1536}, "kathandeniforest-8": {"w": 1024, "h": 1536}, "kipipirihike-66": {"w": 1024, "h": 683}, "kathandeniforest-58": {"w": 1024, "h": 1536}, "kathandeniforest-107": {"w": 1024, "h": 1536}, "kipipirihike-40": {"w": 1024, "h": 683}, "kathandeniforest-66": {"w": 1024, "h": 683}, "kathandeniforest-36": {"w": 1024, "h": 1536}, "kathandeniforest-38": {"w": 1024, "h": 1536}, "kathandeniforest-50": {"w": 1024, "h": 1536}, "lakeellis-22": {"w": 1024, "h": 683}, "lakeellis-38": {"w": 1024, "h": 1536}, "kipipirihike-56": {"w": 1024, "h": 1260}, "kipipirihike-19": {"w": 1024, "h": 1024}, "kathandeniforest-139": {"w": 1024, "h": 1536}, "kathandeniforest-10": {"w": 1024, "h": 683}, "kathandeniforest-15": {"w": 1024, "h": 1689}, "kathandeniforest-6": {"w": 1024, "h": 1536}, "kathandeniforest-93": {"w": 1024, "h": 683}, "kipipirihike-81": {"w": 1024, "h": 683}, "lakeellis-45": {"w": 1024, "h": 1981}, "kathandeniforest-88": {"w": 1024, "h": 1536}, "kipipirihike-91": {"w": 1024, "h": 683}, "kathandeniforest-72": {"w": 1024, "h": 683}, "lakeellis-59": {"w": 1024, "h": 683}, "kipipirihike-26": {"w": 1024, "h": 1536}, "kathandeniforest-76": {"w": 1024, "h": 1536}, "lakeellis-2": {"w": 1024, "h": 683}, "kathandeniforest-57": {"w": 1024, "h": 683}, "lakeellis-91": {"w": 1024, "h": 1536}, "lakeellis-88": {"w": 1024, "h": 683}, "kathandeniforest-116": {"w": 1024, "h": 1536}, "kipipirihike-61": {"w": 1024, "h": 683}, "lakeellis-90": {"w": 1024, "h": 1536}, "lakeellis-40": {"w": 1024, "h": 1536}, "kathandeniforest-24": {"w": 1024, "h": 683}, "kipipirihike-48": {"w": 1024, "h": 683}, "kathandeniforest-95": {"w": 1024, "h": 683}, "kipipirihike-75": {"w": 1024, "h": 683}, "kipipirihike-0": {"w": 1024, "h": 683}, "kathandeniforest-79": {"w": 1024, "h": 1536}, "lakeellis-17": {"w": 1024, "h": 683}, "kipipirihike-31": {"w": 1024, "h": 683}, "lakeellis-76": {"w": 1024, "h": 683}}; window.__PORTRAIT__ = 'img/lincoln.jpg';</script>
+<script>
+
+/* ===== core.js ===== */
+/* Shared helpers used by every component */
+const { useState, useEffect, useRef, useCallback, useMemo, useContext } = React;
+const META = window.__META__;
+const PORTRAIT = window.__PORTRAIT__ || null;
+const REDUCED = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+const A = (opts) => (REDUCED ? null : anime(opts));
+const SMOOTH = 'cubicBezier(.16, 1, .3, 1)';
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const pad = (n) => String(n).padStart(2, '0');
+const lerp = (a, b, t) => a + (b - a) * t;
+const smoother = (t) => t * t * t * (t * (t * 6 - 15) + 10);
+const shutter = (s) => (s >= 1 ? `${s}` : `1/${Math.round(1 / s)}`);
+/* Smooth scroll (Lenis) shared by every scroll-driven piece */
+let LENIS = null;
+function startLenis() {
+    if (REDUCED || !window.Lenis || LENIS)
+        return;
+    try {
+        LENIS = new window.Lenis({ lerp: 0.085, smoothWheel: true });
+        const raf = (t) => { LENIS.raf(t); requestAnimationFrame(raf); };
+        requestAnimationFrame(raf);
+    }
+    catch (e) {
+        LENIS = null;
+    }
+}
+function scrollToEl(el) {
+    if (!el)
+        return;
+    const y = el.getBoundingClientRect().top + window.scrollY - 64;
+    if (LENIS)
+        LENIS.scrollTo(y, { duration: 1.8 });
+    else
+        window.scrollTo({ top: y, behavior: 'smooth' });
+}
+/* Slide-into-frame reveals: elements marked data-reveal stay visible at rest
+   and animate once as they arrive in the viewport. */
+const REVEALS = {
+    up: { translateY: [64, 0], opacity: [0, 1] },
+    left: { translateX: [-100, 0], opacity: [0, 1] },
+    right: { translateX: [100, 0], opacity: [0, 1] },
+    frame: { clipPath: ['inset(0% 0% 100% 0%)', 'inset(0% 0% 0% 0%)'], translateY: [48, 0] },
+    print: { clipPath: ['inset(0% 0% 100% 0%)', 'inset(0% 0% 0% 0%)'], translateY: [-70, 0] },
+};
+function useReveals(key) {
+    useEffect(() => {
+        if (REDUCED || !('IntersectionObserver' in window))
+            return;
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach((e) => {
+                if (!e.isIntersecting)
+                    return;
+                io.unobserve(e.target);
+                const el = e.target;
+                const group = el.hasAttribute('data-stagger');
+                const nodes = group ? [...el.children] : [el];
+                anime({
+                    targets: nodes, ...(REVEALS[el.dataset.reveal] || REVEALS.up),
+                    delay: group ? anime.stagger(+el.dataset.stagger || 90) : 0,
+                    duration: el.dataset.reveal === 'print' ? 1700 : 1300, easing: SMOOTH,
+                    begin: () => nodes.forEach((n) => (n.style.willChange = 'transform, opacity, clip-path')),
+                    complete: () => nodes.forEach((n) => { n.style.willChange = ''; n.style.clipPath = ''; }),
+                });
+            });
+        }, { threshold: 0.01 });
+        const t = setTimeout(() => document.querySelectorAll('[data-reveal]').forEach((n) => io.observe(n)), 50);
+        return () => { clearTimeout(t); io.disconnect(); };
+    }, [key]);
+}
+
+/* ===== data.js ===== */
+/* Photo library and CV content */
+const SHOOTS = {
+    kipipirihike: 'Kipipiri',
+    kathandeniforest: 'Kathandeni Forest',
+    lakeellis: 'Lake Ellis',
+};
+const CAPTIONS_BY_ID = {
+    'kipipirihike-22': 'Open moorland under big skies', 'kipipirihike-46': 'Portrait in orange', 'kipipirihike-14': 'Ridge line above the canopy',
+    'kipipirihike-24': 'Single file into the moorland', 'kipipirihike-43': 'Profile, mid hike', 'kipipirihike-58': 'Balance on the ridge',
+    'kipipirihike-67': 'Wide brim, cold air', 'kipipirihike-65': 'Arms open at the top', 'kipipirihike-33': 'The last push up the slope',
+    'kipipirihike-98': 'Summit crew at Scouts Peak',
+    'kathandeniforest-67': 'First sight of the falls', 'kathandeniforest-75': 'Cascade, vertical', 'kathandeniforest-0': 'Sunrise on the drive in',
+    'kathandeniforest-23': 'Into the green', 'kathandeniforest-84': 'Hand to the waterfall', 'kathandeniforest-41': 'River through the forest',
+    'kathandeniforest-74': 'Falls framed by ferns', 'kathandeniforest-51': 'A wave from the trail', 'kathandeniforest-42': 'Rapids over stone',
+    'kathandeniforest-104': 'Standing in the spray', 'kathandeniforest-16': 'Smiles at the trailhead', 'kathandeniforest-150': 'The lower pool',
+    'lakeellis-36': 'Lake Ellis from the ridge', 'lakeellis-98': 'Red shell, cold morning', 'lakeellis-9': 'Moorland below the peaks',
+    'lakeellis-1': 'Orange against the tussock', 'lakeellis-20': 'The trail toward the hill', 'lakeellis-27': 'Steady pace',
+    'lakeellis-7': 'Walking into open country', 'lakeellis-80': 'Windproofed and grinning', 'lakeellis-18': 'Arms up in the forest',
+    'lakeellis-12': 'The crew on the trail',
+};
+const photo = (id) => {
+    const key = id.split('-')[0];
+    return { id, cap: CAPTIONS_BY_ID[id], place: SHOOTS[key], full: `img/${id}.jpg`, thumb: `thumb/${id}.jpg`, ...META[id] };
+};
+/* One mixed gallery, ordered for rhythm rather than by location */
+const GALLERY = [
+    'lakeellis-36', 'kipipirihike-46', 'kathandeniforest-67', 'kipipirihike-22', 'lakeellis-98', 'kathandeniforest-23',
+    'kipipirihike-14', 'kathandeniforest-0', 'lakeellis-9', 'kathandeniforest-84', 'kipipirihike-43', 'lakeellis-1',
+    'kathandeniforest-75', 'kipipirihike-24', 'lakeellis-27', 'kathandeniforest-41', 'kipipirihike-58', 'lakeellis-20',
+    'kathandeniforest-74', 'kipipirihike-67', 'lakeellis-7', 'kathandeniforest-51', 'kipipirihike-65', 'lakeellis-80',
+    'kathandeniforest-42', 'kipipirihike-33', 'lakeellis-18', 'kathandeniforest-104', 'kipipirihike-98', 'kathandeniforest-16',
+    'lakeellis-12', 'kathandeniforest-150',
+].map(photo);
+const byId = (id) => GALLERY.find((p) => p.id === id);
+/* More frames for the Gallery page (no camera data: these were re-encoded on import) */
+Object.assign(CAPTIONS_BY_ID, {
+    "kathandeniforest-6": "Ranger at the gate",
+    "kathandeniforest-8": "Ranger in full uniform",
+    "kathandeniforest-10": "Briefing before the trail",
+    "kathandeniforest-14": "Laughing in the rain jacket",
+    "kathandeniforest-15": "Trailhead smiles",
+    "kathandeniforest-24": "Path into the forest",
+    "kathandeniforest-36": "Through the bamboo",
+    "kathandeniforest-38": "Crossing the footbridge",
+    "kathandeniforest-40": "Stream under the canopy",
+    "kathandeniforest-48": "Lunch by the river",
+    "kathandeniforest-50": "Braids and a wave",
+    "kathandeniforest-57": "Red pack, river behind",
+    "kathandeniforest-58": "White tee, big smile",
+    "kathandeniforest-60": "Green jersey by the water",
+    "kathandeniforest-66": "Moss on every rock",
+    "kathandeniforest-72": "Cascades in the green",
+    "kathandeniforest-76": "Into the spray",
+    "kathandeniforest-79": "Shades at the falls",
+    "kathandeniforest-85": "Peace sign in the forest",
+    "kathandeniforest-88": "Two at the waterfall",
+    "kathandeniforest-93": "Ferns and a lone hiker",
+    "kathandeniforest-95": "Close up in stripes",
+    "kathandeniforest-107": "Scarf at the falls",
+    "kathandeniforest-116": "Standing in the falls",
+    "kathandeniforest-125": "Resting on the boulder",
+    "kathandeniforest-139": "Portrait on the rocks",
+    "kipipirihike-0": "The start in Naivasha",
+    "kipipirihike-15": "Valley in the haze",
+    "kipipirihike-17": "Canopy from below",
+    "kipipirihike-19": "Locs and sunglasses",
+    "kipipirihike-26": "Kneeling by the gear",
+    "kipipirihike-29": "Into the scrub",
+    "kipipirihike-31": "Bucket hat, steady climb",
+    "kipipirihike-37": "Seated on the slope",
+    "kipipirihike-40": "Rest stop",
+    "kipipirihike-45": "Shades and a smirk",
+    "kipipirihike-48": "Two on the ridge",
+    "kipipirihike-53": "Hug at the viewpoint",
+    "kipipirihike-56": "Mist behind",
+    "kipipirihike-61": "Masks up for the cold",
+    "kipipirihike-66": "Hood up, phone out",
+    "kipipirihike-69": "Crossing the rocks",
+    "kipipirihike-72": "Climbing with a pole",
+    "kipipirihike-75": "At the summit sign",
+    "kipipirihike-77": "Summit cheers",
+    "kipipirihike-81": "Crew at the summit sign",
+    "kipipirihike-91": "Summit group shot",
+    "lakeellis-2": "Open track on the moor",
+    "lakeellis-13": "Three on the trail",
+    "lakeellis-17": "Arms up among the trees",
+    "lakeellis-19": "Mid stride",
+    "lakeellis-22": "Plants along the path",
+    "lakeellis-28": "Climbing in a sun hat",
+    "lakeellis-30": "Peace sign on the slope",
+    "lakeellis-33": "Cap and grin",
+    "lakeellis-38": "Walkers by the lake",
+    "lakeellis-40": "Resting above the water",
+    "lakeellis-45": "At the Lake Ellis sign",
+    "lakeellis-59": "Welcome to Lake Ellis",
+    "lakeellis-66": "Banner at the sign",
+    "lakeellis-76": "Group at the lake sign",
+    "lakeellis-88": "Ponchos on the trail",
+    "lakeellis-90": "Hood up, white jacket",
+    "lakeellis-91": "Red jacket portrait",
+    "lakeellis-97": "Rain gear duo"
+});
+const EXTRA_IDS = Object.keys(CAPTIONS_BY_ID).filter((id) => !GALLERY.some((p) => p.id === id));
+/* interleave the three hikes so the page never reads as grouped by location */
+const ALL_PHOTOS = (() => {
+    const extra = EXTRA_IDS.map(photo);
+    const groups = ['lakeellis', 'kathandeniforest', 'kipipirihike'].map((k) => extra.filter((p) => p.id.startsWith(k)));
+    const mixed = [];
+    for (let i = 0; groups.some((g) => i < g.length); i++)
+        groups.forEach((g) => { if (g[i])
+            mixed.push(g[i]); });
+    const out = [];
+    GALLERY.forEach((p, i) => { out.push(p); if (mixed[i * 2])
+        out.push(mixed[i * 2]); if (mixed[i * 2 + 1])
+        out.push(mixed[i * 2 + 1]); });
+    return out.concat(mixed.slice(GALLERY.length * 2));
+})();
+const SELECTED = GALLERY.slice(0, 12);
+const exifText = (p) => (p.mm ? `${p.mm}mm · f/${p.f} · ${shutter(p.s)}s` : '');
+/* Shown on the camera's rear screen during playback */
+const PLAYBACK = ['kathandeniforest-67', 'kipipirihike-46', 'lakeellis-98', 'kathandeniforest-75', 'kipipirihike-14', 'kathandeniforest-150', 'lakeellis-9', 'lakeellis-36'].map(byId);
+/* The film reel after the push into the screen; it starts on the last playback frame */
+const FILM = ['lakeellis-36', 'kipipirihike-22', 'kathandeniforest-84', 'lakeellis-1', 'kathandeniforest-74', 'kipipirihike-67', 'lakeellis-27', 'kathandeniforest-0', 'kipipirihike-65', 'kathandeniforest-23'].map(byId);
+/* Hero backdrop */
+const SLIDES = ['kipipirihike-22', 'lakeellis-9', 'kathandeniforest-74', 'lakeellis-36'].map(byId);
+const RESUME = {
+    name: 'Lincoln Kariuki Chege',
+    title: 'Graphic Designer · Photographer · Video Editor',
+    email: 'kariukilincoln48@gmail.com',
+    phones: ['+254 757 557 456', '+254 762 960 615'],
+    location: 'Nairobi, Kenya',
+    profile: "Creative graphic designer with a Diploma in Journalism and Digital Media and hands-on experience designing posters, promotional videos and social media content for brands. Skilled in Adobe Photoshop, Lightroom and Premiere Pro, with a photographer's eye for composition, light and colour.",
+    experience: [
+        { role: 'Junior Technician and Social Media', org: 'PowerPulse Dynamics', when: 'Jul 2026 to present', tag: 'Current', pts: [
+                "Create and edit video content for the company's social media channels",
+                "Run the company's social media pages and keep content visually consistent",
+                'Work directly with clients and deliver projects on time'
+            ] },
+        { role: 'Graphic Designer', org: 'Wanderville Tours and Travel', when: 'Sep to Dec 2025', tag: 'Attachment', pts: [
+                'Designed posters promoting the company and its offers',
+                "Produced promotional videos for the company's marketing",
+                'Managed company social media, creating the visual content posted'
+            ] },
+        { role: 'Photography and Editing', org: 'Royalty Photo Studio, Nairobi', when: 'Apr 2025, 3 weeks', tag: 'Attachment', pts: [
+                'Captured professional quality photographs across studio projects',
+                'Edited and enhanced images in Lightroom and Photoshop to meet client expectations',
+                'Created and edited professional videos in Adobe Premiere Pro'
+            ] },
+        { role: 'Junior Electrical Technician', org: 'Boiler Techniques Ltd, Nairobi', when: 'Sep to Dec 2023', tag: 'Attachment', pts: [
+                'Performed electrical connections, assisted in boiler servicing and supervised panel assembly'
+            ] },
+    ],
+    education: [
+        { q: 'Diploma in Journalism and Digital Media', school: 'KCA University', when: '2024 to 2026', note: 'Graduated' },
+        { q: 'Kenya Certificate of Secondary Education', school: 'Pioneer Boys High School', when: '2018 to 2022', note: 'Grade C' },
+    ],
+    skills: {
+        Software: ['Adobe Photoshop', 'Adobe Lightroom', 'Adobe Premiere Pro'],
+        Design: ['Poster and print design', 'Social media graphics', 'Photo editing and retouching', 'Video editing and promos'],
+        Photography: ['Events and adventure', 'Portraits', 'Studio'],
+    },
+    languages: [['English', 'Fluent', 5], ['Kiswahili', 'Fluent', 5], ['Chinese', 'Basic', 2]],
+    interests: ['Photography and videography', 'Competitive basketball', 'Hiking', 'Reading'],
+};
+
+/* ===== content.js ===== */
+/* Editable site content.
+   Defaults live in code; saved edits live in the artifact's shared database at
+   `site/content` (published page) or in this browser's storage (local copy). */
+const ContentCtx = React.createContext(null);
+const DEFAULT_CONTENT = {
+    intro: {
+        eyebrow: 'Photographer · Graphic designer · Nairobi',
+        lede: 'I follow people up mountains and into forests, then turn what I shoot into posters, promos and stories that brands can use.',
+    },
+    about: {
+        heading: "Journalist's eye, designer's hand.",
+        paras: [
+            'I studied Journalism and Digital Media at KCA University, where I learned to find the story in a scene and tell it fast. I shoot on a Nikon D5600, grade in Lightroom Classic and finish in Photoshop.',
+            'Design is where those images go to work. At Wanderville Tours and Travel I made posters, video promos and social content, and today I create and edit video for PowerPulse Dynamics.',
+            'Away from the screen you will find me on a basketball court, out on a trail or deep in a book.',
+        ],
+        facts: [
+            { k: 'Based in', v: 'Nairobi' }, { k: 'Studied', v: 'KCA University' },
+            { k: 'Shoots on', v: 'Nikon D5600' }, { k: 'Speaks', v: 'English, Kiswahili' },
+        ],
+    },
+    services: [
+        { t: 'Event and adventure photography', d: 'Group hikes, outdoor events and the moments between them.' },
+        { t: 'Portraits', d: 'Natural light portraits on location, styled or candid.' },
+        { t: 'Editing and retouching', d: 'Colour grading and retouching in Lightroom and Photoshop.' },
+        { t: 'Posters and social graphics', d: 'Campaign posters and feed content built around strong imagery.' },
+        { t: 'Video and promos', d: 'Short promotional edits cut in Premiere Pro.' },
+    ],
+    resume: {
+        ...RESUME,
+        languages: RESUME.languages.map(([name, level, n]) => ({ name, level, n })),
+        skills: Object.entries(RESUME.skills).map(([group, items]) => ({ group, items })),
+    },
+    captions: {},
+};
+const clone = (o) => JSON.parse(JSON.stringify(o));
+function mergeContent(d) {
+    const D = DEFAULT_CONTENT;
+    if (!d || typeof d !== 'object')
+        return clone(D);
+    return clone({
+        intro: { ...D.intro, ...(d.intro || {}) },
+        about: { ...D.about, ...(d.about || {}) },
+        services: Array.isArray(d.services) ? d.services : D.services,
+        resume: { ...D.resume, ...(d.resume || {}) },
+        captions: { ...(d.captions || {}) },
+    });
+}
+/* Photo objects are shared by the gallery, reel and screen, so captions are applied in place */
+function applyCaptions(c) {
+    ALL_PHOTOS.forEach((p) => { p.cap = (c.captions && c.captions[p.id]) || CAPTIONS_BY_ID[p.id]; });
+}
+const IN_ARTIFACT = !!(window.claude && window.claude.use);
+const LOCAL_KEY = 'lkc-site-content';
+function useSiteContent() {
+    const [content, setContent] = useState(() => clone(DEFAULT_CONTENT));
+    const [canEdit, setCanEdit] = useState(false);
+    const saved = useRef(clone(DEFAULT_CONTENT));
+    const editing = useRef(false);
+    const dbRef = useRef(null);
+    useEffect(() => {
+        if (!IN_ARTIFACT) {
+            try {
+                const raw = localStorage.getItem(LOCAL_KEY);
+                if (raw) {
+                    const c = mergeContent(JSON.parse(raw));
+                    saved.current = c;
+                    setContent(c);
+                }
+            }
+            catch (e) { }
+            setCanEdit(location.protocol === 'file:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname));
+            return;
+        }
+        let unsub = null, alive = true;
+        (async () => {
+            const [db, user] = await Promise.all([window.claude.use('db').catch(() => null), window.claude.use('user').catch(() => null)]);
+            if (!alive)
+                return;
+            if (user) {
+                try {
+                    setCanEdit(await user.canEdit());
+                }
+                catch (e) { }
+            }
+            if (db) {
+                dbRef.current = db;
+                unsub = db.doc('site/content').onSnapshot((s) => {
+                    if (!s.exists)
+                        return;
+                    const c = mergeContent(s.data());
+                    saved.current = c;
+                    if (!editing.current)
+                        setContent(c);
+                }, () => { });
+            }
+        })();
+        return () => { alive = false; if (unsub)
+            unsub(); };
+    }, []);
+    const preview = useCallback((c) => setContent(c), []);
+    const begin = useCallback(() => { editing.current = true; }, []);
+    const end = useCallback(() => { editing.current = false; setContent(saved.current); }, []);
+    const save = useCallback(async (draft) => {
+        const body = { ...clone(draft), updatedAt: new Date().toISOString() };
+        if (IN_ARTIFACT) {
+            if (!dbRef.current)
+                throw { code: 'unavailable' };
+            await dbRef.current.doc('site/content').set(body);
+        }
+        else {
+            localStorage.setItem(LOCAL_KEY, JSON.stringify(body));
+        }
+        saved.current = mergeContent(body);
+    }, []);
+    return { content, canEdit, preview, begin, end, save, saved, mode: IN_ARTIFACT ? 'shared' : 'local' };
+}
+
+/* ===== Resume.jsx ===== */
+/* <Resume data={RESUME} pdfHref="cv/file.pdf" pdfName="Name_CV.pdf" />
+   A self-contained, reusable full-width CV. All content comes from the `data` prop,
+   so the same component renders any CV with the same shape as RESUME. */
+/* Download button: uses the viewer's download prompt when the page runs as a published
+   artifact, and a normal browser download anywhere else. */
+function DownloadButton({ href, name, label = 'Download CV' }) {
+    const [st, setSt] = useState('idle');
+    const dlRef = useRef(null);
+    useEffect(() => {
+        if (window.claude && window.claude.use)
+            dlRef.current = window.claude.use('downloads').catch(() => null);
+    }, []);
+    const go = async () => {
+        if (st === 'busy')
+            return;
+        setSt('busy');
+        try {
+            const blob = await (await fetch(href)).blob();
+            const dl = dlRef.current ? await dlRef.current : null;
+            if (dl) {
+                await dl.save({ filename: name, data: blob });
+            }
+            else {
+                const u = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = u;
+                a.download = name;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                setTimeout(() => URL.revokeObjectURL(u), 3000);
+            }
+            setSt('done');
+        }
+        catch (e) {
+            setSt(e && e.code === 'declined' ? 'idle' : 'err');
+        }
+        setTimeout(() => setSt((s) => (s === 'busy' ? s : 'idle')), 2600);
+    };
+    const text = { idle: label, busy: 'Preparing PDF', done: 'Saved', err: 'Download failed, try again' }[st];
+    return (React.createElement("button", { className: 'btn solid dl ' + st, onClick: go, "aria-live": "polite" },
+        React.createElement("span", { className: "dl-ico", "aria-hidden": "true" },
+            React.createElement("i", null)),
+        text,
+        React.createElement("span", { className: "mono dl-meta" }, "PDF")));
+}
+function ResumeItem({ item, isOpen, onToggle }) {
+    const bodyRef = useRef(null);
+    const first = useRef(true);
+    useEffect(() => {
+        const el = bodyRef.current;
+        if (first.current) {
+            first.current = false;
+            el.style.height = isOpen ? 'auto' : '0px';
+            return;
+        }
+        if (REDUCED) {
+            el.style.height = isOpen ? 'auto' : '0px';
+            return;
+        }
+        anime.remove(el);
+        anime({
+            targets: el, height: isOpen ? [el.offsetHeight, el.scrollHeight] : [el.offsetHeight, 0], duration: 700, easing: SMOOTH,
+            complete: () => { if (isOpen)
+                el.style.height = 'auto'; },
+        });
+        if (isOpen)
+            anime({ targets: el.querySelectorAll('li'), opacity: [0, 1], translateX: [-16, 0], delay: anime.stagger(70, { start: 120 }), duration: 700, easing: SMOOTH });
+    }, [isOpen]);
+    return (React.createElement("li", { className: 'r-item' + (isOpen ? ' open' : '') },
+        React.createElement("button", { className: "r-item-head", "aria-expanded": isOpen, onClick: onToggle },
+            React.createElement("span", { className: "r-dot", "aria-hidden": "true" }),
+            React.createElement("span", { className: "r-item-main" },
+                React.createElement("b", null, item.role),
+                React.createElement("span", { className: "r-org" }, item.org)),
+            React.createElement("span", { className: "r-item-meta" },
+                React.createElement("span", { className: "mono" }, item.when),
+                React.createElement("span", { className: 'r-tag' + (item.tag === 'Current' ? ' now' : '') }, item.tag)),
+            React.createElement("span", { className: "r-chev", "aria-hidden": "true" }, "+")),
+        React.createElement("div", { className: "r-item-body", ref: bodyRef },
+            React.createElement("ul", null, item.pts.map((t) => React.createElement("li", { key: t }, t))))));
+}
+function Resume({ data, pdfHref, pdfName }) {
+    const [open, setOpen] = useState(0);
+    const [copied, setCopied] = useState(false);
+    const copy = async () => {
+        try {
+            await navigator.clipboard.writeText(data.email);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 1500);
+        }
+        catch (e) { }
+    };
+    return (React.createElement("div", { className: "cvx", "aria-label": `CV of ${data.name}` },
+        React.createElement("header", { className: "cvx-head", "data-reveal": "up", "data-stagger": "100" },
+            React.createElement("div", { className: "cvx-id" },
+                React.createElement("h3", null, data.name),
+                React.createElement("p", { className: "cvx-role" }, data.title)),
+            React.createElement("div", { className: "cvx-actions" },
+                pdfHref && React.createElement(DownloadButton, { href: pdfHref, name: pdfName || 'CV.pdf' }),
+                React.createElement("div", { className: "cvx-contact mono" },
+                    React.createElement("button", { className: "r-mail", onClick: copy, title: "Copy email" }, copied ? 'Email copied' : data.email),
+                    React.createElement("span", null, data.phones.join('  ·  ')),
+                    React.createElement("span", { className: "muted" }, data.location)))),
+        React.createElement("p", { className: "cvx-profile", "data-reveal": "up" }, data.profile),
+        React.createElement("div", { className: "cvx-grid" },
+            React.createElement("section", { className: "cvx-col" },
+                React.createElement("h4", { className: "cvx-h", "data-reveal": "left" }, "Experience"),
+                React.createElement("ol", { className: "r-timeline", "data-reveal": "up", "data-stagger": "90" }, data.experience.map((x, i) => (React.createElement(ResumeItem, { key: i, item: x, isOpen: open === i, onToggle: () => setOpen(open === i ? -1 : i) })))),
+                React.createElement("h4", { className: "cvx-h", "data-reveal": "left" }, "Education"),
+                React.createElement("div", { "data-reveal": "up", "data-stagger": "90" }, data.education.map((e) => (React.createElement("div", { className: "r-edu", key: e.q + e.school },
+                    React.createElement("div", { className: "r-edu-line" },
+                        React.createElement("b", null, e.q),
+                        React.createElement("span", { className: "mono" }, e.when)),
+                    React.createElement("p", { className: "r-org" },
+                        e.school,
+                        " \u00B7 ",
+                        React.createElement("span", { className: "muted" }, e.note))))))),
+            React.createElement("aside", { className: "cvx-col cvx-side", "data-reveal": "right", "data-stagger": "100" },
+                data.skills.map(({ group, items }, gi) => (React.createElement("div", { className: "r-group", key: gi },
+                    React.createElement("h4", { className: "cvx-h" }, group),
+                    React.createElement("div", { className: "r-chips" }, items.map((s) => React.createElement("span", { key: s }, s)))))),
+                React.createElement("div", { className: "r-group" },
+                    React.createElement("h4", { className: "cvx-h" }, "Languages"),
+                    React.createElement("ul", { className: "r-langs" }, data.languages.map(({ name: l, level: lvl, n }, li) => (React.createElement("li", { key: li },
+                        React.createElement("span", null, l),
+                        React.createElement("span", { className: "r-meter", "aria-label": lvl }, Array.from({ length: 5 }, (_, i) => React.createElement("i", { key: i, className: i < n ? 'on' : '' }))),
+                        React.createElement("span", { className: "mono muted" }, lvl)))))),
+                React.createElement("div", { className: "r-group" },
+                    React.createElement("h4", { className: "cvx-h" }, "Interests"),
+                    React.createElement("div", { className: "r-chips soft" }, data.interests.map((s) => React.createElement("span", { key: s }, s))))))));
+}
+
+/* ===== Camera3D.jsx ===== */
+/* ================= Scroll scene: a real-looking DSLR (three.js) =================
+   One scroll progress value drives everything. SEG holds the shared beats so the camera
+   move, captions, screen playback, letterbox, timecode and film reel all change together. */
+const SEG = {
+    reveal: 0.035, // camera arrives
+    turn: 0.17, // slow orbit across the front, lens zooms out
+    back: 0.29, // turns round to the back
+    review: 0.42, // screen plays back photos
+    push: 0.51, // push into the screen
+    open: 0.55, // screen opens out into the film reel
+    reel: 0.92, // scroll through the reel
+    end: 1, // reel pulls back and hands off to the gallery
+};
+const SCENE_CAPS = [
+    { from: 0, to: SEG.reveal * 1.6, k: 'Scene 01 · Scroll', t: 'Scroll to turn the camera around.' },
+    { from: SEG.reveal * 1.6, to: SEG.turn, k: 'Scene 02 · The camera', t: 'Every frame on this site came out of one body.' },
+    { from: SEG.turn, to: SEG.back, k: 'Scene 02 · Turn around', t: 'The part nobody sees: the back of the camera.' },
+    { from: SEG.back, to: SEG.review, k: 'Scene 02 · Playback', t: 'Three hikes. 352 frames. One memory card.' },
+    { from: SEG.review, to: SEG.open, k: 'Scene 02 · Into the frame', t: 'Step inside.' },
+    { from: SEG.open, to: SEG.reel, k: 'reel', t: '' },
+    { from: SEG.reel, to: 1.01, k: 'Scene 03 · The gallery', t: 'Keep scrolling for every frame.' },
+];
+/* ---------- procedural textures ---------- */
+function canvasTex(T, w, h, draw, repeat) {
+    const c = document.createElement('canvas');
+    c.width = w;
+    c.height = h;
+    draw(c.getContext('2d'), w, h);
+    const t = new T.CanvasTexture(c);
+    t.wrapS = t.wrapT = T.RepeatWrapping;
+    if (repeat)
+        t.repeat.set(repeat[0], repeat[1]);
+    t.anisotropy = 8;
+    return t;
+}
+function makeTextures(T) {
+    const pebble = canvasTex(T, 256, 256, (g, w, h) => {
+        g.fillStyle = '#808080';
+        g.fillRect(0, 0, w, h);
+        for (let i = 0; i < 3200; i++) {
+            const v = 70 + Math.random() * 120 | 0;
+            g.fillStyle = `rgba(${v},${v},${v},.55)`;
+            g.beginPath();
+            g.arc(Math.random() * w, Math.random() * h, 1 + Math.random() * 2.4, 0, 7);
+            g.fill();
+        }
+    }, [3, 3]);
+    const ribs = canvasTex(T, 1024, 8, (g, w, h) => {
+        for (let i = 0; i < 128; i++) {
+            g.fillStyle = i % 2 ? '#ffffff' : '#202020';
+            g.fillRect((i * w) / 128, 0, w / 128, h);
+        }
+    });
+    const knurl = canvasTex(T, 512, 8, (g, w, h) => {
+        for (let i = 0; i < 90; i++) {
+            g.fillStyle = i % 2 ? '#ffffff' : '#303030';
+            g.fillRect((i * w) / 90, 0, w / 90, h);
+        }
+    });
+    const marks = canvasTex(T, 2048, 96, (g, w, h) => {
+        g.fillStyle = '#121212';
+        g.fillRect(0, 0, w, h);
+        g.fillStyle = '#e9e4dc';
+        g.font = '600 40px Arial, sans-serif';
+        g.textBaseline = 'middle';
+        const f = ['18', '24', '35', '50', '70', '105', '140'];
+        f.forEach((x, i) => g.fillText(x, 120 + i * 120, h / 2));
+        g.font = '600 30px Arial, sans-serif';
+        g.fillStyle = '#9d978f';
+        g.fillText('LKC  DX  18 to 140 mm  1:3.5 to 5.6  ED  VR', 1060, h / 2);
+        g.fillStyle = '#ff6a3d';
+        g.fillRect(0, h - 6, w, 6);
+    });
+    const badge = canvasTex(T, 512, 128, (g, w, h) => {
+        g.clearRect(0, 0, w, h);
+        const grd = g.createLinearGradient(0, 0, 0, h);
+        grd.addColorStop(0, '#f2efe9');
+        grd.addColorStop(1, '#8d8882');
+        g.fillStyle = grd;
+        g.font = '900 96px Arial Black, Arial, sans-serif';
+        g.textAlign = 'center';
+        g.textBaseline = 'middle';
+        g.fillText('LKC', w / 2, h / 2 + 4);
+    });
+    badge.wrapS = badge.wrapT = T.ClampToEdgeWrapping;
+    const shadow = canvasTex(T, 256, 256, (g, w, h) => {
+        const r = g.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, w / 2);
+        r.addColorStop(0, 'rgba(0,0,0,.85)');
+        r.addColorStop(.55, 'rgba(0,0,0,.35)');
+        r.addColorStop(1, 'rgba(0,0,0,0)');
+        g.fillStyle = r;
+        g.fillRect(0, 0, w, h);
+    });
+    const lcdCanvas = document.createElement('canvas');
+    lcdCanvas.width = 1200;
+    lcdCanvas.height = 800;
+    const lcd = new T.CanvasTexture(lcdCanvas);
+    [marks, badge, lcd].forEach((t) => (t.encoding = T.sRGBEncoding));
+    return { pebble, ribs, knurl, marks, badge, shadow, lcd, lcdCanvas };
+}
+/* ---------- the camera model (units roughly centimetres) ---------- */
+function buildDSLR(T, tex) {
+    const M = {
+        plastic: new T.MeshPhysicalMaterial({ color: 0x0b0b0b, roughness: 0.46, clearcoat: 0.3, clearcoatRoughness: 0.4, envMapIntensity: 0.28 }),
+        leather: new T.MeshPhysicalMaterial({ color: 0x090909, roughness: 0.9, bumpMap: tex.pebble, bumpScale: 0.035, envMapIntensity: 0.2 }),
+        rubber: new T.MeshPhysicalMaterial({ color: 0x080808, roughness: 0.85, bumpMap: tex.ribs, bumpScale: 0.06, envMapIntensity: 0.25 }),
+        dial: new T.MeshPhysicalMaterial({ color: 0x1c1c1c, metalness: 0.7, roughness: 0.34, bumpMap: tex.knurl, bumpScale: 0.05, envMapIntensity: 0.5 }),
+        chrome: new T.MeshPhysicalMaterial({ color: 0xbdbdbd, metalness: 1, roughness: 0.18, envMapIntensity: 0.8 }),
+        darkMetal: new T.MeshPhysicalMaterial({ color: 0x151515, metalness: 0.85, roughness: 0.32, envMapIntensity: 0.5 }),
+        gloss: new T.MeshPhysicalMaterial({ color: 0x050505, roughness: 0.12, clearcoat: 1, clearcoatRoughness: 0.05, envMapIntensity: 0.45 }),
+        ember: new T.MeshPhysicalMaterial({ color: 0xff6a3d, roughness: 0.35, metalness: 0.3, emissive: 0x3a0e04 }),
+        glass: new T.MeshPhysicalMaterial({ color: 0x020305, metalness: 0.3, roughness: 0.03, clearcoat: 1, clearcoatRoughness: 0, iridescence: 1, iridescenceIOR: 1.8, iridescenceThicknessRange: [220, 700], envMapIntensity: 0.9 }),
+        black: new T.MeshBasicMaterial({ color: 0x030303 }),
+        marks: new T.MeshPhysicalMaterial({ map: tex.marks, roughness: 0.5, metalness: 0.1 }),
+        badge: new T.MeshPhysicalMaterial({ map: tex.badge, transparent: true, metalness: 0.8, roughness: 0.25 }),
+        af: new T.MeshPhysicalMaterial({ color: 0xff8a5c, emissive: 0x6a1a06, roughness: 0.1, clearcoat: 1 }),
+    };
+    const screen = new T.MeshPhysicalMaterial({ color: 0x000000, emissive: 0xffffff, emissiveMap: tex.lcd, emissiveIntensity: 0, roughness: 0.14, clearcoat: 1, clearcoatRoughness: 0.03 });
+    const mesh = (g, m, x = 0, y = 0, z = 0) => { const o = new T.Mesh(g, m); o.position.set(x, y, z); return o; };
+    const rbox = (w, h, d, r, m) => new T.Mesh(new T.RoundedBoxGeometry(w, h, d, 6, r), m);
+    const cyl = (rt, rb, h, m, seg = 96) => new T.Mesh(new T.CylinderGeometry(rt, rb, h, seg, 1, false), m);
+    const zCyl = (r, h, m, x, y, z) => { const c = cyl(r, r, h, m, 48); c.rotation.x = Math.PI / 2; c.position.set(x, y, z); return c; };
+    const cam = new T.Group();
+    // body + grip + leather
+    cam.add(rbox(12.4, 7.6, 4.4, 0.9, M.plastic));
+    const grip = rbox(3.5, 7.5, 3.9, 1.35, M.leather);
+    grip.position.set(-4.5, -0.05, 1.0);
+    cam.add(grip);
+    const leatherR = rbox(3.7, 5.4, 0.14, 0.06, M.leather);
+    leatherR.position.set(4.35, -0.75, 2.2);
+    cam.add(leatherR);
+    const thumb = rbox(2.6, 3.2, 0.5, 0.25, M.leather);
+    thumb.position.set(-4.85, 1.4, -2.25);
+    cam.add(thumb);
+    // pentaprism hump with sloped front and back
+    const s = new T.Shape();
+    s.moveTo(-2.3, 0);
+    s.lineTo(2.4, 0);
+    s.lineTo(1.35, 2.5);
+    s.lineTo(-1.7, 2.5);
+    s.closePath();
+    const hg = new T.ExtrudeGeometry(s, { depth: 5.4, bevelEnabled: true, bevelThickness: 0.28, bevelSize: 0.28, bevelSegments: 5, curveSegments: 8 });
+    hg.rotateY(-Math.PI / 2);
+    hg.translate(2.7, 0, 0);
+    const hump = mesh(hg, M.plastic, 0.9, 3.4, -0.15);
+    cam.add(hump);
+    const badge = mesh(new T.PlaneGeometry(2.3, 0.58), M.badge, 0, 1.25, 2.2);
+    badge.rotation.x = -0.4;
+    hump.add(badge);
+    hump.add(mesh(new T.BoxGeometry(2.3, 0.2, 2.0), M.darkMetal, 0, 2.86, -0.15)); // hot shoe
+    // top controls
+    const dial = cyl(1.2, 1.2, 0.62, M.dial, 64);
+    dial.position.set(-3.2, 4.05, -0.45);
+    cam.add(dial);
+    cam.add(mesh(new T.CylinderGeometry(1.0, 1.0, 0.02, 48), M.darkMetal, -3.2, 4.37, -0.45));
+    cam.add(mesh(new T.SphereGeometry(0.09, 12, 8), M.ember, -3.2, 4.4, 0.35));
+    const ring = cyl(0.66, 0.66, 0.16, M.darkMetal, 48);
+    ring.position.set(-4.75, 3.83, 1.75);
+    cam.add(ring);
+    const shutterBtn = cyl(0.44, 0.44, 0.26, M.chrome, 48);
+    shutterBtn.position.set(-4.75, 3.95, 1.75);
+    cam.add(shutterBtn);
+    cam.add(zCyl(0.34, 0.2, M.plastic, 4.5, 3.25, 1.0));
+    cam.add(cyl(0.34, 0.34, 0.2, M.plastic, 32).translateX(4.6).translateY(3.9).translateZ(0.4));
+    // strap lugs
+    [-6.25, 6.25].forEach((x) => { const t = new T.Mesh(new T.TorusGeometry(0.36, 0.09, 12, 32), M.chrome); t.position.set(x, 2.9, 0); t.rotation.y = Math.PI / 2; cam.add(t); });
+    // AF assist lamp
+    cam.add(mesh(new T.CircleGeometry(0.22, 32), M.af, -2.45, 2.55, 2.21));
+    // back: screen, buttons, eyepiece
+    const bezel = rbox(8.3, 5.6, 0.3, 0.24, M.gloss);
+    bezel.position.set(1.3, -0.7, -2.27);
+    cam.add(bezel);
+    const scr = mesh(new T.PlaneGeometry(7.5, 5.0), screen, 1.3, -0.7, -2.43);
+    scr.rotation.y = Math.PI;
+    cam.add(scr);
+    const dpad = zCyl(1.05, 0.26, M.plastic, -4.3, -1.45, -2.28);
+    cam.add(dpad);
+    cam.add(zCyl(0.42, 0.34, M.darkMetal, -4.3, -1.45, -2.33));
+    [[-4.9, 1.0], [-3.75, 1.5], [-5.15, -3.0], [-3.55, -3.15]].forEach(([x, y]) => cam.add(zCyl(0.36, 0.22, M.plastic, x, y, -2.27)));
+    [1.4, 0.3, -0.8, -1.9, -3.0].forEach((y) => cam.add(zCyl(0.3, 0.2, M.plastic, 5.75, y, -2.27)));
+    const eye = rbox(3.0, 2.1, 0.9, 0.35, M.leather);
+    eye.position.set(0.9, 4.65, -2.55);
+    cam.add(eye);
+    const eyeGlass = mesh(new T.PlaneGeometry(1.7, 1.1), M.gloss, 0.9, 4.7, -3.01);
+    eyeGlass.rotation.y = Math.PI;
+    cam.add(eyeGlass);
+    // lens, built along +Y then turned to face +Z
+    const L = new T.Group();
+    L.position.set(0.9, -0.3, 2.2);
+    L.rotation.x = Math.PI / 2;
+    cam.add(L);
+    L.add(mesh(new T.CylinderGeometry(3.2, 3.2, 0.4, 96), M.chrome, 0, 0.2, 0));
+    L.add(mesh(new T.CylinderGeometry(3.0, 3.1, 1.8, 96), M.plastic, 0, 1.3, 0));
+    const zoomRing = mesh(new T.CylinderGeometry(3.32, 3.32, 2.8, 128), M.rubber, 0, 3.6, 0);
+    L.add(zoomRing);
+    const marks = mesh(new T.CylinderGeometry(3.16, 3.16, 0.8, 128), M.marks, 0, 5.4, 0);
+    L.add(marks);
+    const inner = new T.Group();
+    L.add(inner); // extends as the lens zooms
+    inner.add(mesh(new T.CylinderGeometry(3.02, 3.02, 4.4, 96), M.gloss, 0, 6.0, 0));
+    inner.add(mesh(new T.CylinderGeometry(3.05, 3.05, 0.1, 96), M.ember, 0, 6.0, 0));
+    const focusRing = mesh(new T.CylinderGeometry(3.22, 3.22, 1.0, 128), M.rubber, 0, 7.9, 0);
+    inner.add(focusRing);
+    const lip = [[2.45, 8.35], [3.24, 8.35], [3.33, 8.55], [3.27, 8.95], [2.62, 9.0]].map(([r, y]) => new T.Vector2(r, y));
+    inner.add(new T.Mesh(new T.LatheGeometry(lip, 128), M.darkMetal));
+    const disc = mesh(new T.CircleGeometry(2.6, 64), M.black, 0, 8.72, 0);
+    disc.rotation.x = -Math.PI / 2;
+    inner.add(disc);
+    const iring = new T.Mesh(new T.TorusGeometry(1.7, 0.05, 8, 96), M.darkMetal);
+    iring.rotation.x = Math.PI / 2;
+    iring.position.y = 8.85;
+    inner.add(iring);
+    const R = 6.5, phi = Math.asin(2.58 / R);
+    inner.add(mesh(new T.SphereGeometry(R, 96, 24, 0, Math.PI * 2, 0, phi), M.glass, 0, 8.8 - R * Math.cos(phi), 0));
+    return { cam, inner, zoomRing, focusRing, screen, screenCenter: new T.Vector3(1.3, -0.7, -2.43), screenSize: [7.5, 5.0] };
+}
+/* ---------- draws the rear LCD ---------- */
+function drawLCD(c, img, p, i, n) {
+    const g = c.getContext('2d'), W = c.width, H = c.height;
+    g.fillStyle = '#000';
+    g.fillRect(0, 0, W, H);
+    if (img && img.complete && img.naturalWidth) {
+        const s = Math.max(W / img.naturalWidth, H / img.naturalHeight);
+        const w = img.naturalWidth * s, h = img.naturalHeight * s;
+        g.drawImage(img, (W - w) / 2, (H - h) / 2, w, h);
+        // opened straight from disk (file://) the photo taints the canvas; fall back to a dark screen
+        try {
+            g.getImageData(0, 0, 1, 1);
+        }
+        catch (e) {
+            g.fillStyle = '#0a0a0a';
+            g.fillRect(0, 0, W, H);
+        }
+    }
+    const top = g.createLinearGradient(0, 0, 0, 120);
+    top.addColorStop(0, 'rgba(0,0,0,.55)');
+    top.addColorStop(1, 'rgba(0,0,0,0)');
+    g.fillStyle = top;
+    g.fillRect(0, 0, W, 120);
+    const bot = g.createLinearGradient(0, H - 130, 0, H);
+    bot.addColorStop(0, 'rgba(0,0,0,0)');
+    bot.addColorStop(1, 'rgba(0,0,0,.6)');
+    g.fillStyle = bot;
+    g.fillRect(0, H - 130, W, 130);
+    g.fillStyle = '#fff';
+    g.font = '500 34px "JetBrains Mono", monospace';
+    g.textBaseline = 'top';
+    g.fillText(`▶  ${pad(i + 1)}/${pad(n)}`, 34, 30);
+    g.strokeStyle = '#fff';
+    g.lineWidth = 3;
+    g.strokeRect(W - 110, 32, 64, 30);
+    g.fillRect(W - 46, 40, 6, 14);
+    g.fillRect(W - 104, 38, 40, 18);
+    g.textBaseline = 'bottom';
+    g.fillText(`${p.mm}mm   f/${p.f}   ${shutter(p.s)}s   ISO ${p.iso}`, 34, H - 30);
+    g.textAlign = 'right';
+    g.fillStyle = '#ff6a3d';
+    g.fillText('RAW', W - 34, H - 30);
+    g.textAlign = 'left';
+}
+/* ---------- the scene component ---------- */
+function CameraScene({ onOpen }) {
+    const C = useContext(ContentCtx);
+    const secRef = useRef(null), canvasRef = useRef(null), titleRef = useRef(null), bgRef = useRef(null);
+    const topBar = useRef(null), botBar = useRef(null), fadeRef = useRef(null), takeRef = useRef(null);
+    const tcRef = useRef(null), scrubRef = useRef(null), reelRef = useRef(null), trackRef = useRef(null), framesRef = useRef([]);
+    const [cap, setCap] = useState(0);
+    const [shot, setShot] = useState(0);
+    const [frame, setFrame] = useState(0);
+    const [noGL, setNoGL] = useState(false);
+    useEffect(() => {
+        const T = window.THREE;
+        let renderer = null, scene, cam3, model, tex, imgs = [], env;
+        const S = { ry: -34, rx: 14, sc: 0.84, ext: 0, focus: 0, push: 0, lcd: 0, ox: 0, oy: 0 };
+        const I = { spin: REDUCED ? 0 : 1 };
+        const RS = { s: 1, x: 0, exit: 0 };
+        let tl, raf = 0, cur = 0, running = false, layout = null, par = { x: 0, y: 0, tx: 0, ty: 0 };
+        const refs = { cap: -1, shot: -1, frame: -1 };
+        const base = { pos: null, tgt: null };
+        // ---- three.js setup
+        try {
+            if (!T || !T.RoundedBoxGeometry)
+                throw new Error('three missing');
+            renderer = new T.WebGLRenderer({ canvas: canvasRef.current, antialias: true, alpha: true, powerPreference: 'high-performance' });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+            renderer.outputEncoding = T.sRGBEncoding;
+            renderer.toneMapping = T.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 0.9;
+            scene = new T.Scene();
+            const pm = new T.PMREMGenerator(renderer);
+            env = pm.fromScene(new T.RoomEnvironment(), 0.03).texture;
+            scene.environment = env;
+            cam3 = new T.PerspectiveCamera(28, 1, 0.1, 400);
+            tex = makeTextures(T);
+            model = buildDSLR(T, tex);
+            scene.add(model.cam);
+            const key = new T.DirectionalLight(0xfff1e0, 1.6);
+            key.position.set(8, 10, 12);
+            scene.add(key);
+            const rim = new T.DirectionalLight(0x8fb4ff, 2.8);
+            rim.position.set(-10, 5, -10);
+            scene.add(rim);
+            const rim2 = new T.DirectionalLight(0xff7a45, 1.3);
+            rim2.position.set(10, -2, -8);
+            scene.add(rim2);
+            scene.add(new T.HemisphereLight(0xffffff, 0x1a1a1a, 0.15));
+            const top = new T.SpotLight(0xffffff, 1.2, 0, 0.5, 0.8);
+            top.position.set(0, 26, 6);
+            scene.add(top);
+            const sh = new T.Mesh(new T.PlaneGeometry(22, 12), new T.MeshBasicMaterial({ map: tex.shadow, transparent: true, depthWrite: false, opacity: 0.75 }));
+            sh.rotation.x = -Math.PI / 2;
+            sh.position.y = -5.2;
+            scene.add(sh);
+            imgs = PLAYBACK.map((p) => { const im = new Image(); im.src = p.full; im.onload = () => { if (refs.shot >= 0)
+                paint(refs.shot); }; return im; });
+        }
+        catch (e) {
+            renderer = null;
+            setNoGL(true);
+        }
+        const paint = (i) => {
+            if (!tex)
+                return;
+            drawLCD(tex.lcdCanvas, imgs[i], PLAYBACK[i], i, PLAYBACK.length);
+            tex.lcd.needsUpdate = true;
+        };
+        // ---- layout + timeline (rebuilt on resize)
+        const build = () => {
+            const vw = window.innerWidth, vh = window.innerHeight;
+            if (renderer) {
+                renderer.setSize(vw, vh, false);
+                cam3.aspect = vw / vh;
+                cam3.updateProjectionMatrix();
+                const tf = Math.tan((cam3.fov * Math.PI) / 360);
+                const dist = Math.max((11 / 0.6) / 2 / tf, (15 / 0.86) / 2 / (tf * cam3.aspect));
+                base.pos = new T.Vector3(0, dist * 0.08, dist);
+                base.tgt = new T.Vector3(0, 0.6, 0);
+                // opening frame: camera sits beside the title (right on wide screens, low on tall ones)
+                base.ox = cam3.aspect > 1.1 ? -dist * tf * cam3.aspect * 0.34 : 0;
+                base.oy = cam3.aspect > 1.1 ? 0 : dist * tf * 0.42;
+            }
+            // film reel frames
+            const H = Math.min(vh * 0.68, (vw * 0.84) / 1.5);
+            const gap = Math.max(18, vw * 0.025);
+            const widths = FILM.map((p) => (p.h > p.w * 1.1 ? H * (2 / 3) : H * 1.5));
+            const centers = [];
+            let acc = 0;
+            widths.forEach((w) => { centers.push(acc + w / 2); acc += w + gap; });
+            framesRef.current.forEach((el, i) => { if (el) {
+                el.style.width = widths[i] + 'px';
+                el.style.height = H + 'px';
+            } });
+            const fill = Math.max(vw / widths[0], vh / H) * 1.02;
+            layout = { centers, fill, H };
+            const D = 1000, seg = (a, b) => ({ duration: Math.max(1, (b - a) * D) });
+            tl = anime.timeline({ autoplay: false, easing: 'linear', duration: D });
+            tl.add({ targets: S, sc: [0.84, 0.92], rx: [14, 12], ry: [-34, -26], ...seg(0, SEG.reveal), easing: 'easeOutSine' })
+                .add({ targets: S, sc: [0.94, 1], rx: [12, 6], ry: [-26, 22], ext: [0, 1.4], ...seg(SEG.reveal, SEG.turn), easing: 'easeInOutSine' })
+                .add({ targets: S, sc: [1, 1.04], rx: [6, 0], ry: [22, 180], ext: [1.4, 1.4], ...seg(SEG.turn, SEG.back), easing: 'easeInOutCubic' })
+                .add({ targets: S, sc: [1.04, 1.08], rx: [0, 0], ry: [180, 180], ...seg(SEG.back, SEG.review) })
+                .add({ targets: S, push: [0, 1], ...seg(SEG.review, SEG.push), easing: 'easeInOutCubic' })
+                .add({ targets: S, push: [1, 1], ...seg(SEG.push, SEG.end) });
+            tl.add({ targets: S, focus: [0, Math.PI * 1.4], duration: SEG.back * D, easing: 'easeInOutSine' }, 0);
+            tl.add({ targets: S, lcd: [0, 1], duration: 0.025 * D, easing: 'easeOutQuad' }, (SEG.back - 0.03) * D);
+            tl.add({ targets: S, ox: [1, 0], oy: [1, 0], duration: SEG.turn * D, easing: 'easeInOutSine' }, 0);
+            tl.add({ targets: titleRef.current, opacity: [1, 0], translateY: [0, -80], duration: SEG.reveal * 1.6 * D, easing: 'easeInSine' }, 0);
+            tl.add({ targets: [topBar.current, botBar.current], scaleY: [1, 0], duration: (SEG.open - SEG.review) * D, easing: 'easeInOutSine' }, SEG.review * D);
+            tl.add({ targets: takeRef.current, opacity: [0, 1], duration: 0.03 * D, easing: 'easeInOutSine' }, (SEG.push - 0.03) * D);
+            tl.add({ targets: reelRef.current, opacity: [0, 1], duration: 0.004 * D }, SEG.push * D);
+            tl.add({ targets: takeRef.current, opacity: [1, 0], duration: 0.004 * D }, (SEG.push + 0.006) * D);
+            tl.add({ targets: [canvasRef.current, secRef.current.querySelector('.spot')], opacity: [1, 0], duration: 0.004 * D }, (SEG.push + 0.006) * D);
+            tl.add({ targets: RS, s: [fill, 1], duration: (SEG.open - SEG.push) * D, easing: 'easeInOutCubic' }, SEG.push * D);
+            tl.add({ targets: RS, exit: [0, 1], duration: (SEG.end - SEG.reel) * D, easing: 'easeInOutSine' }, SEG.reel * D);
+            tl.add({ targets: fadeRef.current, opacity: [0, 1], duration: (SEG.end - SEG.reel) * 0.6 * D, easing: 'easeInSine' }, (SEG.reel + (SEG.end - SEG.reel) * 0.4) * D);
+            tl.seek(cur * D);
+            apply();
+        };
+        // ---- apply state to the 3D scene and the reel
+        const apply = () => {
+            if (renderer) {
+                const free = 1 - S.push;
+                model.cam.rotation.set(((S.rx + 8 * I.spin) * Math.PI) / 180 + par.y * 0.05 * free, ((S.ry - 160 * I.spin) * Math.PI) / 180 + par.x * 0.08 * free, 0);
+                model.cam.scale.setScalar(S.sc * (1 - 0.3 * I.spin));
+                model.inner.position.y = S.ext;
+                model.zoomRing.rotation.y = S.focus;
+                model.focusRing.rotation.y = -S.focus * 0.6;
+                model.screen.emissiveIntensity = S.lcd * 1.15;
+                model.cam.updateMatrixWorld(true);
+                const C = model.cam.localToWorld(model.screenCenter.clone());
+                const tf = Math.tan((cam3.fov * Math.PI) / 360);
+                const sw = model.screenSize[0] * S.sc, shh = model.screenSize[1] * S.sc;
+                const dClose = Math.min((shh * 0.9) / (2 * tf), (sw * 0.9) / (2 * tf * cam3.aspect));
+                const P1 = C.clone().add(new T.Vector3(0, 0, dClose));
+                const off = new T.Vector3(base.ox * S.ox, base.oy * S.oy, 0);
+                cam3.position.lerpVectors(base.pos.clone().add(off), P1, S.push);
+                cam3.lookAt(base.tgt.clone().add(off).lerp(C, S.push));
+                if (S.push < 1 || cur < SEG.push + 0.01)
+                    renderer.render(scene, cam3);
+            }
+            // reel
+            if (layout && cur >= SEG.push - 0.01) {
+                const n = FILM.length;
+                const t = clamp((cur - SEG.open) / (SEG.reel - SEG.open)) * (n - 1);
+                const i = Math.min(n - 2, Math.floor(t)), f = smoother(clamp(t - i));
+                const x = lerp(layout.centers[i], layout.centers[i + 1], f);
+                const sc = RS.s * (1 - RS.exit * 0.42);
+                reelRef.current.style.transform = `scale(${sc})`;
+                reelRef.current.style.setProperty('--dim', RS.exit);
+                trackRef.current.style.transform = `translate3d(${-x}px, 0, 0)`;
+                framesRef.current.forEach((el, k) => {
+                    if (!el)
+                        return;
+                    const off = (layout.centers[k] - x) / layout.H;
+                    el.firstChild.style.transform = `translate3d(${off * -6}%, 0, 0) scale(1.14)`;
+                });
+                const fi = Math.round(t);
+                if (fi !== refs.frame) {
+                    refs.frame = fi;
+                    setFrame(fi);
+                }
+            }
+        };
+        const frameLoop = () => {
+            const s = secRef.current;
+            if (!s)
+                return;
+            const rect = s.getBoundingClientRect();
+            const p = clamp(-rect.top / (s.offsetHeight - window.innerHeight));
+            cur = window.__SNAP ? p : cur + (p - cur) * 0.12;
+            if (Math.abs(p - cur) < 0.00025)
+                cur = p;
+            par.x += (par.tx - par.x) * 0.06;
+            par.y += (par.ty - par.y) * 0.06;
+            tl.seek(cur * tl.duration);
+            apply();
+            const c = SCENE_CAPS.findIndex((x) => cur >= x.from && cur < x.to);
+            if (c !== refs.cap && c >= 0) {
+                refs.cap = c;
+                setCap(c);
+            }
+            const sp = clamp((cur - SEG.back) / (SEG.review - SEG.back));
+            const sh = Math.min(PLAYBACK.length - 1, Math.floor(sp * PLAYBACK.length));
+            if (sh !== refs.shot) {
+                refs.shot = sh;
+                setShot(sh);
+                paint(sh);
+            }
+            const secs = cur * 40, ss = Math.floor(secs), ff = Math.floor((secs - ss) * 24);
+            tcRef.current.textContent = `00:00:${pad(ss)}:${pad(ff)}`;
+            scrubRef.current.style.transform = `scaleX(${cur})`;
+            // location backdrop: slow drift, dims as the camera turns, gone once we are inside the screen
+            const bo = cur < SEG.turn ? 0.62 : cur < SEG.review ? lerp(0.62, 0.38, (cur - SEG.turn) / (SEG.review - SEG.turn)) : lerp(0.38, 0, clamp((cur - SEG.review) / (SEG.push - SEG.review)));
+            bgRef.current.style.opacity = String(bo);
+            bgRef.current.style.transform = `translate3d(${par.x * -12}px, ${cur * -40 + par.y * -8}px, 0) scale(${1.12 + cur * 0.25})`;
+            if (running)
+                raf = requestAnimationFrame(frameLoop);
+        };
+        build();
+        paint(0);
+        refs.shot = 0;
+        if (!REDUCED) {
+            anime({ targets: I, spin: 0, duration: 2600, easing: SMOOTH, delay: 150 });
+            anime({ targets: titleRef.current.querySelectorAll('.ch > span'), translateY: ['115%', '0%'], rotate: [10, 0], delay: anime.stagger(32, { start: 450 }), duration: 1500, easing: SMOOTH });
+            anime({ targets: titleRef.current.querySelectorAll('.fade'), opacity: [0, 1], translateY: [26, 0], delay: anime.stagger(120, { start: 1000 }), duration: 1400, easing: SMOOTH });
+        }
+        if (REDUCED) {
+            cur = (SEG.back + SEG.review) / 2;
+            tl.seek(cur * tl.duration);
+            apply();
+            setCap(2);
+            setShot(3);
+            paint(3);
+            return () => renderer && renderer.dispose();
+        }
+        const io = new IntersectionObserver(([e]) => {
+            if (e.isIntersecting && !running) {
+                running = true;
+                raf = requestAnimationFrame(frameLoop);
+            }
+            else if (!e.isIntersecting) {
+                running = false;
+                cancelAnimationFrame(raf);
+            }
+        }, { rootMargin: '300px 0px' });
+        io.observe(secRef.current);
+        const onMove = (e) => { par.tx = (e.clientX / window.innerWidth - 0.5) * 2; par.ty = (e.clientY / window.innerHeight - 0.5) * 2; };
+        window.addEventListener('pointermove', onMove);
+        let rt;
+        const onResize = () => { clearTimeout(rt); rt = setTimeout(build, 150); };
+        window.addEventListener('resize', onResize);
+        return () => { io.disconnect(); running = false; cancelAnimationFrame(raf); window.removeEventListener('resize', onResize); window.removeEventListener('pointermove', onMove); if (renderer)
+            renderer.dispose(); };
+    }, []);
+    const c = SCENE_CAPS[cap];
+    const fp = FILM[Math.min(frame, FILM.length - 1)];
+    const p = PLAYBACK[shot];
+    return (React.createElement("section", { className: "scene", id: "reel", ref: secRef, "data-top": true, "aria-label": "A camera turns around, plays back Lincoln's photos, then opens into a film reel" },
+        React.createElement("div", { className: "scene-pin" },
+            React.createElement("div", { className: "scene-bg", ref: bgRef, "aria-hidden": "true" },
+                React.createElement("img", { src: byId('lakeellis-9').full, alt: "" })),
+            React.createElement("div", { className: "spot", "aria-hidden": "true" }),
+            React.createElement("canvas", { className: "gl", ref: canvasRef, "aria-hidden": "true" }),
+            noGL && (React.createElement("div", { className: "nogl" },
+                React.createElement("div", { className: "nogl-screen" },
+                    React.createElement("img", { src: p.full, alt: p.cap })))),
+            React.createElement("div", { className: "scene-title", ref: titleRef },
+                React.createElement("div", { className: "wrap" },
+                    React.createElement("p", { className: "eyebrow fade" }, C.intro.eyebrow),
+                    React.createElement("h1", { className: "title", "aria-label": "Lincoln Kariuki Chege" },
+                        React.createElement("span", { className: "t-line", "aria-hidden": "true" }, chars('Lincoln')),
+                        React.createElement("span", { className: "t-line", "aria-hidden": "true" }, chars('Kariuki')),
+                        React.createElement("span", { className: "t-line", "aria-hidden": "true" },
+                            chars('Chege'),
+                            React.createElement("span", { className: "ch dot" },
+                                React.createElement("span", null, ".")))),
+                    React.createElement("p", { className: "lede fade" }, C.intro.lede),
+                    React.createElement("div", { className: "cta fade" },
+                        React.createElement("a", { className: "btn solid", href: "#gallery" }, "See the gallery"),
+                        React.createElement("a", { className: "btn ghost", href: "#cv" }, "Read the CV")))),
+            React.createElement("div", { className: "lbx top", ref: topBar, "aria-hidden": "true" }),
+            React.createElement("div", { className: "lbx bot", ref: botBar, "aria-hidden": "true" }),
+            React.createElement("div", { className: "takeover", ref: takeRef, "aria-hidden": "true" },
+                React.createElement("img", { src: FILM[0].full, alt: "" })),
+            React.createElement("div", { className: "reel", ref: reelRef },
+                React.createElement("div", { className: "reel-track", ref: trackRef }, FILM.map((x, k) => (React.createElement("button", { key: x.id, className: "film", ref: (el) => (framesRef.current[k] = el), onClick: () => onOpen(FILM, k, 'The reel'), "aria-label": `Open ${x.cap}`, tabIndex: -1 },
+                    React.createElement("img", { src: x.full, alt: x.cap, loading: "lazy" }),
+                    React.createElement("span", { className: "sprockets top" }),
+                    React.createElement("span", { className: "sprockets bot" }),
+                    React.createElement("span", { className: "film-no mono" },
+                        pad(k + 1),
+                        "A")))))),
+            React.createElement("div", { className: "scene-hud" },
+                React.createElement("div", { className: "sub", key: c.k === 'reel' ? 'r' + frame : cap }, c.k === 'reel' ? (React.createElement(React.Fragment, null,
+                    React.createElement("p", { className: "mono" },
+                        "The reel \u00B7 frame ",
+                        pad(frame + 1),
+                        "/",
+                        pad(FILM.length)),
+                    React.createElement("p", { className: "sub-t" }, fp.cap),
+                    React.createElement("p", { className: "mono sub-ex" },
+                        fp.place,
+                        " \u00B7 ",
+                        fp.mm,
+                        "mm \u00B7 f/",
+                        fp.f,
+                        " \u00B7 ",
+                        shutter(fp.s),
+                        "s \u00B7 tap to open"))) : (React.createElement(React.Fragment, null,
+                    React.createElement("p", { className: "mono" }, c.k),
+                    React.createElement("p", { className: "sub-t" }, c.t)))),
+                React.createElement("div", { className: "hud-r mono" },
+                    React.createElement("span", { className: "rec" },
+                        React.createElement("i", null),
+                        "REC"),
+                    React.createElement("span", { ref: tcRef }, "00:00:00:00"),
+                    React.createElement("span", { className: "scrub-line" },
+                        React.createElement("i", { ref: scrubRef })))),
+            React.createElement("div", { className: "scene-fade", ref: fadeRef, "aria-hidden": "true" }))));
+}
+
+/* ===== app-head.jsx ===== */
+/* ---------- Nav ---------- */
+function Nav({ route, canEdit, onEdit }) {
+    // Hidden entry: three quick taps on the logo's dot open the editor (editors only)
+    const taps = useRef([]);
+    const onDot = () => {
+        const now = Date.now();
+        taps.current = taps.current.filter((t) => now - t < 900).concat(now);
+        if (taps.current.length >= 3) {
+            taps.current = [];
+            onEdit();
+            return true;
+        }
+        return taps.current.length > 1;
+    };
+    const L = (href, label, on, opt) => React.createElement("a", { href: href, className: (on ? 'on ' : '') + (opt ? 'opt' : ''), "aria-current": on ? 'page' : undefined }, label);
+    return (React.createElement("header", { className: "nav" },
+        React.createElement("div", { className: "nav-in" },
+            React.createElement("a", { href: "#top", className: "mark", "aria-label": "Lincoln Kariuki Chege, home" },
+                "LKC",
+                React.createElement("span", { className: "dot", onClick: (e) => { if (canEdit && onDot()) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    } } })),
+            React.createElement("nav", { className: "links" },
+                L('#top', 'Home', route === 'home', true),
+                L('#gallery', 'Gallery', route === 'gallery'),
+                L('#cv', 'CV', route === 'cv'),
+                L('#about', 'About', false, true),
+                L('#contact', 'Contact', false)))));
+}
+/* split a word into animatable letters */
+const chars = (word) => word.split('').map((ch, i) => (ch === ' ' ? React.createElement("span", { className: "sp", key: i }, " ") : React.createElement("span", { className: "ch", key: i },
+    React.createElement("span", null, ch))));
+/* ---------- Stats ---------- */
+function Counter({ to }) {
+    const ref = useRef(null);
+    useEffect(() => {
+        if (REDUCED)
+            return;
+        const el = ref.current;
+        const io = new IntersectionObserver(([e]) => {
+            if (!e.isIntersecting)
+                return;
+            io.disconnect();
+            const o = { v: 0 };
+            anime({ targets: o, v: to, round: 1, duration: 1800, easing: SMOOTH, update: () => { el.textContent = o.v; } });
+        }, { threshold: 0.6 });
+        io.observe(el);
+        return () => io.disconnect();
+    }, [to]);
+    return React.createElement("span", { ref: ref }, to);
+}
+function Gauge({ fill }) {
+    const ref = useRef(null);
+    useEffect(() => {
+        const el = ref.current;
+        const on = Math.round(fill * 24);
+        if (REDUCED) {
+            [...el.children].forEach((t, i) => t.classList.toggle('on', i < on));
+            return;
+        }
+        const io = new IntersectionObserver(([e]) => {
+            if (!e.isIntersecting)
+                return;
+            io.disconnect();
+            anime({ targets: [...el.children].slice(0, on), scaleY: [0.3, 1], backgroundColor: ['#3d3936', '#ff6a3d'], delay: anime.stagger(35, { start: 300 }), duration: 600, easing: SMOOTH });
+        }, { threshold: 0.6 });
+        io.observe(el);
+        [...el.children].forEach((t, i) => t.classList.toggle('on', i < on));
+        return () => io.disconnect();
+    }, [fill]);
+    return React.createElement("span", { className: "gauge", ref: ref, "aria-hidden": "true" }, Array.from({ length: 24 }, (_, i) => React.createElement("i", { key: i })));
+}
+function Stats() {
+    const cells = [
+        { k: 'Frames', v: React.createElement(Counter, { to: 352 }), s: 'shot across three hikes', fill: 1 },
+        { k: 'Selects', v: React.createElement(Counter, { to: ALL_PHOTOS.length }), s: 'kept for the gallery', fill: ALL_PHOTOS.length / 352 },
+        { k: 'Hikes', v: React.createElement(Counter, { to: 3 }), u: '2026', s: 'Kipipiri, Kathandeni, Lake Ellis', fill: 3 / 12 },
+        { k: 'Gear', v: 'D5600', s: 'Nikon, 18 to 300mm, edited in Lightroom Classic', fill: 0.5 },
+    ];
+    return (React.createElement("section", { className: "stats-wrap wrap", id: "numbers", "aria-label": "At a glance" },
+        React.createElement("div", { className: "spec", "data-reveal": "up", "data-stagger": "110" }, cells.map((c) => (React.createElement("div", { className: "spec-cell", key: c.k },
+            React.createElement("span", { className: "spec-k mono" }, c.k),
+            React.createElement("b", { className: "spec-v" },
+                c.v,
+                c.u && React.createElement("small", { className: "mono" }, c.u)),
+            React.createElement(Gauge, { fill: c.fill }),
+            React.createElement("span", { className: "spec-s" }, c.s)))))));
+}
+/* ---------- Home: a short selection that leads to the Gallery page ---------- */
+function Tile({ p, onClick }) {
+    return (React.createElement("button", { className: "m-tile", onClick: onClick, "aria-label": `Open ${p.cap}` },
+        React.createElement("img", { src: p.thumb, alt: p.cap, loading: "lazy", style: { aspectRatio: `${p.w} / ${p.h}` } }),
+        React.createElement("span", { className: "tile-cap" },
+            React.createElement("span", null, p.cap),
+            React.createElement("span", { className: "mono" }, exifText(p) || p.place))));
+}
+function SelectedWork({ onOpen }) {
+    return (React.createElement("section", { className: "gallery wrap", id: "work" },
+        React.createElement("div", { className: "sec-head sec-row", "data-reveal": "left" },
+            React.createElement("div", null,
+                React.createElement("p", { className: "eyebrow" }, "Scene 03 \u00B7 Selected work"),
+                React.createElement("h2", null, "A few frames I keep coming back to.")),
+            React.createElement("a", { className: "btn", href: "#gallery" },
+                "See all ",
+                ALL_PHOTOS.length,
+                " photos ",
+                React.createElement("span", { "aria-hidden": "true" }, "\u2192"))),
+        React.createElement("div", { className: "masonry", "data-reveal": "frame", "data-stagger": "55" }, SELECTED.map((p, k) => React.createElement(Tile, { key: p.id, p: p, onClick: (e) => onOpen(SELECTED, k, 'Selected work', e.currentTarget.querySelector('img')) }))),
+        React.createElement("div", { className: "more-row", "data-reveal": "up" },
+            React.createElement("a", { className: "btn solid", href: "#gallery" },
+                "Open the full gallery ",
+                React.createElement("span", { "aria-hidden": "true" }, "\u2192")))));
+}
+/* ---------- Gallery page ---------- */
+function GalleryPage({ onOpen }) {
+    const ref = useRef(null);
+    useEffect(() => {
+        A({ targets: ref.current.querySelectorAll('.ch > span'), translateY: ['115%', '0%'], rotate: [10, 0], delay: anime.stagger(30, { start: 250 }), duration: 1400, easing: SMOOTH });
+        A({ targets: ref.current.querySelectorAll('.fade'), opacity: [0, 1], translateY: [24, 0], delay: anime.stagger(100, { start: 650 }), duration: 1200, easing: SMOOTH });
+    }, []);
+    return (React.createElement("section", { className: "gallery page wrap", id: "gallery", ref: ref },
+        React.createElement("header", { className: "page-head" },
+            React.createElement("p", { className: "eyebrow fade" },
+                "The gallery \u00B7 ",
+                ALL_PHOTOS.length,
+                " frames \u00B7 2026"),
+            React.createElement("h1", { className: "title page-title", "aria-label": "The gallery." },
+                React.createElement("span", { className: "t-line", "aria-hidden": "true" },
+                    chars('The'),
+                    React.createElement("span", { className: "sp" }, " "),
+                    chars('gallery'),
+                    React.createElement("span", { className: "ch dot" },
+                        React.createElement("span", null, ".")))),
+            React.createElement("p", { className: "lede fade" }, "Frames from three hikes in 2026: forest falls, high moorland and the people who walked them. Tap any photo to see it full screen.")),
+        React.createElement("div", { className: "masonry big", "data-reveal": "frame", "data-stagger": "40" }, ALL_PHOTOS.map((p, k) => React.createElement(Tile, { key: p.id, p: p, onClick: (e) => onOpen(ALL_PHOTOS, k, 'Gallery', e.currentTarget.querySelector('img')) }))),
+        React.createElement("div", { className: "more-row" },
+            React.createElement("a", { className: "btn", href: "#top" }, "\u2190 Back home"),
+            React.createElement("a", { className: "btn solid", href: "#cv" },
+                "Read the CV ",
+                React.createElement("span", { "aria-hidden": "true" }, "\u2192")))));
+}
+/* ---------- Lightbox: photos grow out of the tile they came from ---------- */
+function Lightbox({ state, onClose, onMove }) {
+    const ref = useRef(null);
+    const imgRef = useRef(null);
+    const dir = useRef(0);
+    const p = state.list[state.k];
+    const first = useRef(true);
+    useEffect(() => {
+        A({ targets: ref.current, backgroundColor: ['rgba(10,9,8,0)', 'rgba(10,9,8,.96)'], duration: 600, easing: 'easeOutSine' });
+        A({ targets: ref.current.querySelectorAll('.lb-top, .lb-foot, .lb-arrow'), opacity: [0, 1], translateY: [14, 0], delay: anime.stagger(60, { start: 250 }), duration: 700, easing: SMOOTH });
+        const key = (e) => { if (e.key === 'Escape')
+            close(); if (e.key === 'ArrowRight')
+            go(1); if (e.key === 'ArrowLeft')
+            go(-1); };
+        window.addEventListener('keydown', key);
+        if (LENIS)
+            LENIS.stop();
+        document.body.style.overflow = 'hidden';
+        ref.current.querySelector('.lb-close').focus();
+        return () => { window.removeEventListener('keydown', key); document.body.style.overflow = ''; if (LENIS)
+            LENIS.start(); };
+    }, []);
+    const flipIn = () => {
+        const img = imgRef.current;
+        if (!img || REDUCED)
+            return;
+        const o = first.current && state.origin;
+        first.current = false;
+        if (o) {
+            const r = img.getBoundingClientRect();
+            const s = o.width / r.width;
+            A({ targets: img, translateX: [o.left + o.width / 2 - (r.left + r.width / 2), 0], translateY: [o.top + o.height / 2 - (r.top + r.height / 2), 0], scale: [s, 1], duration: 900, easing: SMOOTH });
+        }
+        else {
+            A({ targets: img, opacity: [0, 1], translateX: [dir.current * 60, 0], duration: 800, easing: SMOOTH });
+        }
+    };
+    const go = (d) => { dir.current = Math.sign(d) || 1; onMove(d); };
+    const close = () => {
+        if (REDUCED) {
+            onClose();
+            return;
+        }
+        anime({ targets: ref.current, opacity: [1, 0], duration: 380, easing: 'easeInSine', complete: onClose });
+    };
+    return (React.createElement("div", { className: "lb", ref: ref, role: "dialog", "aria-modal": "true", "aria-label": p.cap },
+        React.createElement("div", { className: "lb-top" },
+            React.createElement("span", { className: "mono" },
+                state.title,
+                " \u00B7 ",
+                pad(state.k + 1),
+                "/",
+                pad(state.list.length)),
+            React.createElement("button", { className: "lb-close", onClick: close },
+                "Close ",
+                React.createElement("span", { "aria-hidden": "true" }, "\u2715"))),
+        React.createElement("div", { className: "lb-stage" },
+            React.createElement("button", { className: "lb-arrow", onClick: () => go(-1), "aria-label": "Previous photo" }, "\u2190"),
+            React.createElement("div", { className: "lb-imgwrap" },
+                React.createElement("img", { ref: imgRef, src: p.full, alt: p.cap, key: p.id, onLoad: flipIn })),
+            React.createElement("button", { className: "lb-arrow", onClick: () => go(1), "aria-label": "Next photo" }, "\u2192")),
+        React.createElement("div", { className: "lb-foot" },
+            React.createElement("div", null,
+                React.createElement("p", { className: "lb-cap" }, p.cap),
+                React.createElement("p", { className: "mono muted" },
+                    p.place,
+                    p.mm ? ` · ${exifText(p)} · ISO ${p.iso}` : '',
+                    " \u00B7 Nikon D5600")),
+            React.createElement("div", { className: "scrub", role: "group", "aria-label": "Jump to photo" }, state.list.map((x, i) => (React.createElement("button", { key: x.id, className: 'st' + (i === state.k ? ' on' : ''), onClick: () => go(i - state.k), "aria-label": `Photo ${i + 1}: ${x.cap}` },
+                React.createElement("i", null))))))));
+}
+/* ---------- Shutter: iris transition used when jumping between sections ---------- */
+function useShutter() {
+    const svgRef = useRef(null);
+    const busy = useRef(false);
+    const run = useCallback((midway) => {
+        if (busy.current)
+            return;
+        if (REDUCED || !svgRef.current) {
+            midway();
+            return;
+        }
+        busy.current = true;
+        const svg = svgRef.current, poly = svg.querySelector('polygon');
+        const W = window.innerWidth, H = window.innerHeight, cx = W / 2, cy = H / 2, R = Math.hypot(W, H) * 0.62;
+        svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+        svg.querySelector('rect.mask-bg').setAttribute('width', W);
+        svg.querySelector('rect.mask-bg').setAttribute('height', H);
+        svg.querySelector('rect.fill').setAttribute('width', W);
+        svg.querySelector('rect.fill').setAttribute('height', H);
+        const st = { r: R, a: 0 };
+        const draw = () => {
+            const pts = [];
+            for (let i = 0; i < 6; i++) {
+                const t = st.a + (i * Math.PI) / 3;
+                pts.push(`${cx + Math.cos(t) * st.r},${cy + Math.sin(t) * st.r}`);
+            }
+            poly.setAttribute('points', pts.join(' '));
+        };
+        svg.style.visibility = 'visible';
+        anime.timeline({ update: draw })
+            .add({ targets: st, r: [R, 0], a: [0, Math.PI / 3], duration: 620, easing: 'cubicBezier(.7, 0, .84, 0)', complete: () => { midway(); } })
+            .add({ targets: st, r: [0, 0], duration: 160 })
+            .add({ targets: st, r: [0, R], a: [Math.PI / 3, Math.PI * 0.66], duration: 900, easing: SMOOTH, complete: () => { svg.style.visibility = 'hidden'; busy.current = false; } });
+    }, []);
+    const el = (React.createElement("svg", { className: "shutter-fx", ref: svgRef, "aria-hidden": "true", preserveAspectRatio: "none" },
+        React.createElement("defs", null,
+            React.createElement("mask", { id: "iris-mask" },
+                React.createElement("rect", { className: "mask-bg", x: "0", y: "0", fill: "#fff" }),
+                React.createElement("polygon", { fill: "#000" }))),
+        React.createElement("rect", { className: "fill", x: "0", y: "0", fill: "#050505", mask: "url(#iris-mask)" })));
+    return [el, run];
+}
+
+/* ===== Admin.jsx ===== */
+/* ---------- Admin: edit the site's text, CV and captions ---------- */
+function Field({ id, label, value, onChange, multiline, rows = 3, type = 'text', hint }) {
+    return (React.createElement("label", { className: "adm-field", htmlFor: id },
+        React.createElement("span", { className: "adm-label" },
+            label,
+            hint && React.createElement("em", null, hint)),
+        multiline
+            ? React.createElement("textarea", { id: id, rows: rows, value: value, onChange: (e) => onChange(e.target.value) })
+            : React.createElement("input", { id: id, type: type, value: value, onChange: (e) => onChange(type === 'number' ? +e.target.value : e.target.value) })));
+}
+function ListEditor({ items, onChange, blank, addLabel, render, title }) {
+    const set = (i, v) => { const n = items.slice(); n[i] = v; onChange(n); };
+    const move = (i, d) => { const n = items.slice(); const j = i + d; if (j < 0 || j >= n.length)
+        return; [n[i], n[j]] = [n[j], n[i]]; onChange(n); };
+    const del = (i) => onChange(items.filter((_, k) => k !== i));
+    return (React.createElement("div", { className: "adm-list" },
+        items.map((it, i) => (React.createElement("div", { className: "adm-card", key: i },
+            React.createElement("div", { className: "adm-card-bar" },
+                React.createElement("span", { className: "mono" }, title ? title(it, i) : pad(i + 1)),
+                React.createElement("span", { className: "adm-card-tools" },
+                    React.createElement("button", { onClick: () => move(i, -1), disabled: i === 0, "aria-label": "Move up" }, "\u2191"),
+                    React.createElement("button", { onClick: () => move(i, 1), disabled: i === items.length - 1, "aria-label": "Move down" }, "\u2193"),
+                    React.createElement("button", { onClick: () => del(i), "aria-label": "Remove", className: "danger" }, "Remove"))),
+            render(it, (v) => set(i, v), i)))),
+        React.createElement("button", { className: "adm-add", onClick: () => onChange([...items, clone(blank)]) },
+            "+ ",
+            addLabel)));
+}
+const ADMIN_TABS = [['intro', 'Intro'], ['about', 'About'], ['services', 'What I do'], ['cv', 'CV'], ['captions', 'Captions']];
+function Admin({ site, onClose }) {
+    const [draft, setDraft] = useState(() => clone(site.content));
+    const [tab, setTab] = useState('intro');
+    const [status, setStatus] = useState('');
+    const [confirm, setConfirm] = useState('');
+    const ref = useRef(null);
+    const savedJSON = useRef(JSON.stringify(site.saved.current));
+    const dirty = JSON.stringify(draft) !== savedJSON.current;
+    useEffect(() => {
+        site.begin();
+        if (LENIS)
+            LENIS.stop();
+        A({ targets: ref.current.querySelector('.adm-panel'), translateX: ['100%', '0%'], duration: 800, easing: SMOOTH });
+        A({ targets: ref.current, backgroundColor: ['rgba(0,0,0,0)', 'rgba(0,0,0,.45)'], duration: 500, easing: 'linear' });
+        const key = (e) => { if (e.key === 'Escape')
+            tryClose(); };
+        window.addEventListener('keydown', key);
+        return () => { window.removeEventListener('keydown', key); if (LENIS)
+            LENIS.start(); };
+    }, []);
+    useEffect(() => { site.preview(draft); setStatus((s) => (s === 'saved' ? '' : s)); }, [draft]);
+    const up = (fn) => setDraft((d) => { const n = clone(d); fn(n); return n; });
+    const finish = () => {
+        const panel = ref.current.querySelector('.adm-panel');
+        if (REDUCED) {
+            site.end();
+            onClose();
+            return;
+        }
+        anime({ targets: panel, translateX: ['0%', '100%'], duration: 600, easing: 'cubicBezier(.7, 0, .84, 0)', complete: () => { site.end(); onClose(); } });
+    };
+    const tryClose = () => { if (dirty && confirm !== 'close') {
+        setConfirm('close');
+        return;
+    } finish(); };
+    const save = async () => {
+        setStatus('saving');
+        setConfirm('');
+        try {
+            await site.save(draft);
+            savedJSON.current = JSON.stringify(mergeContent(JSON.parse(JSON.stringify(draft))));
+            setDraft((d) => clone(d));
+            setStatus('saved');
+        }
+        catch (e) {
+            setStatus(e && (e.code === 'permission_denied' || e.code === 'not_granted') ? 'denied' : 'error');
+        }
+    };
+    const reset = () => { if (confirm !== 'reset') {
+        setConfirm('reset');
+        return;
+    } setConfirm(''); setDraft(clone(DEFAULT_CONTENT)); };
+    const msg = { saving: 'Saving', saved: site.mode === 'shared' ? 'Saved. Everyone now sees this version.' : 'Saved in this browser.', error: 'Could not save. Check your connection and try again.', denied: 'Your account can view this page but not edit it.' }[status];
+    const R = draft.resume;
+    return (React.createElement("div", { className: "adm", ref: ref, role: "dialog", "aria-modal": "true", "aria-label": "Edit site", onClick: (e) => { if (e.target === ref.current)
+            tryClose(); } },
+        React.createElement("div", { className: "adm-panel", "data-lenis-prevent": true },
+            React.createElement("header", { className: "adm-head" },
+                React.createElement("div", null,
+                    React.createElement("p", { className: "mono adm-kicker" }, "Admin"),
+                    React.createElement("h2", null, "Edit the site"),
+                    React.createElement("p", { className: "adm-note" }, site.mode === 'shared' ? 'Changes preview live behind this panel. Save to publish them for every visitor.' : 'Local copy: changes are saved in this browser only.')),
+                React.createElement("button", { className: "adm-x", onClick: tryClose, "aria-label": "Close editor" }, "\u2715")),
+            React.createElement("nav", { className: "adm-tabs", role: "tablist", "aria-label": "Sections" }, ADMIN_TABS.map(([id, label]) => React.createElement("button", { key: id, role: "tab", "aria-selected": tab === id, className: tab === id ? 'on' : '', onClick: () => setTab(id) }, label))),
+            React.createElement("div", { className: "adm-body" },
+                tab === 'intro' && (React.createElement(React.Fragment, null,
+                    React.createElement(Field, { id: "in-eyebrow", label: "Line above the name", value: draft.intro.eyebrow, onChange: (v) => up((d) => (d.intro.eyebrow = v)) }),
+                    React.createElement(Field, { id: "in-lede", label: "Intro sentence", multiline: true, value: draft.intro.lede, onChange: (v) => up((d) => (d.intro.lede = v)) }))),
+                tab === 'about' && (React.createElement(React.Fragment, null,
+                    React.createElement(Field, { id: "ab-head", label: "Heading", value: draft.about.heading, onChange: (v) => up((d) => (d.about.heading = v)) }),
+                    React.createElement("p", { className: "adm-sub" }, "Paragraphs"),
+                    React.createElement(ListEditor, { items: draft.about.paras, blank: "", addLabel: "Add paragraph", onChange: (n) => up((d) => (d.about.paras = n)), render: (it, set, i) => React.createElement(Field, { id: `ab-p${i}`, label: "Text", multiline: true, rows: 4, value: it, onChange: set }) }),
+                    React.createElement("p", { className: "adm-sub" }, "Quick facts"),
+                    React.createElement(ListEditor, { items: draft.about.facts, blank: { k: '', v: '' }, addLabel: "Add fact", onChange: (n) => up((d) => (d.about.facts = n)), render: (it, set, i) => (React.createElement("div", { className: "adm-row" },
+                            React.createElement(Field, { id: `ab-fk${i}`, label: "Label", value: it.k, onChange: (v) => set({ ...it, k: v }) }),
+                            React.createElement(Field, { id: `ab-fv${i}`, label: "Value", value: it.v, onChange: (v) => set({ ...it, v }) }))) }))),
+                tab === 'services' && (React.createElement(ListEditor, { items: draft.services, blank: { t: '', d: '' }, addLabel: "Add service", title: (it, i) => `${pad(i + 1)} · ${it.t || 'New service'}`, onChange: (n) => up((d) => (d.services = n)), render: (it, set, i) => (React.createElement(React.Fragment, null,
+                        React.createElement(Field, { id: `sv-t${i}`, label: "Service", value: it.t, onChange: (v) => set({ ...it, t: v }) }),
+                        React.createElement(Field, { id: `sv-d${i}`, label: "Short description", multiline: true, rows: 2, value: it.d, onChange: (v) => set({ ...it, d: v }) }))) })),
+                tab === 'cv' && (React.createElement(React.Fragment, null,
+                    React.createElement("p", { className: "adm-sub" }, "Basics"),
+                    React.createElement(Field, { id: "cv-title", label: "Title line", value: R.title, onChange: (v) => up((d) => (d.resume.title = v)) }),
+                    React.createElement("div", { className: "adm-row" },
+                        React.createElement(Field, { id: "cv-email", label: "Email", type: "email", value: R.email, onChange: (v) => up((d) => (d.resume.email = v)) }),
+                        React.createElement(Field, { id: "cv-loc", label: "Location", value: R.location, onChange: (v) => up((d) => (d.resume.location = v)) })),
+                    React.createElement(Field, { id: "cv-phones", label: "Phone numbers", hint: "one per line", multiline: true, rows: 2, value: R.phones.join('\n'), onChange: (v) => up((d) => (d.resume.phones = v.split('\n').map((s) => s.trim()).filter(Boolean))) }),
+                    React.createElement(Field, { id: "cv-profile", label: "Profile", multiline: true, rows: 5, value: R.profile, onChange: (v) => up((d) => (d.resume.profile = v)) }),
+                    React.createElement("p", { className: "adm-sub" }, "Experience"),
+                    React.createElement(ListEditor, { items: R.experience, blank: { role: '', org: '', when: '', tag: 'Attachment', pts: [] }, addLabel: "Add role", title: (it, i) => it.role || 'New role', onChange: (n) => up((d) => (d.resume.experience = n)), render: (it, set, i) => (React.createElement(React.Fragment, null,
+                            React.createElement("div", { className: "adm-row" },
+                                React.createElement(Field, { id: `xp-r${i}`, label: "Role", value: it.role, onChange: (v) => set({ ...it, role: v }) }),
+                                React.createElement(Field, { id: `xp-o${i}`, label: "Organisation", value: it.org, onChange: (v) => set({ ...it, org: v }) })),
+                            React.createElement("div", { className: "adm-row" },
+                                React.createElement(Field, { id: `xp-w${i}`, label: "Dates", value: it.when, onChange: (v) => set({ ...it, when: v }) }),
+                                React.createElement("label", { className: "adm-field", htmlFor: `xp-t${i}` },
+                                    React.createElement("span", { className: "adm-label" }, "Type"),
+                                    React.createElement("select", { id: `xp-t${i}`, value: it.tag, onChange: (e) => set({ ...it, tag: e.target.value }) }, ['Current', 'Full time', 'Freelance', 'Attachment', 'Internship'].map((o) => React.createElement("option", { key: o }, o))))),
+                            React.createElement(Field, { id: `xp-p${i}`, label: "What you did", hint: "one point per line", multiline: true, rows: 4, value: it.pts.join('\n'), onChange: (v) => set({ ...it, pts: v.split('\n').filter((s) => s.trim()) }) }))) }),
+                    React.createElement("p", { className: "adm-sub" }, "Education"),
+                    React.createElement(ListEditor, { items: R.education, blank: { q: '', school: '', when: '', note: '' }, addLabel: "Add education", title: (it) => it.q || 'New entry', onChange: (n) => up((d) => (d.resume.education = n)), render: (it, set, i) => (React.createElement(React.Fragment, null,
+                            React.createElement(Field, { id: `ed-q${i}`, label: "Qualification", value: it.q, onChange: (v) => set({ ...it, q: v }) }),
+                            React.createElement("div", { className: "adm-row" },
+                                React.createElement(Field, { id: `ed-s${i}`, label: "School", value: it.school, onChange: (v) => set({ ...it, school: v }) }),
+                                React.createElement(Field, { id: `ed-w${i}`, label: "Dates", value: it.when, onChange: (v) => set({ ...it, when: v }) })),
+                            React.createElement(Field, { id: `ed-n${i}`, label: "Note", value: it.note, onChange: (v) => set({ ...it, note: v }) }))) }),
+                    React.createElement("p", { className: "adm-sub" }, "Skills"),
+                    React.createElement(ListEditor, { items: R.skills, blank: { group: '', items: [] }, addLabel: "Add skill group", title: (it) => it.group || 'New group', onChange: (n) => up((d) => (d.resume.skills = n)), render: (it, set, i) => (React.createElement(React.Fragment, null,
+                            React.createElement(Field, { id: `sk-g${i}`, label: "Group", value: it.group, onChange: (v) => set({ ...it, group: v }) }),
+                            React.createElement(Field, { id: `sk-i${i}`, label: "Skills", hint: "separate with commas", value: it.items.join(', '), onChange: (v) => set({ ...it, items: v.split(',').map((s) => s.trim()).filter(Boolean) }) }))) }),
+                    React.createElement("p", { className: "adm-sub" }, "Languages"),
+                    React.createElement(ListEditor, { items: R.languages, blank: { name: '', level: 'Basic', n: 2 }, addLabel: "Add language", title: (it) => it.name || 'New language', onChange: (n) => up((d) => (d.resume.languages = n)), render: (it, set, i) => (React.createElement("div", { className: "adm-row three" },
+                            React.createElement(Field, { id: `lg-n${i}`, label: "Language", value: it.name, onChange: (v) => set({ ...it, name: v }) }),
+                            React.createElement(Field, { id: `lg-l${i}`, label: "Level", value: it.level, onChange: (v) => set({ ...it, level: v }) }),
+                            React.createElement(Field, { id: `lg-s${i}`, label: "Bars (1 to 5)", type: "number", value: it.n, onChange: (v) => set({ ...it, n: Math.max(1, Math.min(5, v || 1)) }) }))) }),
+                    React.createElement(Field, { id: "cv-int", label: "Interests", hint: "separate with commas", value: R.interests.join(', '), onChange: (v) => up((d) => (d.resume.interests = v.split(',').map((s) => s.trim()).filter(Boolean))) }),
+                    React.createElement("p", { className: "adm-hint" }, "The downloadable PDF is a separate file and does not change with these edits."))),
+                tab === 'captions' && (React.createElement("div", { className: "adm-caps" }, ALL_PHOTOS.map((p) => (React.createElement("label", { className: "adm-cap", key: p.id, htmlFor: `cap-${p.id}` },
+                    React.createElement("img", { src: p.thumb, alt: "", loading: "lazy" }),
+                    React.createElement("input", { id: `cap-${p.id}`, value: draft.captions[p.id] != null ? draft.captions[p.id] : CAPTIONS_BY_ID[p.id], onChange: (e) => { const v = e.target.value; up((d) => { d.captions[p.id] = v; }); } }))))))),
+            React.createElement("footer", { className: "adm-foot" },
+                React.createElement("span", { className: 'adm-status ' + status, "aria-live": "polite" }, confirm === 'close' ? 'You have unsaved changes. Close again to discard them.' : confirm === 'reset' ? 'Click reset again to restore every section to its original text.' : msg || (dirty ? 'Unsaved changes' : 'All changes saved')),
+                React.createElement("div", { className: "adm-actions" },
+                    React.createElement("button", { className: "btn sm", onClick: reset }, confirm === 'reset' ? 'Confirm reset' : 'Reset to original'),
+                    React.createElement("button", { className: "btn solid", onClick: save, disabled: !dirty || status === 'saving' }, status === 'saving' ? 'Saving' : 'Save changes'))))));
+}
+
+/* ===== app.jsx ===== */
+/* ---------- About / Meet ---------- */
+function About() {
+    const C = useContext(ContentCtx);
+    const ref = useRef(null);
+    useEffect(() => {
+        if (REDUCED)
+            return;
+        const el = ref.current;
+        const onEnter = (e) => { const r = e.target.closest && e.target.closest('.skill'); if (r)
+            anime({ targets: r.querySelectorAll('.bar i'), scaleX: [0, 1], delay: anime.stagger(30), duration: 600, easing: SMOOTH }); };
+        el.addEventListener('mouseover', onEnter);
+        return () => el.removeEventListener('mouseover', onEnter);
+    }, []);
+    return (React.createElement("section", { className: "about wrap", id: "about", ref: ref },
+        React.createElement("div", { className: "meet" },
+            React.createElement("figure", { className: "portrait", "data-reveal": "frame" },
+                PORTRAIT ? React.createElement("img", { src: PORTRAIT, alt: "Portrait of Lincoln Kariuki Chege" }) : (React.createElement("div", { className: "portrait-empty", "aria-label": "Portrait of Lincoln to come" },
+                    React.createElement("span", { className: "pm" }, "LKC"))),
+                React.createElement("span", { className: "vf tl" }),
+                React.createElement("span", { className: "vf tr" }),
+                React.createElement("span", { className: "vf bl" }),
+                React.createElement("span", { className: "vf br" }),
+                React.createElement("span", { className: "af", "aria-hidden": "true", style: PORTRAIT ? { left: '53%', top: '31%' } : undefined }),
+                React.createElement("figcaption", { className: "mono" }, PORTRAIT ? 'Elephant Hill summit · Aberdares · 12,000 ft' : 'Lincoln Kariuki Chege · Nairobi, KE')),
+            React.createElement("div", { className: "meet-text", "data-reveal": "right", "data-stagger": "110" },
+                React.createElement("p", { className: "eyebrow" }, "Scene 04 \u00B7 Meet Lincoln"),
+                React.createElement("h2", null, C.about.heading),
+                C.about.paras.map((t, i) => React.createElement("p", { key: i }, t)),
+                React.createElement("dl", { className: "meet-facts" }, C.about.facts.map((f, i) => React.createElement("div", { key: i },
+                    React.createElement("dt", { className: "mono muted" }, f.k),
+                    React.createElement("dd", null, f.v)))))),
+        React.createElement("div", { className: "do" },
+            React.createElement("div", { className: "sec-head", "data-reveal": "left" },
+                React.createElement("p", { className: "eyebrow" }, "What I do")),
+            React.createElement("ul", { className: "skills", "data-reveal": "right", "data-stagger": "100" }, C.services.map((s, i) => (React.createElement("li", { className: "skill", key: i },
+                React.createElement("span", { className: "mono muted" }, pad(i + 1)),
+                React.createElement("div", null,
+                    React.createElement("b", null, s.t),
+                    React.createElement("p", null, s.d)),
+                React.createElement("span", { className: "bar", "aria-hidden": "true" }, Array.from({ length: 12 }, (_, k) => React.createElement("i", { key: k }))))))))));
+}
+/* ---------- CV: a teaser on Home, the full CV on its own page ---------- */
+function CVTeaser() {
+    const C = useContext(ContentCtx);
+    const R = C.resume;
+    return (React.createElement("section", { className: "cv-teaser wrap", id: "cv-teaser" },
+        React.createElement("div", { className: "sec-head sec-row", "data-reveal": "left" },
+            React.createElement("div", null,
+                React.createElement("p", { className: "eyebrow" }, "Scene 05 \u00B7 Curriculum vitae"),
+                React.createElement("h2", null, "Where I have worked.")),
+            React.createElement("a", { className: "btn", href: "#cv" },
+                "Read the full CV ",
+                React.createElement("span", { "aria-hidden": "true" }, "\u2192"))),
+        React.createElement("ol", { className: "teaser-list", "data-reveal": "up", "data-stagger": "90" }, R.experience.slice(0, 3).map((x, i) => (React.createElement("li", { key: i },
+            React.createElement("span", { className: "mono muted" }, x.when),
+            React.createElement("b", null, x.role),
+            React.createElement("span", { className: "t-org" }, x.org)))))));
+}
+function CVPage() {
+    const C = useContext(ContentCtx);
+    const ref = useRef(null);
+    useEffect(() => {
+        A({ targets: ref.current.querySelectorAll('.ch > span'), translateY: ['115%', '0%'], rotate: [10, 0], delay: anime.stagger(30, { start: 250 }), duration: 1400, easing: SMOOTH });
+        A({ targets: ref.current.querySelectorAll('.fade'), opacity: [0, 1], translateY: [24, 0], delay: anime.stagger(100, { start: 650 }), duration: 1200, easing: SMOOTH });
+    }, []);
+    return (React.createElement("section", { className: "cv page wrap", id: "cv", ref: ref },
+        React.createElement("header", { className: "page-head" },
+            React.createElement("p", { className: "eyebrow fade" },
+                "Curriculum vitae \u00B7 ",
+                C.resume.location),
+            React.createElement("h1", { className: "title page-title", "aria-label": "The full story." },
+                React.createElement("span", { className: "t-line", "aria-hidden": "true" },
+                    chars('The'),
+                    React.createElement("span", { className: "sp" }, " "),
+                    chars('full'),
+                    React.createElement("span", { className: "sp" }, " "),
+                    chars('story'),
+                    React.createElement("span", { className: "ch dot" },
+                        React.createElement("span", null, ".")))),
+            React.createElement("p", { className: "lede fade" }, "Experience, education and the tools I work with. Open any role to see what I did there, or download the one page PDF.")),
+        React.createElement(Resume, { data: C.resume, pdfHref: "cv/Lincoln_Chege_CV.pdf", pdfName: "Lincoln_Kariuki_Chege_CV.pdf" })));
+}
+/* ---------- Contact ---------- */
+function Copy({ text }) {
+    const [done, setDone] = useState(false);
+    const ref = useRef(null);
+    const click = async () => {
+        try {
+            await navigator.clipboard.writeText(text);
+            setDone(true);
+            setTimeout(() => setDone(false), 1600);
+        }
+        catch (e) {
+            const r = document.createRange();
+            r.selectNodeContents(ref.current);
+            const s = getSelection();
+            s.removeAllRanges();
+            s.addRange(r);
+        }
+    };
+    return (React.createElement("div", { className: "copy" },
+        React.createElement("span", { ref: ref, className: "copy-text" }, text),
+        React.createElement("button", { onClick: click, className: "btn sm" }, done ? 'Copied' : 'Copy')));
+}
+function Contact() {
+    const C = useContext(ContentCtx);
+    return (React.createElement("section", { className: "contact wrap", id: "contact" },
+        React.createElement("p", { className: "eyebrow", "data-reveal": "left" }, "Final scene \u00B7 Contact"),
+        React.createElement("h2", { className: "big", "data-reveal": "up" }, "Have a shoot or a brand that needs pictures?"),
+        React.createElement("div", { className: "contact-grid", "data-reveal": "up", "data-stagger": "120" },
+            React.createElement("div", null,
+                React.createElement("span", { className: "mono muted" }, "Email"),
+                React.createElement(Copy, { text: C.resume.email })),
+            React.createElement("div", null,
+                React.createElement("span", { className: "mono muted" }, "Phone"),
+                C.resume.phones.map((p) => React.createElement(Copy, { key: p, text: p }))),
+            React.createElement("div", null,
+                React.createElement("span", { className: "mono muted" }, "More work"),
+                React.createElement("a", { className: "link", href: "https://rissygraphy.mypixieset.com", target: "_blank", rel: "noopener" }, "rissygraphy on Pixieset \u2197"),
+                React.createElement("a", { className: "link", href: "https://drive.google.com/drive/folders/1Z2Iw4goRF_9_kg9F4_finH36bImbxOge?usp=drive_link", target: "_blank", rel: "noopener" }, "Design and video folder \u2197"))),
+        React.createElement("footer", { className: "foot mono muted" },
+            React.createElement("span", null, "\u00A9 2026 Lincoln Kariuki Chege"),
+            React.createElement("span", null, "Shot on Nikon D5600 \u00B7 Nairobi, Kenya"))));
+}
+/* ---------- Opening: a Netflix-style ident that plays once per visit ---------- */
+const INTRO_KEY = 'lkc-intro-seen';
+function introSeen() { try {
+    return sessionStorage.getItem(INTRO_KEY) === '1';
+}
+catch (e) {
+    return false;
+} }
+function Intro({ onDone }) {
+    const ref = useRef(null);
+    const done = useRef(false);
+    const finish = useCallback(() => {
+        if (done.current)
+            return;
+        done.current = true;
+        try {
+            sessionStorage.setItem(INTRO_KEY, '1');
+        }
+        catch (e) { }
+        onDone();
+    }, [onDone]);
+    useEffect(() => {
+        const el = ref.current;
+        const letters = el.querySelectorAll('.intro-logo span');
+        const ribbons = el.querySelectorAll('.ribbon');
+        const tl = anime.timeline({ easing: SMOOTH, complete: finish });
+        tl.add({ targets: letters, opacity: [0, 1], scale: [0.7, 1], filter: ['blur(18px)', 'blur(0px)'], delay: anime.stagger(110), duration: 900 })
+            .add({ targets: el.querySelector('.intro-logo'), scale: [1, 1.08], duration: 700, easing: 'easeInOutSine' }, '-=300')
+            .add({ targets: ribbons, scaleY: [0, 1], opacity: [0, 1], translateY: ['-10%', '0%'], delay: anime.stagger(18, { from: 'center' }), duration: 700, easing: 'easeOutExpo' }, '-=650')
+            .add({ targets: el.querySelector('.intro-stage'), scale: [1, 14], duration: 1000, easing: 'easeInExpo' })
+            .add({ targets: ribbons, scaleX: [1, 6], opacity: [1, 0], duration: 900, easing: 'easeInQuad' }, '-=1000')
+            .add({ targets: el, opacity: [1, 0], duration: 450, easing: 'linear' }, '-=380');
+        const skip = () => { tl.pause(); anime({ targets: el, opacity: 0, duration: 300, easing: 'linear', complete: finish }); };
+        el.addEventListener('click', skip);
+        window.addEventListener('keydown', skip, { once: true });
+        if (LENIS)
+            LENIS.stop();
+        return () => { tl.pause(); el.removeEventListener('click', skip); window.removeEventListener('keydown', skip); if (LENIS)
+            LENIS.start(); };
+    }, []);
+    return (React.createElement("div", { className: "intro", ref: ref, role: "presentation" },
+        React.createElement("div", { className: "intro-stage" },
+            React.createElement("div", { className: "ribbons", "aria-hidden": "true" }, Array.from({ length: 28 }, (_, i) => React.createElement("i", { className: "ribbon", key: i, style: { '--h': `${(i * 37) % 100}` } }))),
+            React.createElement("div", { className: "intro-logo", "aria-label": "LKC" },
+                React.createElement("span", null, "L"),
+                React.createElement("span", null, "K"),
+                React.createElement("span", null, "C"))),
+        React.createElement("span", { className: "intro-skip mono" }, "Click or press any key to skip")));
+}
+/* ---------- Scene rail: a film-strip index of the Home page ---------- */
+const SCENES = [['reel', 'The film'], ['numbers', 'At a glance'], ['work', 'Selected work'], ['about', 'Meet Lincoln'], ['cv-teaser', 'Curriculum vitae'], ['contact', 'Contact']];
+function SceneRail() {
+    const [active, setActive] = useState(0);
+    const fillRef = useRef(null);
+    const railRef = useRef(null);
+    useEffect(() => {
+        let raf = 0, last = -1;
+        const tick = () => {
+            const mid = window.innerHeight * 0.4;
+            let idx = 0;
+            SCENES.forEach(([id], i) => { const el = document.getElementById(id); if (el && el.getBoundingClientRect().top <= mid)
+                idx = i; });
+            if (idx !== last) {
+                last = idx;
+                setActive(idx);
+            }
+            const max = document.documentElement.scrollHeight - window.innerHeight;
+            if (fillRef.current)
+                fillRef.current.style.transform = `scaleY(${clamp(window.scrollY / Math.max(1, max))})`;
+            raf = requestAnimationFrame(tick);
+        };
+        raf = requestAnimationFrame(tick);
+        A({ targets: railRef.current.querySelectorAll('a'), opacity: [0, 1], translateX: [20, 0], delay: anime.stagger(70, { start: 1600 }), duration: 900, easing: SMOOTH });
+        return () => cancelAnimationFrame(raf);
+    }, []);
+    useEffect(() => {
+        const dot = railRef.current && railRef.current.querySelector('a.on i');
+        if (dot)
+            A({ targets: dot, scale: [0.4, 1], duration: 700, easing: 'easeOutElastic(1, .55)' });
+    }, [active]);
+    return (React.createElement("nav", { className: "rail", ref: railRef, "aria-label": "Scenes on this page" },
+        React.createElement("span", { className: "rail-line", "aria-hidden": "true" },
+            React.createElement("i", { ref: fillRef })),
+        SCENES.map(([id, label], i) => (React.createElement("a", { key: id, href: '#' + id, className: i === active ? 'on' : '', "aria-current": i === active ? 'true' : undefined },
+            React.createElement("span", { className: "lbl" },
+                React.createElement("span", { className: "mono" }, pad(i + 1)),
+                label),
+            React.createElement("i", { "aria-hidden": "true" }))))));
+}
+/* ---------- App + pages (#gallery and #cv are their own pages) ---------- */
+const PAGE_OF = (id) => (id === 'gallery' ? 'gallery' : id === 'cv' ? 'cv' : 'home');
+function App() {
+    const [lb, setLb] = useState(null);
+    const [admin, setAdmin] = useState(false);
+    const [intro, setIntro] = useState(() => !REDUCED && PAGE_OF(location.hash.slice(1)) === 'home' && !introSeen());
+    const [route, setRoute] = useState(() => PAGE_OF(location.hash.slice(1)));
+    const routeRef = useRef(route);
+    const pending = useRef(null);
+    const site = useSiteContent();
+    applyCaptions(site.content);
+    const [shutterEl, runShutter] = useShutter();
+    useReveals(route);
+    useEffect(() => { startLenis(); }, []);
+    // Hidden entry: Ctrl+Shift+E (Cmd+Shift+E on Mac) opens the editor for editors only
+    useEffect(() => {
+        if (!site.canEdit)
+            return;
+        const onKey = (e) => { if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'E' || e.key === 'e')) {
+            e.preventDefault();
+            setAdmin(true);
+        } };
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+    }, [site.canEdit]);
+    const toTop = () => { if (LENIS)
+        LENIS.scrollTo(0, { immediate: true, force: true });
+    else
+        window.scrollTo(0, 0); };
+    const jumpTo = (id) => {
+        const el = id === 'top' ? null : document.getElementById(id);
+        if (!el) {
+            toTop();
+            return;
+        }
+        const y = id === 'reel' ? 0 : el.getBoundingClientRect().top + window.scrollY - 64;
+        if (LENIS)
+            LENIS.scrollTo(y, { immediate: true, force: true });
+        else
+            window.scrollTo(0, y);
+    };
+    // after a page swap renders, land on the requested spot
+    useEffect(() => {
+        const id = pending.current;
+        pending.current = null;
+        requestAnimationFrame(() => requestAnimationFrame(() => { if (id && PAGE_OF(id) === 'home' && id !== 'top')
+            jumpTo(id);
+        else
+            toTop(); }));
+    }, [route]);
+    const go = useCallback((id, viaHistory) => {
+        const page = PAGE_OF(id);
+        const setHash = () => { if (!viaHistory) {
+            try {
+                history.pushState(null, '', '#' + id);
+            }
+            catch (e) { }
+        } };
+        if (page !== routeRef.current) {
+            runShutter(() => { pending.current = id; routeRef.current = page; setRoute(page); setHash(); });
+            return;
+        }
+        const el = id === 'top' ? document.body : document.getElementById(id);
+        if (!el)
+            return;
+        setHash();
+        if (Math.abs(el.getBoundingClientRect().top) < window.innerHeight * 1.2 || id === 'top' && window.scrollY < window.innerHeight * 1.2)
+            scrollToEl(id === 'top' ? document.body : el);
+        else
+            runShutter(() => jumpTo(id));
+    }, [runShutter]);
+    useEffect(() => {
+        const onClick = (e) => {
+            const a = e.target.closest && e.target.closest('a[href^="#"]');
+            if (!a)
+                return;
+            e.preventDefault();
+            go(a.getAttribute('href').slice(1) || 'top');
+        };
+        const onPop = () => go(location.hash.slice(1) || 'top', true);
+        document.addEventListener('click', onClick);
+        window.addEventListener('popstate', onPop);
+        return () => { document.removeEventListener('click', onClick); window.removeEventListener('popstate', onPop); };
+    }, [go]);
+    const open = (list, k, title, originEl) => {
+        const r = originEl && originEl.getBoundingClientRect();
+        setLb({ list, k, title, origin: r ? { left: r.left, top: r.top, width: r.width, height: r.height } : null });
+    };
+    const move = (d) => setLb((s) => ({ ...s, origin: null, k: (s.k + d + s.list.length) % s.list.length }));
+    return (React.createElement(ContentCtx.Provider, { value: site.content },
+        React.createElement(Nav, { route: route, canEdit: site.canEdit, onEdit: () => setAdmin(true) }),
+        React.createElement("main", { key: route },
+            route === 'home' && React.createElement(React.Fragment, null,
+                React.createElement(CameraScene, { onOpen: open }),
+                React.createElement(Stats, null),
+                React.createElement(SelectedWork, { onOpen: open }),
+                React.createElement(About, null),
+                React.createElement(CVTeaser, null),
+                React.createElement(Contact, null)),
+            route === 'gallery' && React.createElement(React.Fragment, null,
+                React.createElement(GalleryPage, { onOpen: open }),
+                React.createElement(Contact, null)),
+            route === 'cv' && React.createElement(React.Fragment, null,
+                React.createElement(CVPage, null),
+                React.createElement(Contact, null))),
+        route === 'home' && React.createElement(SceneRail, { key: "rail" }),
+        intro && React.createElement(Intro, { onDone: () => setIntro(false) }),
+        lb && React.createElement(Lightbox, { state: lb, onClose: () => setLb(null), onMove: move }),
+        shutterEl,
+        React.createElement("div", { className: "grain", "aria-hidden": "true" }),
+        React.createElement("div", { className: "vignette", "aria-hidden": "true" }),
+        admin && React.createElement(Admin, { site: site, onClose: () => setAdmin(false) })));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App, null));
+
+</script>
