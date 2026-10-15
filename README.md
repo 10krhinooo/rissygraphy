@@ -11,6 +11,8 @@ The site opens on a realistic 3D camera. As you scroll, the camera turns around,
 | **Home** (`#top`) | The 3D camera film, a stats panel, a short "Selected work" strip, About Lincoln with his portrait, his services, a CV teaser and contact details. A scene rail on the right marks where you are. |
 | **Gallery** (`#gallery`) | 97 photos from three 2026 hikes (Kipipiri, Kathandeni Forest, Lake Ellis), mixed rather than grouped by place. Any photo opens full screen. |
 | **CV** (`#cv`) | The full CV with expandable roles, education, skills and languages, plus a **Download CV** button for the PDF. |
+| **About** (`#about`) | Lincoln's portrait, story and quick facts on a page of their own. |
+| **Contact** (`#contact`) | Email, phone numbers with copy buttons, and links to more of his work. |
 
 Moving between pages closes and opens a camera iris shutter. The first visit opens with a short "Rissy Graphy" ident in the style of a streaming intro; it plays once per visit and can be skipped with a click or key.
 
