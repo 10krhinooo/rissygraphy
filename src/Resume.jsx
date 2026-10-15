@@ -42,15 +42,11 @@ function ResumeItem({ item, isOpen, onToggle }) {
   const bodyRef = useRef(null);
   const first = useRef(true);
   useEffect(() => {
+    // height is a CSS grid-rows transition, so opening and closing always move together
     const el = bodyRef.current;
-    if (first.current) { first.current = false; el.style.height = isOpen ? 'auto' : '0px'; return; }
-    if (REDUCED) { el.style.height = isOpen ? 'auto' : '0px'; return; }
-    anime.remove(el);
-    anime({
-      targets: el, height: isOpen ? [el.offsetHeight, el.scrollHeight] : [el.offsetHeight, 0], duration: 700, easing: SMOOTH,
-      complete: () => { if (isOpen) el.style.height = 'auto'; },
-    });
-    if (isOpen) anime({ targets: el.querySelectorAll('li'), opacity: [0, 1], translateX: [-16, 0], delay: anime.stagger(70, { start: 120 }), duration: 700, easing: SMOOTH });
+    if (first.current) { first.current = false; return; }
+    if (REDUCED || !isOpen) return;
+    anime({ targets: el.querySelectorAll('li'), opacity: [0, 1], translateX: [-16, 0], delay: anime.stagger(70, { start: 120 }), duration: 700, easing: SMOOTH });
   }, [isOpen]);
   return (
     <li className={'r-item' + (isOpen ? ' open' : '')}>

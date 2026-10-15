@@ -576,6 +576,13 @@ html.lenis, html.lenis body { height: auto; }
 .j-tile img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .7s ease, transform 1s cubic-bezier(.16,1,.3,1), filter .5s; }
 .j-tile img.ld { opacity: 1; }
 
+/* ===== v11: CV roles open with a CSS grid transition ===== */
+.r-item-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .7s cubic-bezier(.16,1,.3,1); }
+.r-item.open .r-item-body { grid-template-rows: 1fr; }
+.r-item-body > ul { min-height: 0; overflow: hidden; margin: 0; }
+.r-item-body > ul::after { content: ""; display: block; height: 16px; }
+@media (prefers-reduced-motion: reduce) { .r-item-body { transition: none; } }
+
 /* contact */
 .big { font-size: clamp(40px, 7vw, 92px); line-height: .95; max-width: 14ch; margin-bottom: 48px; }
 .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; border-top: 1px solid var(--line); padding-top: 28px; }
