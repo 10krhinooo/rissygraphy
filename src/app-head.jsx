@@ -17,8 +17,8 @@ function Nav({ route, canEdit, onEdit }) {
           {L('#top', 'Home', route === 'home', true)}
           {L('#gallery', 'Gallery', route === 'gallery')}
           {L('#cv', 'CV', route === 'cv')}
-          {L('#about', 'About', false, true)}
-          {L('#contact', 'Contact', false)}
+          {L('#about', 'About', route === 'about', true)}
+          {L('#contact', 'Contact', route === 'contact')}
         </nav>
       </div>
     </header>

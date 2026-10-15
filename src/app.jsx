@@ -1,5 +1,25 @@
+/* ---------- Small standalone pages (About, Contact): a page title, then the section itself ---------- */
+function SmallPage({ id, eyebrow, title, lede }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    A({ targets: ref.current.querySelectorAll('.ch > span'), translateY: ['115%', '0%'], rotate: [10, 0], delay: anime.stagger(30, { start: 250 }), duration: 1400, easing: SMOOTH });
+    A({ targets: ref.current.querySelectorAll('.fade'), opacity: [0, 1], translateY: [24, 0], delay: anime.stagger(100, { start: 650 }), duration: 1200, easing: SMOOTH });
+  }, []);
+  return (
+    <section className="page wrap solo-head" id={id} ref={ref}>
+      <header className="page-head">
+        <p className="eyebrow fade">{eyebrow}</p>
+        <h1 className="title page-title" aria-label={title.join(' ') + '.'}>
+          <span className="t-line" aria-hidden="true">{title.map((w, i) => <React.Fragment key={i}>{i > 0 && <span className="sp"> </span>}{chars(w)}</React.Fragment>)}<span className="ch dot"><span>.</span></span></span>
+        </h1>
+        {lede && <p className="lede fade">{lede}</p>}
+      </header>
+    </section>
+  );
+}
+
 /* ---------- About / Meet ---------- */
-function About() {
+function About({ id = 'meet', asPage = false }) {
   const C = useContext(ContentCtx);
   const ref = useRef(null);
   useEffect(() => {
@@ -10,7 +30,7 @@ function About() {
     return () => el.removeEventListener('mouseover', onEnter);
   }, []);
   return (
-    <section className="about wrap" id="about" ref={ref}>
+    <section className="about wrap" id={id} ref={ref}>
       <div className="meet">
         <figure className="portrait" data-reveal="frame">
           {PORTRAIT ? <img src={PORTRAIT} alt="Portrait of Lincoln Kariuki Chege" /> : (
@@ -21,7 +41,7 @@ function About() {
           <figcaption className="mono">{PORTRAIT ? 'Elephant Hill summit · Aberdares · 12,000 ft' : 'Lincoln Kariuki Chege · Nairobi, KE'}</figcaption>
         </figure>
         <div className="meet-text" data-reveal="right" data-stagger="110">
-          <p className="eyebrow">Scene 04 · Meet Lincoln</p>
+          {!asPage && <p className="eyebrow">Scene 04 · Meet Lincoln</p>}
           <h2>{C.about.heading}</h2>
           {C.about.paras.map((t, i) => <p key={i}>{t}</p>)}
           <dl className="meet-facts">
@@ -102,12 +122,12 @@ function Copy({ text }) {
     </div>
   );
 }
-function Contact() {
+function Contact({ id = 'reach', asPage = false }) {
   const C = useContext(ContentCtx);
   return (
-    <section className="contact wrap" id="contact">
-      <p className="eyebrow" data-reveal="left">Final scene · Contact</p>
-      <h2 className="big" data-reveal="up">Have a shoot or a brand that needs pictures?</h2>
+    <section className={'contact wrap' + (asPage ? ' solo' : '')} id={id}>
+      {!asPage && <p className="eyebrow" data-reveal="left">Final scene · Contact</p>}
+      {!asPage && <h2 className="big" data-reveal="up">Have a shoot or a brand that needs pictures?</h2>}
       <div className="contact-grid" data-reveal="up" data-stagger="120">
         <div><span className="mono muted">Email</span><Copy text={C.resume.email} /></div>
         <div><span className="mono muted">Phone</span>{C.resume.phones.map((p) => <Copy key={p} text={p} />)}</div>
@@ -170,7 +190,7 @@ function Intro({ onDone }) {
 }
 
 /* ---------- Scene rail: a film-strip index of the Home page ---------- */
-const SCENES = [['reel', 'The film'], ['numbers', 'At a glance'], ['work', 'Selected work'], ['about', 'Meet Lincoln'], ['cv-teaser', 'Curriculum vitae'], ['contact', 'Contact']];
+const SCENES = [['reel', 'The film'], ['numbers', 'At a glance'], ['work', 'Selected work'], ['meet', 'Meet Lincoln'], ['cv-teaser', 'Curriculum vitae'], ['reach', 'Contact']];
 function SceneRail() {
   const [active, setActive] = useState(0);
   const fillRef = useRef(null);
@@ -221,7 +241,8 @@ function Backdrop() {
 }
 
 /* ---------- App + pages (#gallery and #cv are their own pages) ---------- */
-const PAGE_OF = (id) => (id === 'gallery' ? 'gallery' : id === 'cv' ? 'cv' : 'home');
+const PAGES = ['gallery', 'cv', 'about', 'contact'];
+const PAGE_OF = (id) => (PAGES.includes(id) ? id : 'home');
 function App() {
   const [lb, setLb] = useState(null);
   const [admin, setAdmin] = useState(false);
@@ -297,6 +318,8 @@ function App() {
         {route === 'home' && <><CameraScene onOpen={open} /><Stats /><SelectedWork onOpen={open} /><About /><CVTeaser /><Contact /></>}
         {route === 'gallery' && <><GalleryPage onOpen={open} /><Contact /></>}
         {route === 'cv' && <><CVPage /><Contact /></>}
+        {route === 'about' && <><SmallPage id="about" eyebrow="About · Nairobi, Kenya" title={['Meet', 'Lincoln']} /><About id="about-me" asPage /><Contact /></>}
+        {route === 'contact' && <><SmallPage id="contact" eyebrow="Contact · Nairobi, Kenya" title={['Get', 'in', 'touch']} lede="Have a shoot or a brand that needs pictures? Email or call, or tap Copy to grab the details." /><Contact id="contact-details" asPage /></>}
       </main>
       {route === 'home' && <SceneRail key="rail" />}
       {intro && <Intro onDone={() => setIntro(false)} />}

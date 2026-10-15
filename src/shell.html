@@ -506,6 +506,12 @@ html.lenis { scroll-behavior: auto !important; }
 .page-head { margin-bottom: clamp(32px, 5vw, 56px); }
 .page-title { font-size: clamp(56px, 11vw, 168px); margin-bottom: 22px; }
 .page-head .lede { color: var(--muted); max-width: 52ch; font-size: clamp(17px, 1.6vw, 20px); margin: 0; }
+/* About and Contact pages: title section sits tight on the content below */
+.solo-head { padding-bottom: 0; }
+.solo-head .page-head { margin-bottom: 0; }
+.contact.solo { padding-top: clamp(32px, 5vw, 56px); min-height: 52svh; display: flex; flex-direction: column; }
+.contact.solo .foot { margin-top: auto; padding-top: 20px; }
+.contact.solo .contact-grid { margin-bottom: 80px; }
 .sec-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
 .more-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 36px; }
 .masonry.big { column-count: 4; }
