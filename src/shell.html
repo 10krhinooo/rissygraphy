@@ -576,6 +576,15 @@ html.lenis, html.lenis body { height: auto; }
 .j-tile img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .7s ease, transform 1s cubic-bezier(.16,1,.3,1), filter .5s; }
 .j-tile img.ld { opacity: 1; }
 
+/* ===== v11: lighter opening ident ===== */
+.intro-logo { font-size: clamp(42px, 11vw, 190px); white-space: nowrap; align-items: flex-end; text-shadow: 0 0 34px rgba(255,106,61,.45); }
+.intro-logo span { will-change: transform, opacity; }
+.intro-logo span:last-child { color: inherit; }
+.intro-logo .isp { width: .26em; }
+.intro-logo .idot { width: .17em; height: .17em; border-radius: 50%; background: var(--ember); margin: 0 0 .17em .06em; box-shadow: 0 0 24px rgba(255,106,61,.8); }
+.ribbons { will-change: transform, opacity; }
+.ribbon { filter: none; mix-blend-mode: normal; }
+
 /* ===== v11: CV roles open with a CSS grid transition ===== */
 .r-item-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .7s cubic-bezier(.16,1,.3,1); }
 .r-item.open .r-item-body { grid-template-rows: 1fr; }

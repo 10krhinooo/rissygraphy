@@ -11,6 +11,11 @@ const lerp = (a, b, t) => a + (b - a) * t;
 const smoother = (t) => t * t * t * (t * (t * 6 - 15) + 10);
 const shutter = (s) => (s >= 1 ? `${s}` : `1/${Math.round(1 / s)}`);
 
+/* While the opening ident plays, heavy scenes wait so the ident gets every frame */
+const INTRO = { on: false, cbs: [] };
+function whenIntroDone(fn) { if (INTRO.on) INTRO.cbs.push(fn); else fn(); }
+function releaseIntro() { if (!INTRO.on) return; INTRO.on = false; INTRO.cbs.splice(0).forEach((f) => f()); }
+
 /* Smooth scroll (Lenis) shared by every scroll-driven piece */
 let LENIS = null;
 function startLenis() {

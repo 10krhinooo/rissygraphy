@@ -137,26 +137,32 @@ function Intro({ onDone }) {
   }, [onDone]);
   useEffect(() => {
     const el = ref.current;
-    const letters = el.querySelectorAll('.intro-logo span');
+    const logo = el.querySelector('.intro-logo');
+    const letters = logo.querySelectorAll('.ich');
+    const ribbonBox = el.querySelector('.ribbons');
     const ribbons = el.querySelectorAll('.ribbon');
+    // only transform and opacity move here, so every frame stays on the compositor
+    const fill = Math.max(2, (window.innerWidth / Math.max(1, ribbonBox.offsetWidth)) * 1.4);
     const tl = anime.timeline({ easing: SMOOTH, complete: finish });
-    tl.add({ targets: letters, opacity: [0, 1], scale: [0.7, 1], filter: ['blur(18px)', 'blur(0px)'], delay: anime.stagger(110), duration: 900 })
-      .add({ targets: el.querySelector('.intro-logo'), scale: [1, 1.08], duration: 700, easing: 'easeInOutSine' }, '-=300')
-      .add({ targets: ribbons, scaleY: [0, 1], opacity: [0, 1], translateY: ['-10%', '0%'], delay: anime.stagger(18, { from: 'center' }), duration: 700, easing: 'easeOutExpo' }, '-=650')
-      .add({ targets: el.querySelector('.intro-stage'), scale: [1, 14], duration: 1000, easing: 'easeInExpo' })
-      .add({ targets: ribbons, scaleX: [1, 6], opacity: [1, 0], duration: 900, easing: 'easeInQuad' }, '-=1000')
-      .add({ targets: el, opacity: [1, 0], duration: 450, easing: 'linear' }, '-=380');
-    const skip = () => { tl.pause(); anime({ targets: el, opacity: 0, duration: 300, easing: 'linear', complete: finish }); };
+    tl.add({ targets: letters, opacity: [0, 1], translateY: ['40%', '0%'], scale: [0.86, 1], delay: anime.stagger(45), duration: 900 })
+      .add({ targets: logo.querySelector('.idot'), opacity: [0, 1], scale: [0, 1], duration: 600, easing: 'easeOutBack' }, '-=450')
+      .add({ targets: logo, scale: [1, 1.05], duration: 800, easing: 'easeInOutSine' }, '-=250')
+      .add({ targets: ribbons, scaleY: [0, 1], opacity: [0, 0.9], delay: anime.stagger(16, { from: 'center' }), duration: 700, easing: 'easeOutExpo' }, '-=700')
+      .add({ targets: ribbonBox, scaleX: [1, fill], duration: 900, easing: 'easeInCubic' })
+      .add({ targets: logo, scale: [1.05, 1.5], opacity: [1, 0], duration: 700, easing: 'easeInQuad' }, '-=950')
+      .add({ targets: el, opacity: [1, 0], duration: 450, easing: 'linear', begin: releaseIntro }, '-=200');
+    const skip = () => { tl.pause(); releaseIntro(); anime({ targets: el, opacity: 0, duration: 300, easing: 'linear', complete: finish }); };
     el.addEventListener('click', skip);
     window.addEventListener('keydown', skip, { once: true });
     if (LENIS) LENIS.stop();
-    return () => { tl.pause(); el.removeEventListener('click', skip); window.removeEventListener('keydown', skip); if (LENIS) LENIS.start(); };
+    return () => { tl.pause(); releaseIntro(); el.removeEventListener('click', skip); window.removeEventListener('keydown', skip); if (LENIS) LENIS.start(); };
   }, []);
+  const word = (w) => [...w].map((c, i) => <span className="ich" key={w + i}>{c}</span>);
   return (
     <div className="intro" ref={ref} role="presentation">
       <div className="intro-stage">
         <div className="ribbons" aria-hidden="true">{Array.from({ length: 28 }, (_, i) => <i className="ribbon" key={i} style={{ '--h': `${(i * 37) % 100}` }}></i>)}</div>
-        <div className="intro-logo" aria-label="LKC"><span>L</span><span>K</span><span>C</span></div>
+        <div className="intro-logo" aria-label="Rissy Graphy">{word('Rissy')}<span className="isp"></span>{word('Graphy')}<span className="idot"></span></div>
       </div>
       <span className="intro-skip mono">Click or press any key to skip</span>
     </div>
@@ -206,7 +212,7 @@ const PAGE_OF = (id) => (id === 'gallery' ? 'gallery' : id === 'cv' ? 'cv' : 'ho
 function App() {
   const [lb, setLb] = useState(null);
   const [admin, setAdmin] = useState(false);
-  const [intro, setIntro] = useState(() => !REDUCED && PAGE_OF(location.hash.slice(1)) === 'home' && !introSeen());
+  const [intro, setIntro] = useState(() => (INTRO.on = !REDUCED && PAGE_OF(location.hash.slice(1)) === 'home' && !introSeen()));
   const [route, setRoute] = useState(() => PAGE_OF(location.hash.slice(1)));
   const routeRef = useRef(route);
   const pending = useRef(null);

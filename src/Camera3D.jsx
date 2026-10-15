@@ -340,23 +340,26 @@ function CameraScene({ onOpen }) {
     };
 
     build();
+    try { if (renderer && scene && cam3) renderer.compile(scene, cam3); } catch (e) {}
     paint(0); refs.shot = 0;
-    if (!REDUCED) {
+    if (!REDUCED) whenIntroDone(() => {
       anime({ targets: I, spin: 0, duration: 2600, easing: SMOOTH, delay: 150 });
       anime({ targets: titleRef.current.querySelectorAll('.ch > span'), translateY: ['115%', '0%'], rotate: [10, 0], delay: anime.stagger(32, { start: 450 }), duration: 1500, easing: SMOOTH });
       anime({ targets: titleRef.current.querySelectorAll('.fade'), opacity: [0, 1], translateY: [26, 0], delay: anime.stagger(120, { start: 1000 }), duration: 1400, easing: SMOOTH });
-    }
+    });
     if (REDUCED) { cur = (SEG.back + SEG.review) / 2; tl.seek(cur * tl.duration); apply(); setCap(2); setShot(3); paint(3); return () => renderer && renderer.dispose(); }
+    let vis = false, gone = false;
     const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting && !running) { running = true; raf = requestAnimationFrame(frameLoop); }
-      else if (!e.isIntersecting) { running = false; cancelAnimationFrame(raf); }
+      vis = e.isIntersecting;
+      if (vis && !running) whenIntroDone(() => { if (!running && vis && !gone) { running = true; raf = requestAnimationFrame(frameLoop); } });
+      else if (!vis) { running = false; cancelAnimationFrame(raf); }
     }, { rootMargin: '300px 0px' });
     io.observe(secRef.current);
     const onMove = (e) => { par.tx = (e.clientX / window.innerWidth - 0.5) * 2; par.ty = (e.clientY / window.innerHeight - 0.5) * 2; };
     window.addEventListener('pointermove', onMove);
     let rt; const onResize = () => { clearTimeout(rt); rt = setTimeout(build, 150); };
     window.addEventListener('resize', onResize);
-    return () => { io.disconnect(); running = false; cancelAnimationFrame(raf); window.removeEventListener('resize', onResize); window.removeEventListener('pointermove', onMove); if (renderer) renderer.dispose(); };
+    return () => { gone = true; io.disconnect(); running = false; cancelAnimationFrame(raf); window.removeEventListener('resize', onResize); window.removeEventListener('pointermove', onMove); if (renderer) renderer.dispose(); };
   }, []);
 
   const c = SCENE_CAPS[cap];
