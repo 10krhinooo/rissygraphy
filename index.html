@@ -506,6 +506,12 @@ html.lenis { scroll-behavior: auto !important; }
 .page-head { margin-bottom: clamp(32px, 5vw, 56px); }
 .page-title { font-size: clamp(56px, 11vw, 168px); margin-bottom: 22px; }
 .page-head .lede { color: var(--muted); max-width: 52ch; font-size: clamp(17px, 1.6vw, 20px); margin: 0; }
+/* About and Contact pages: title section sits tight on the content below */
+.solo-head { padding-bottom: 0; }
+.solo-head .page-head { margin-bottom: 0; }
+.contact.solo { padding-top: clamp(32px, 5vw, 56px); min-height: 52svh; display: flex; flex-direction: column; }
+.contact.solo .foot { margin-top: auto; padding-top: 20px; }
+.contact.solo .contact-grid { margin-bottom: 80px; }
 .sec-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
 .more-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 36px; }
 .masonry.big { column-count: 4; }
@@ -1732,8 +1738,8 @@ function Nav({ route, canEdit, onEdit }) {
                 L('#top', 'Home', route === 'home', true),
                 L('#gallery', 'Gallery', route === 'gallery'),
                 L('#cv', 'CV', route === 'cv'),
-                L('#about', 'About', false, true),
-                L('#contact', 'Contact', false)))));
+                L('#about', 'About', route === 'about', true),
+                L('#contact', 'Contact', route === 'contact')))));
 }
 /* split a word into animatable letters */
 const chars = (word) => word.split('').map((ch, i) => (ch === ' ' ? React.createElement("span", { className: "sp", key: i }, " ") : React.createElement("span", { className: "ch", key: i },
@@ -2257,8 +2263,27 @@ function Admin({ site, onClose }) {
 }
 
 /* ===== app.jsx ===== */
+/* ---------- Small standalone pages (About, Contact): a page title, then the section itself ---------- */
+function SmallPage({ id, eyebrow, title, lede }) {
+    const ref = useRef(null);
+    useEffect(() => {
+        A({ targets: ref.current.querySelectorAll('.ch > span'), translateY: ['115%', '0%'], rotate: [10, 0], delay: anime.stagger(30, { start: 250 }), duration: 1400, easing: SMOOTH });
+        A({ targets: ref.current.querySelectorAll('.fade'), opacity: [0, 1], translateY: [24, 0], delay: anime.stagger(100, { start: 650 }), duration: 1200, easing: SMOOTH });
+    }, []);
+    return (React.createElement("section", { className: "page wrap solo-head", id: id, ref: ref },
+        React.createElement("header", { className: "page-head" },
+            React.createElement("p", { className: "eyebrow fade" }, eyebrow),
+            React.createElement("h1", { className: "title page-title", "aria-label": title.join(' ') + '.' },
+                React.createElement("span", { className: "t-line", "aria-hidden": "true" },
+                    title.map((w, i) => React.createElement(React.Fragment, { key: i },
+                        i > 0 && React.createElement("span", { className: "sp" }, " "),
+                        chars(w))),
+                    React.createElement("span", { className: "ch dot" },
+                        React.createElement("span", null, ".")))),
+            lede && React.createElement("p", { className: "lede fade" }, lede))));
+}
 /* ---------- About / Meet ---------- */
-function About() {
+function About({ id = 'meet', asPage = false }) {
     const C = useContext(ContentCtx);
     const ref = useRef(null);
     useEffect(() => {
@@ -2270,7 +2295,7 @@ function About() {
         el.addEventListener('mouseover', onEnter);
         return () => el.removeEventListener('mouseover', onEnter);
     }, []);
-    return (React.createElement("section", { className: "about wrap", id: "about", ref: ref },
+    return (React.createElement("section", { className: "about wrap", id: id, ref: ref },
         React.createElement("div", { className: "meet" },
             React.createElement("figure", { className: "portrait", "data-reveal": "frame" },
                 PORTRAIT ? React.createElement("img", { src: PORTRAIT, alt: "Portrait of Lincoln Kariuki Chege" }) : (React.createElement("div", { className: "portrait-empty", "aria-label": "Portrait of Lincoln to come" },
@@ -2282,7 +2307,7 @@ function About() {
                 React.createElement("span", { className: "af", "aria-hidden": "true", style: PORTRAIT ? { left: '53%', top: '31%' } : undefined }),
                 React.createElement("figcaption", { className: "mono" }, PORTRAIT ? 'Elephant Hill summit · Aberdares · 12,000 ft' : 'Lincoln Kariuki Chege · Nairobi, KE')),
             React.createElement("div", { className: "meet-text", "data-reveal": "right", "data-stagger": "110" },
-                React.createElement("p", { className: "eyebrow" }, "Scene 04 \u00B7 Meet Lincoln"),
+                !asPage && React.createElement("p", { className: "eyebrow" }, "Scene 04 \u00B7 Meet Lincoln"),
                 React.createElement("h2", null, C.about.heading),
                 C.about.paras.map((t, i) => React.createElement("p", { key: i }, t)),
                 React.createElement("dl", { className: "meet-facts" }, C.about.facts.map((f, i) => React.createElement("div", { key: i },
@@ -2361,11 +2386,11 @@ function Copy({ text }) {
         React.createElement("span", { ref: ref, className: "copy-text" }, text),
         React.createElement("button", { onClick: click, className: "btn sm" }, done ? 'Copied' : 'Copy')));
 }
-function Contact() {
+function Contact({ id = 'reach', asPage = false }) {
     const C = useContext(ContentCtx);
-    return (React.createElement("section", { className: "contact wrap", id: "contact" },
-        React.createElement("p", { className: "eyebrow", "data-reveal": "left" }, "Final scene \u00B7 Contact"),
-        React.createElement("h2", { className: "big", "data-reveal": "up" }, "Have a shoot or a brand that needs pictures?"),
+    return (React.createElement("section", { className: 'contact wrap' + (asPage ? ' solo' : ''), id: id },
+        !asPage && React.createElement("p", { className: "eyebrow", "data-reveal": "left" }, "Final scene \u00B7 Contact"),
+        !asPage && React.createElement("h2", { className: "big", "data-reveal": "up" }, "Have a shoot or a brand that needs pictures?"),
         React.createElement("div", { className: "contact-grid", "data-reveal": "up", "data-stagger": "120" },
             React.createElement("div", null,
                 React.createElement("span", { className: "mono muted" }, "Email"),
@@ -2438,7 +2463,7 @@ function Intro({ onDone }) {
         React.createElement("span", { className: "intro-skip mono" }, "Click or press any key to skip")));
 }
 /* ---------- Scene rail: a film-strip index of the Home page ---------- */
-const SCENES = [['reel', 'The film'], ['numbers', 'At a glance'], ['work', 'Selected work'], ['about', 'Meet Lincoln'], ['cv-teaser', 'Curriculum vitae'], ['contact', 'Contact']];
+const SCENES = [['reel', 'The film'], ['numbers', 'At a glance'], ['work', 'Selected work'], ['meet', 'Meet Lincoln'], ['cv-teaser', 'Curriculum vitae'], ['reach', 'Contact']];
 function SceneRail() {
     const [active, setActive] = useState(0);
     const fillRef = useRef(null);
@@ -2490,7 +2515,8 @@ function Backdrop() {
                 n.classList.add('ld'); }, onLoad: (e) => e.currentTarget.classList.add('ld') })));
 }
 /* ---------- App + pages (#gallery and #cv are their own pages) ---------- */
-const PAGE_OF = (id) => (id === 'gallery' ? 'gallery' : id === 'cv' ? 'cv' : 'home');
+const PAGES = ['gallery', 'cv', 'about', 'contact'];
+const PAGE_OF = (id) => (PAGES.includes(id) ? id : 'home');
 function App() {
     const [lb, setLb] = useState(null);
     const [admin, setAdmin] = useState(false);
@@ -2597,7 +2623,14 @@ function App() {
                 React.createElement(Contact, null)),
             route === 'cv' && React.createElement(React.Fragment, null,
                 React.createElement(CVPage, null),
-                React.createElement(Contact, null))),
+                React.createElement(Contact, null)),
+            route === 'about' && React.createElement(React.Fragment, null,
+                React.createElement(SmallPage, { id: "about", eyebrow: "About \u00B7 Nairobi, Kenya", title: ['Meet', 'Lincoln'] }),
+                React.createElement(About, { id: "about-me", asPage: true }),
+                React.createElement(Contact, null)),
+            route === 'contact' && React.createElement(React.Fragment, null,
+                React.createElement(SmallPage, { id: "contact", eyebrow: "Contact \u00B7 Nairobi, Kenya", title: ['Get', 'in', 'touch'], lede: "Have a shoot or a brand that needs pictures? Email or call, or tap Copy to grab the details." }),
+                React.createElement(Contact, { id: "contact-details", asPage: true }))),
         route === 'home' && React.createElement(SceneRail, { key: "rail" }),
         intro && React.createElement(Intro, { onDone: () => setIntro(false) }),
         lb && React.createElement(Lightbox, { state: lb, onClose: () => setLb(null), onMove: move }),
