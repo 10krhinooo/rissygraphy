@@ -8,20 +8,58 @@ function Nav({ route, canEdit, onEdit }) {
     if (taps.current.length >= 3) { taps.current = []; onEdit(); return true; }
     return taps.current.length > 1;
   };
-  const L = (href, label, on, opt) => <a href={href} className={(on ? 'on ' : '') + (opt ? 'opt' : '')} aria-current={on ? 'page' : undefined}>{label}</a>;
+  const C = useContext(ContentCtx);
+  const [open, setOpen] = useState(false);
+  const menuRef = useRef(null);
+  const ITEMS = [['#top', 'Home', 'home'], ['#gallery', 'Gallery', 'gallery'], ['#cv', 'CV', 'cv'], ['#about', 'About', 'about'], ['#contact', 'Contact', 'contact']];
+  // phone menu: opens as a circle from the button, links rise in one by one
+  useEffect(() => {
+    const el = menuRef.current;
+    if (!el) return;
+    if (open) {
+      if (LENIS) LENIS.stop();
+      el.style.visibility = 'visible';
+      if (REDUCED) { el.style.clipPath = 'none'; return; }
+      anime.remove(el);
+      anime({ targets: el, clipPath: ['circle(0% at calc(100% - 36px) 0px)', 'circle(150% at calc(100% - 36px) 0px)'], duration: 750, easing: SMOOTH });
+      anime({ targets: el.querySelectorAll('.mnav-links a, .mnav-foot > *'), opacity: [0, 1], translateY: [36, 0], delay: anime.stagger(55, { start: 140 }), duration: 800, easing: SMOOTH });
+      const key = (e) => { if (e.key === 'Escape') setOpen(false); };
+      window.addEventListener('keydown', key);
+      return () => window.removeEventListener('keydown', key);
+    }
+    if (LENIS) LENIS.start();
+    if (REDUCED || el.style.visibility !== 'visible') { el.style.visibility = 'hidden'; return; }
+    anime.remove(el);
+    anime({ targets: el, clipPath: 'circle(0% at calc(100% - 36px) 0px)', duration: 500, easing: 'easeInCubic', complete: () => { el.style.visibility = 'hidden'; } });
+  }, [open]);
+  useEffect(() => { setOpen(false); }, [route]);
+  useEffect(() => { const mq = window.matchMedia('(min-width: 641px)'); const f = () => mq.matches && setOpen(false); mq.addEventListener('change', f); return () => mq.removeEventListener('change', f); }, []);
+  const L = (href, label, on) => <a key={href} href={href} className={on ? 'on' : ''} aria-current={on ? 'page' : undefined}>{label}</a>;
   return (
-    <header className="nav">
-      <div className="nav-in">
-        <a href="#top" className="mark" aria-label="Rissy Graphy, home">Rissy Graphy<span className="dot" onClick={(e) => { if (canEdit && onDot()) { e.preventDefault(); e.stopPropagation(); } }}></span></a>
-        <nav className="links">
-          {L('#top', 'Home', route === 'home', true)}
-          {L('#gallery', 'Gallery', route === 'gallery')}
-          {L('#cv', 'CV', route === 'cv')}
-          {L('#about', 'About', route === 'about', true)}
-          {L('#contact', 'Contact', route === 'contact')}
+    <>
+      <header className={'nav' + (open ? ' menu-open' : '')}>
+        <div className="nav-in">
+          <a href="#top" className="mark" aria-label="Rissy Graphy, home">Rissy Graphy<span className="dot" onClick={(e) => { if (canEdit && onDot()) { e.preventDefault(); e.stopPropagation(); } }}></span></a>
+          <nav className="links">{ITEMS.map(([h, l, r]) => L(h, l, route === r))}</nav>
+          <button className="burger" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} aria-controls="mnav" onClick={() => setOpen((o) => !o)}><i></i><i></i></button>
+        </div>
+      </header>
+      <div className="mnav" id="mnav" ref={menuRef} aria-hidden={!open} onClick={(e) => { if (e.target.closest('a')) { if (LENIS) LENIS.start(); setOpen(false); } }}>
+        <nav className="mnav-links" aria-label="Site">
+          {ITEMS.map(([h, l, r], i) => (
+            <a key={h} href={h} className={route === r ? 'on' : ''} aria-current={route === r ? 'page' : undefined} tabIndex={open ? 0 : -1}>
+              <span className="mono">{pad(i + 1)}</span>{l}
+            </a>
+          ))}
         </nav>
+        <div className="mnav-foot">
+          <span className="mono muted">Say hello</span>
+          <a href={`mailto:${C.resume.email}`} tabIndex={open ? 0 : -1}>{C.resume.email}</a>
+          {C.resume.phones.map((ph) => <a key={ph} href={`tel:${ph.replace(/\s/g, '')}`} tabIndex={open ? 0 : -1}>{ph}</a>)}
+          <a href="https://rissygraphy.mypixieset.com" target="_blank" rel="noopener" tabIndex={open ? 0 : -1}>rissygraphy on Pixieset ↗</a>
+        </div>
       </div>
-    </header>
+    </>
   );
 }
 
