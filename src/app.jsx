@@ -228,7 +228,9 @@ function App() {
     const el = id === 'top' ? null : document.getElementById(id);
     if (!el) { toTop(); return; }
     const y = id === 'reel' ? 0 : el.getBoundingClientRect().top + window.scrollY - 64;
-    if (LENIS) LENIS.scrollTo(y, { immediate: true, force: true }); else window.scrollTo(0, y);
+    // the new page is taller than the old one, so Lenis must re-measure before it can reach y
+    if (LENIS) { LENIS.resize(); LENIS.scrollTo(y, { immediate: true, force: true }); }
+    if (Math.abs(window.scrollY - y) > 2) window.scrollTo(0, y);
   };
   // after a page swap renders, land on the requested spot
   useEffect(() => {
