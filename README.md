@@ -12,7 +12,7 @@ The site opens on a realistic 3D camera. As you scroll, the camera turns around,
 | **Gallery** (`#gallery`) | 97 photos from three 2026 hikes (Kipipiri, Kathandeni Forest, Lake Ellis), mixed rather than grouped by place. Any photo opens full screen. |
 | **CV** (`#cv`) | The full CV with expandable roles, education, skills and languages, plus a **Download CV** button for the PDF. |
 
-Moving between pages closes and opens a camera iris shutter. The first visit opens with a short "LKC" ident in the style of a streaming intro; it plays once per visit and can be skipped with a click or key.
+Moving between pages closes and opens a camera iris shutter. The first visit opens with a short "Rissy Graphy" ident in the style of a streaming intro; it plays once per visit and can be skipped with a click or key.
 
 ## Built with
 
@@ -52,7 +52,7 @@ There is no visible edit button. Open the editor with the keyboard shortcut:
 
 On a phone or tablet, tap the orange dot after **Rissy Graphy** in the nav bar three times quickly. Press <kbd>Esc</kbd> to close it.
 
-The editor changes the intro text, About section, services, the whole CV and photo captions, and previews changes live.
+The editor changes the background photo behind every page and how bright it is, the intro text, About section, services, the whole CV and photo captions, and previews changes live.
 
 - On the published claude.ai page, saved edits go to the page's shared storage and every visitor sees them. Only people with edit access can save.
 - On any other host (including Vercel), the editor appears only on `localhost` and saves to that browser.
