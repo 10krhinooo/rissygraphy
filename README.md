@@ -43,7 +43,14 @@ Opening `index.html` straight from disk also works, but the camera's screen stay
 
 ## Editing the site
 
-There is no visible edit button. Editors open the editor with **Ctrl+Shift+E** (**Cmd+Shift+E** on Mac), or by tapping the orange dot in the **LKC** logo three times quickly.
+There is no visible edit button. Open the editor with the keyboard shortcut:
+
+| System | Shortcut |
+| --- | --- |
+| Windows / Linux | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd> |
+| macOS | <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd> |
+
+On a phone or tablet, tap the orange dot after **Rissy Graphy** in the nav bar three times quickly. Press <kbd>Esc</kbd> to close it.
 
 The editor changes the intro text, About section, services, the whole CV and photo captions, and previews changes live.
 
