@@ -114,6 +114,68 @@ function SelectedWork({ onOpen }) {
   );
 }
 
+/* ---------- Gallery page: justified rows, read left to right ---------- */
+const ROW_H = (w) => (w >= 1600 ? 340 : w >= 1100 ? 300 : w >= 700 ? 240 : 170);
+function justify(list, W, target, gap) {
+  const rows = [];
+  let row = [], sum = 0;
+  list.forEach((p, i) => {
+    const ar = p.w / p.h;
+    row.push({ p, i, ar }); sum += ar;
+    const h = (W - gap * (row.length - 1)) / sum;
+    if (h <= target) { rows.push({ items: row, h, full: true }); row = []; sum = 0; }
+  });
+  if (row.length) rows.push({ items: row, h: Math.min(target, (W - gap * (row.length - 1)) / sum), full: false });
+  return rows;
+}
+function JTile({ p, h, ar, full, onClick }) {
+  const ref = useRef(null);
+  const w = Math.ceil(ar * h);
+  useEffect(() => { const img = ref.current; if (img && img.complete && img.naturalWidth) img.classList.add('ld'); }, []);
+  return (
+    <button className="m-tile j-tile" onClick={onClick} aria-label={`Open ${p.cap}`}
+      style={{ height: h, flex: full ? `${ar} ${ar} 0px` : `0 0 ${w}px`, background: p.c }}>
+      <img ref={ref} src={p.thumb} srcSet={`${p.thumb} 640w, ${p.full} 1024w`} sizes={`${w}px`} alt={p.cap}
+        loading="lazy" decoding="async" onLoad={(e) => e.currentTarget.classList.add('ld')} />
+      <span className="tile-cap"><span>{p.cap}</span><span className="mono">{exifText(p) || p.place}</span></span>
+    </button>
+  );
+}
+function JustifiedGrid({ list, onOpen }) {
+  const ref = useRef(null);
+  const [W, setW] = useState(0);
+  useEffect(() => {
+    const el = ref.current;
+    setW(el.clientWidth);
+    const ro = new ResizeObserver(([e]) => setW(Math.floor(e.contentRect.width)));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  const gap = W < 700 ? 6 : 12;
+  const rows = useMemo(() => (W ? justify(list, W, ROW_H(window.innerWidth), gap) : []), [list, W, gap]);
+  // each row slides in as it reaches the viewport, tiles staggered left to right
+  useEffect(() => {
+    if (REDUCED || !rows.length || !('IntersectionObserver' in window)) return;
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      anime({ targets: e.target.children, opacity: [0, 1], translateY: [40, 0], delay: anime.stagger(70), duration: 1100, easing: SMOOTH,
+        complete: () => e.target.classList.add('in') });
+    }), { rootMargin: '0px 0px -6% 0px' });
+    ref.current.querySelectorAll('.jrow:not(.in)').forEach((r) => io.observe(r));
+    return () => io.disconnect();
+  }, [rows]);
+  return (
+    <div className="jgrid" ref={ref} style={{ '--gap': gap + 'px' }}>
+      {rows.map((r, ri) => (
+        <div className={'jrow' + (REDUCED ? ' in' : '')} key={ri}>
+          {r.items.map(({ p, i, ar }) => <JTile key={p.id} p={p} h={r.h} ar={ar} full={r.full} onClick={(e) => onOpen(list, i, 'Gallery', e.currentTarget.querySelector('img'))} />)}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 /* ---------- Gallery page ---------- */
 function GalleryPage({ onOpen }) {
   const ref = useRef(null);
@@ -130,9 +192,7 @@ function GalleryPage({ onOpen }) {
         </h1>
         <p className="lede fade">Frames from three hikes in 2026: forest falls, high moorland and the people who walked them. Tap any photo to see it full screen.</p>
       </header>
-      <div className="masonry big" data-reveal="frame" data-stagger="40">
-        {ALL_PHOTOS.map((p, k) => <Tile key={p.id} p={p} onClick={(e) => onOpen(ALL_PHOTOS, k, 'Gallery', e.currentTarget.querySelector('img'))} />)}
-      </div>
+      <JustifiedGrid list={ALL_PHOTOS} onOpen={onOpen} />
       <div className="more-row">
         <a className="btn" href="#top">← Back home</a>
         <a className="btn solid" href="#cv">Read the CV <span aria-hidden="true">→</span></a>
