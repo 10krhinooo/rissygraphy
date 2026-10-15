@@ -207,6 +207,19 @@ function SceneRail() {
   );
 }
 
+/* ---------- Ambient backdrop: one of Lincoln's photos, softly blurred behind every page ---------- */
+function Backdrop() {
+  const C = useContext(ContentCtx);
+  const look = C.look || {};
+  const p = look.bg && ALL_PHOTOS.find((x) => x.id === look.bg);
+  if (!p) return <div className="backdrop" aria-hidden="true"></div>;
+  return (
+    <div className="backdrop" aria-hidden="true" style={{ '--bgo': (look.strength ?? 45) / 100 }}>
+      <img key={p.id} src={p.thumb} alt="" decoding="async" ref={(n) => { if (n && n.complete && n.naturalWidth) n.classList.add('ld'); }} onLoad={(e) => e.currentTarget.classList.add('ld')} />
+    </div>
+  );
+}
+
 /* ---------- App + pages (#gallery and #cv are their own pages) ---------- */
 const PAGE_OF = (id) => (id === 'gallery' ? 'gallery' : id === 'cv' ? 'cv' : 'home');
 function App() {
@@ -278,6 +291,7 @@ function App() {
   const move = (d) => setLb((s) => ({ ...s, origin: null, k: (s.k + d + s.list.length) % s.list.length }));
   return (
     <ContentCtx.Provider value={site.content}>
+      <Backdrop />
       <Nav route={route} canEdit={site.canEdit} onEdit={() => setAdmin(true)} />
       <main key={route}>
         {route === 'home' && <><CameraScene onOpen={open} /><Stats /><SelectedWork onOpen={open} /><About /><CVTeaser /><Contact /></>}

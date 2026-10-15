@@ -34,7 +34,7 @@ function ListEditor({ items, onChange, blank, addLabel, render, title }) {
   );
 }
 
-const ADMIN_TABS = [['intro', 'Intro'], ['about', 'About'], ['services', 'What I do'], ['cv', 'CV'], ['captions', 'Captions']];
+const ADMIN_TABS = [['look', 'Look'], ['intro', 'Intro'], ['about', 'About'], ['services', 'What I do'], ['cv', 'CV'], ['captions', 'Captions']];
 
 function Admin({ site, onClose }) {
   const [draft, setDraft] = useState(() => clone(site.content));
@@ -88,6 +88,26 @@ function Admin({ site, onClose }) {
         </nav>
 
         <div className="adm-body">
+          {tab === 'look' && (
+            <>
+              <div className="adm-field">
+                <span className="adm-label">Background photo<em>shown softly behind every page</em></span>
+                <div className="adm-bgs">
+                  <button className={!draft.look.bg ? 'on' : ''} onClick={() => up((d) => (d.look.bg = ''))} aria-label="No background photo">None</button>
+                  {ALL_PHOTOS.map((p) => (
+                    <button key={p.id} className={draft.look.bg === p.id ? 'on' : ''} onClick={() => up((d) => (d.look.bg = p.id))} aria-label={`Use ${p.cap}`} aria-pressed={draft.look.bg === p.id}>
+                      <img src={p.thumb} alt="" loading="lazy" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <label className="adm-field" htmlFor="lk-str">
+                <span className="adm-label">Brightness of the background<em>{draft.look.strength}%</em></span>
+                <input id="lk-str" type="range" min="0" max="90" step="5" value={draft.look.strength} onChange={(e) => { const v = +e.target.value; up((d) => (d.look.strength = v)); }} />
+              </label>
+            </>
+          )}
+
           {tab === 'intro' && (
             <>
               <Field id="in-eyebrow" label="Line above the name" value={draft.intro.eyebrow} onChange={(v) => up((d) => (d.intro.eyebrow = v))} />

@@ -4,6 +4,7 @@
 const ContentCtx = React.createContext(null);
 
 const DEFAULT_CONTENT = {
+  look: { bg: 'lakeellis-9', strength: 45 },
   intro: {
     eyebrow: 'Photographer · Graphic designer · Nairobi',
     lede: 'I follow people up mountains and into forests, then turn what I shoot into posters, promos and stories that brands can use.',
@@ -40,6 +41,7 @@ function mergeContent(d) {
   const D = DEFAULT_CONTENT;
   if (!d || typeof d !== 'object') return clone(D);
   return clone({
+    look: { ...D.look, ...(d.look || {}) },
     intro: { ...D.intro, ...(d.intro || {}) },
     about: { ...D.about, ...(d.about || {}) },
     services: Array.isArray(d.services) ? d.services : D.services,
