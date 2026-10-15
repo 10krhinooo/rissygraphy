@@ -53,7 +53,8 @@ section { padding-block: clamp(64px, 10vw, 120px); }
 /* nav */
 .nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
 .nav-in { max-width: none; margin: 0 auto; padding: 14px var(--gutter-r) 14px var(--gutter); display: flex; align-items: center; gap: 24px; }
-.mark { font: 800 22px/1 var(--display); text-decoration: none; letter-spacing: -.03em; display: flex; align-items: flex-start; }
+.mark { font: 800 22px/1 var(--display); text-decoration: none; letter-spacing: -.03em; display: flex; align-items: flex-start; white-space: nowrap; flex: none; }
+@media (max-width: 400px) { .mark { font-size: 19px; } }
 .mark .dot { cursor: default; width: 6px; height: 6px; background: var(--ember); border-radius: 50%; margin-left: 2px; }
 .links { display: flex; gap: 22px; margin-left: auto; }
 .links a { text-decoration: none; color: var(--muted); font-size: 14px; transition: color .2s; }
@@ -1655,8 +1656,8 @@ function Nav({ route, canEdit, onEdit }) {
     const L = (href, label, on, opt) => React.createElement("a", { href: href, className: (on ? 'on ' : '') + (opt ? 'opt' : ''), "aria-current": on ? 'page' : undefined }, label);
     return (React.createElement("header", { className: "nav" },
         React.createElement("div", { className: "nav-in" },
-            React.createElement("a", { href: "#top", className: "mark", "aria-label": "Lincoln Kariuki Chege, home" },
-                "LKC",
+            React.createElement("a", { href: "#top", className: "mark", "aria-label": "Rissy Graphy, home" },
+                "Rissy Graphy",
                 React.createElement("span", { className: "dot", onClick: (e) => { if (canEdit && onDot()) {
                         e.preventDefault();
                         e.stopPropagation();

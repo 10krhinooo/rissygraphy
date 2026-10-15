@@ -12,7 +12,7 @@ function Nav({ route, canEdit, onEdit }) {
   return (
     <header className="nav">
       <div className="nav-in">
-        <a href="#top" className="mark" aria-label="Lincoln Kariuki Chege, home">LKC<span className="dot" onClick={(e) => { if (canEdit && onDot()) { e.preventDefault(); e.stopPropagation(); } }}></span></a>
+        <a href="#top" className="mark" aria-label="Rissy Graphy, home">Rissy Graphy<span className="dot" onClick={(e) => { if (canEdit && onDot()) { e.preventDefault(); e.stopPropagation(); } }}></span></a>
         <nav className="links">
           {L('#top', 'Home', route === 'home', true)}
           {L('#gallery', 'Gallery', route === 'gallery')}
