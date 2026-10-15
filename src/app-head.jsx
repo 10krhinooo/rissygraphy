@@ -141,7 +141,7 @@ function JTile({ p, h, ar, full, onClick }) {
     </button>
   );
 }
-function JustifiedGrid({ list, onOpen }) {
+function JustifiedGrid({ list, onOpen, base = 0, all = list }) {
   const ref = useRef(null);
   const [W, setW] = useState(0);
   useEffect(() => {
@@ -169,7 +169,7 @@ function JustifiedGrid({ list, onOpen }) {
     <div className="jgrid" ref={ref} style={{ '--gap': gap + 'px' }}>
       {rows.map((r, ri) => (
         <div className={'jrow' + (REDUCED ? ' in' : '')} key={ri}>
-          {r.items.map(({ p, i, ar }) => <JTile key={p.id} p={p} h={r.h} ar={ar} full={r.full} onClick={(e) => onOpen(list, i, 'Gallery', e.currentTarget.querySelector('img'))} />)}
+          {r.items.map(({ p, i, ar }) => <JTile key={p.id} p={p} h={r.h} ar={ar} full={r.full} onClick={(e) => onOpen(all, base + i, 'Gallery', e.currentTarget.querySelector('img'))} />)}
         </div>
       ))}
     </div>
@@ -177,8 +177,47 @@ function JustifiedGrid({ list, onOpen }) {
 }
 
 /* ---------- Gallery page ---------- */
+const PER_PAGE = 20;
+const PAGE_KEY = 'rg-gallery-page';
+function Pager({ page, pages, onGo }) {
+  return (
+    <nav className="pager" aria-label="Gallery pages">
+      <button className="btn sm" onClick={() => onGo(page - 1)} disabled={page === 0} aria-label="Previous page"><span aria-hidden="true">←</span><span className="pl"> Prev</span></button>
+      <span className="pager-nums">
+        {Array.from({ length: pages }, (_, i) => (
+          <button key={i} className={'pg' + (i === page ? ' on' : '')} onClick={() => onGo(i)} aria-label={`Page ${i + 1}`} aria-current={i === page ? 'page' : undefined}>{pad(i + 1)}</button>
+        ))}
+      </span>
+      <button className="btn sm" onClick={() => onGo(page + 1)} disabled={page === pages - 1} aria-label="Next page"><span className="pl">Next </span><span aria-hidden="true">→</span></button>
+    </nav>
+  );
+}
 function GalleryPage({ onOpen }) {
   const ref = useRef(null);
+  const gridRef = useRef(null);
+  const pages = Math.ceil(ALL_PHOTOS.length / PER_PAGE);
+  const [page, setPage] = useState(() => { try { return Math.min(pages - 1, Math.max(0, +sessionStorage.getItem(PAGE_KEY) || 0)); } catch (e) { return 0; } });
+  const go = (n) => {
+    const next = Math.min(pages - 1, Math.max(0, n));
+    if (next === page) return;
+    setPage(next);
+    try { sessionStorage.setItem(PAGE_KEY, String(next)); } catch (e) {}
+    // back to the top of the grid so the new page starts from its first row
+    const el = gridRef.current;
+    const y = el.getBoundingClientRect().top + window.scrollY - 96;
+    if (LENIS) LENIS.scrollTo(y, { duration: 1.1, force: true }); else window.scrollTo({ top: y, behavior: REDUCED ? 'auto' : 'smooth' });
+    setTimeout(() => { if (Math.abs(window.scrollY - y) > 40) window.scrollTo(0, y); }, 1300);
+  };
+  const from = page * PER_PAGE, slice = ALL_PHOTOS.slice(from, from + PER_PAGE);
+  // warm the browser cache with the neighbouring pages so switching pages is instant
+  useEffect(() => {
+    const idle = window.requestIdleCallback || ((f) => setTimeout(f, 1200));
+    const id = idle(() => [page + 1, page - 1].forEach((n) => {
+      if (n < 0 || n >= pages) return;
+      ALL_PHOTOS.slice(n * PER_PAGE, n * PER_PAGE + PER_PAGE).forEach((p) => { const im = new Image(); im.decoding = 'async'; im.src = p.thumb; });
+    }));
+    return () => (window.cancelIdleCallback || clearTimeout)(id);
+  }, [page]);
   useEffect(() => {
     A({ targets: ref.current.querySelectorAll('.ch > span'), translateY: ['115%', '0%'], rotate: [10, 0], delay: anime.stagger(30, { start: 250 }), duration: 1400, easing: SMOOTH });
     A({ targets: ref.current.querySelectorAll('.fade'), opacity: [0, 1], translateY: [24, 0], delay: anime.stagger(100, { start: 650 }), duration: 1200, easing: SMOOTH });
@@ -192,7 +231,12 @@ function GalleryPage({ onOpen }) {
         </h1>
         <p className="lede fade">Frames from three hikes in 2026: forest falls, high moorland and the people who walked them. Tap any photo to see it full screen.</p>
       </header>
-      <JustifiedGrid list={ALL_PHOTOS} onOpen={onOpen} />
+      <div className="pager-top fade" ref={gridRef}>
+        <span className="mono">Frames {pad(from + 1)} to {pad(from + slice.length)} of {ALL_PHOTOS.length}</span>
+        <span className="mono">Page {pad(page + 1)} / {pad(pages)}</span>
+      </div>
+      <JustifiedGrid key={page} list={slice} all={ALL_PHOTOS} base={from} onOpen={onOpen} />
+      <Pager page={page} pages={pages} onGo={go} />
       <div className="more-row">
         <a className="btn" href="#top">← Back home</a>
         <a className="btn solid" href="#cv">Read the CV <span aria-hidden="true">→</span></a>
