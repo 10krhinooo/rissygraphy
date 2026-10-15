@@ -1,4 +1,8 @@
+<!doctype html>
+<html lang="en">
+<head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Lincoln Kariuki Chege</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -214,6 +218,10 @@ section { padding-block: clamp(64px, 10vw, 120px); }
 
 /* smooth scroll */
 html.lenis, html.lenis body { height: auto; }
+/* Lenis drives the scroll itself; native smooth scrolling would fight it and swallow the mouse wheel */
+html.lenis { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+.lenis [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: hidden; }
 
@@ -614,6 +622,8 @@ main, .site-foot, footer { position: relative; z-index: 1; }
 @media (max-width: 880px) { .contact-grid { grid-template-columns: 1fr; } }
 .foot { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 80px; padding-top: 20px; border-top: 1px solid var(--line); }
 </style>
+</head>
+<body>
 <div id="root"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
@@ -626,3 +636,5 @@ main, .site-foot, footer { position: relative; z-index: 1; }
 <script>
 __APP_JS__
 </script>
+</body>
+</html>
