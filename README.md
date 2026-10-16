@@ -2,7 +2,7 @@
 
 Portfolio website for **Lincoln Kariuki Chege**, photographer and graphic designer based in Nairobi.
 
-The site opens on a realistic 3D camera. As you scroll, the camera turns around, its screen plays back Lincoln's photos, and the view pushes into the screen and rolls into a film reel of his work. From there, visitors can browse the full gallery, read his CV and get in touch.
+The site opens on a realistic 3D model of Lincoln's Nikon D5600, built in code to the proportions of the D3100/D5600 body. As you scroll, the camera turns around, its screen plays back Lincoln's photos, and the view pushes into the screen and rolls into a film reel of his work. From there, visitors can browse the full gallery, read his CV and get in touch.
 
 ## Pages
 
