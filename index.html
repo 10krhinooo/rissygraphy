@@ -654,6 +654,54 @@ main, .site-foot, footer { position: relative; z-index: 1; }
 .copy-text { font-size: 17px; overflow-wrap: anywhere; user-select: all; }
 @media (max-width: 880px) { .contact-grid { grid-template-columns: 1fr; } }
 .foot { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 80px; padding-top: 20px; border-top: 1px solid var(--line); }
+/* error screens: 404 and crash share one out-of-focus viewfinder */
+.err { min-height: calc(100svh - 70px); display: grid; grid-template-columns: 1fr minmax(0, .85fr); gap: clamp(32px, 5vw, 80px); align-items: center; padding-bottom: clamp(48px, 8vw, 96px); }
+.err-copy { min-width: 0; }
+.err-title { font-size: clamp(56px, 9vw, 140px); }
+.err .lede { color: var(--muted); max-width: 44ch; margin: 0 0 32px; }
+.err-path { margin: 28px 0 0; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.err-path code { font: inherit; color: var(--fg); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 4px 8px; overflow-wrap: anywhere; }
+.err-vf { margin: 0; position: relative; width: min(100%, 520px); aspect-ratio: 4 / 5; max-height: 74svh; justify-self: center; border-radius: 10px; overflow: hidden; background: var(--surface); border: 1px solid var(--line); }
+.err-vf img { position: absolute; inset: -6%; width: 112%; height: 112%; object-fit: cover; filter: blur(14px) saturate(.8) brightness(.62); animation: errFocus 5.2s ease-in-out infinite; }
+@keyframes errFocus { 0%, 100% { filter: blur(16px) saturate(.8) brightness(.6); } 28% { filter: blur(5px) saturate(.9) brightness(.68); } 36% { filter: blur(12px) saturate(.8) brightness(.62); } 62% { filter: blur(3px) saturate(.9) brightness(.7); } 70% { filter: blur(18px) saturate(.8) brightness(.58); } }
+.err-vf .vf { border-color: #f4f1ec; }
+.err-af { position: absolute; left: 50%; top: 45%; width: 56px; height: 56px; translate: -50% -50%; border: 1.5px solid var(--ember); border-radius: 4px; animation: errHunt 5.2s cubic-bezier(.65, 0, .35, 1) infinite; }
+@keyframes errHunt { 0%, 100% { left: 38%; top: 38%; } 22% { left: 63%; top: 52%; } 44% { left: 46%; top: 64%; } 66% { left: 60%; top: 34%; } 86% { left: 40%; top: 56%; } }
+.err-code { position: absolute; left: 50%; top: 48%; translate: -50% -50%; font: 800 clamp(84px, 12vw, 170px)/1 var(--display); letter-spacing: -.05em; color: rgba(244, 241, 236, .92); text-shadow: 0 8px 40px rgba(0, 0, 0, .45); white-space: nowrap; }
+.err-lcd { position: absolute; left: 56px; right: 56px; bottom: 14px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 16px; padding: 10px 12px; border-radius: 6px; background: rgba(10, 9, 8, .62); color: #cfc9c0; }
+.err-lcd b { color: var(--ember); font-weight: 500; animation: blink 1s steps(1) infinite; }
+@media (prefers-reduced-motion: reduce) { .err-vf img, .err-af, .err-lcd b { animation: none; } }
+@media (max-width: 880px) { .err { grid-template-columns: 1fr; min-height: 0; } .err-lcd { left: 48px; right: 48px; } .err-vf { aspect-ratio: 4 / 3; width: 100%; max-width: 560px; justify-self: start; } }
+
+/* toasts: a viewfinder readout with an exposure meter that runs down */
+.toasts { position: fixed; left: var(--gutter); bottom: max(20px, calc(env(safe-area-inset-bottom, 0px) + 16px)); z-index: 500; display: flex; flex-direction: column; gap: 10px; width: min(400px, calc(100vw - var(--gutter) - var(--gutter-r))); pointer-events: none; }
+.toast { --c: var(--sky); pointer-events: auto; position: relative; display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 14px; padding: 14px 12px 20px 16px; overflow: hidden;
+  background: color-mix(in srgb, var(--surface) 90%, transparent); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 22px 44px -20px rgba(0, 0, 0, .75), inset 0 1px 0 color-mix(in srgb, var(--fg) 6%, transparent); }
+.toast.k-ok { --c: var(--moss); }
+.toast.k-err { --c: var(--ember); border-color: color-mix(in srgb, var(--ember) 40%, var(--line)); }
+.toast::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--c); }
+.t-af { width: 26px; height: 26px; display: grid; place-items: center; flex: none;
+  background:
+    linear-gradient(var(--c), var(--c)) 0 0 / 8px 2px no-repeat, linear-gradient(var(--c), var(--c)) 0 0 / 2px 8px no-repeat,
+    linear-gradient(var(--c), var(--c)) 100% 0 / 8px 2px no-repeat, linear-gradient(var(--c), var(--c)) 100% 0 / 2px 8px no-repeat,
+    linear-gradient(var(--c), var(--c)) 0 100% / 8px 2px no-repeat, linear-gradient(var(--c), var(--c)) 0 100% / 2px 8px no-repeat,
+    linear-gradient(var(--c), var(--c)) 100% 100% / 8px 2px no-repeat, linear-gradient(var(--c), var(--c)) 100% 100% / 2px 8px no-repeat; }
+.t-af i { width: 6px; height: 6px; border-radius: 50%; background: var(--c); box-shadow: 0 0 10px var(--c); }
+.toast.k-err .t-af i { animation: blink 1s steps(1) infinite; }
+.t-body { min-width: 0; }
+.t-tag { display: block; margin-bottom: 5px; font: 500 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--c); }
+.t-body p { margin: 0; font-size: 14px; line-height: 1.45; color: var(--fg); overflow-wrap: anywhere; }
+.t-act { font: 500 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c); border: 1px solid color-mix(in srgb, var(--c) 60%, transparent); border-radius: 8px; padding: 9px 11px; transition: background .2s, color .2s; }
+.t-act:hover { background: var(--c); color: var(--bg); }
+.t-x { width: 30px; height: 30px; border-radius: 50%; color: var(--muted); font-size: 18px; line-height: 1; transition: color .2s, background .2s; }
+.t-x:hover { color: var(--fg); background: var(--raise); }
+.t-meter { position: absolute; left: 16px; right: 16px; bottom: 8px; height: 4px; background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--fg) 16%, transparent) 0 1px, transparent 1px 6px); }
+.t-meter i { position: absolute; inset: 0; background: repeating-linear-gradient(90deg, var(--c) 0 1px, transparent 1px 6px); animation: tMeter linear forwards; }
+@keyframes tMeter { from { clip-path: inset(0 0 0 0); } to { clip-path: inset(0 100% 0 0); } }
+.toast:hover .t-meter i, .toast:focus-within .t-meter i { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .toast.k-err .t-af i { animation: none; } }
+@media (max-width: 640px) { .toasts { right: var(--gutter-r); width: auto; } .toast { gap: 12px; } }
 </style>
 </head>
 <body>
@@ -745,6 +793,22 @@ function useReveals(key) {
         const t = setTimeout(() => document.querySelectorAll('[data-reveal]').forEach((n) => io.observe(n)), 50);
         return () => { clearTimeout(t); io.disconnect(); };
     }, [key]);
+}
+/* Toasts: call toast('Copied', { kind: 'ok' }) from anywhere and <Toaster /> shows it.
+   kind is 'ok', 'err' or 'info'; an action is { label, run }. The same message twice
+   restarts the one already on screen instead of stacking a copy. */
+const TOAST = { list: [], subs: new Set(), n: 0 };
+const TOAST_TAG = { ok: 'Done', err: 'Error', info: 'Note' };
+function toast(text, opts = {}) {
+    const kind = opts.kind || 'info';
+    const t = { id: ++TOAST.n, text, kind, tag: opts.tag || TOAST_TAG[kind], ms: opts.ms || (kind === 'err' ? 7000 : 4200), action: opts.action || null };
+    TOAST.list = [...TOAST.list.filter((x) => !(x.text === text && x.kind === kind)), t].slice(-4);
+    TOAST.subs.forEach((f) => f(TOAST.list));
+    return t.id;
+}
+function dismissToast(id) {
+    TOAST.list = TOAST.list.filter((x) => x.id !== id);
+    TOAST.subs.forEach((f) => f(TOAST.list));
 }
 
 /* ===== data.js ===== */
@@ -1068,9 +1132,13 @@ function DownloadButton({ href, name, label = 'Download CV' }) {
                 setTimeout(() => URL.revokeObjectURL(u), 3000);
             }
             setSt('done');
+            toast(`${name} is in your downloads.`, { kind: 'ok', tag: 'Saved' });
         }
         catch (e) {
-            setSt(e && e.code === 'declined' ? 'idle' : 'err');
+            const declined = e && e.code === 'declined';
+            setSt(declined ? 'idle' : 'err');
+            if (!declined)
+                toast('The CV could not be downloaded. Check your connection and try again.', { kind: 'err', action: { label: 'Retry', run: () => go() } });
         }
         setTimeout(() => setSt((s) => (s === 'busy' ? s : 'idle')), 2600);
     };
@@ -1116,8 +1184,11 @@ function Resume({ data, pdfHref, pdfName }) {
             await navigator.clipboard.writeText(data.email);
             setCopied(true);
             setTimeout(() => setCopied(false), 1500);
+            toast(`${data.email} is on your clipboard.`, { kind: 'ok', tag: 'Copied' });
         }
-        catch (e) { }
+        catch (e) {
+            toast('Your browser blocked the clipboard. The email address is on the page to copy by hand.', { kind: 'err' });
+        }
     };
     return (React.createElement("div", { className: "cvx", "aria-label": `CV of ${data.name}` },
         React.createElement("header", { className: "cvx-head", "data-reveal": "up", "data-stagger": "100" },
@@ -2385,11 +2456,16 @@ function Admin({ site, onClose }) {
             savedJSON.current = JSON.stringify(mergeContent(JSON.parse(JSON.stringify(draft))));
             setDraft((d) => clone(d));
             setStatus('saved');
+            toast(site.mode === 'shared' ? 'Everyone now sees this version.' : 'Your changes are saved in this browser.', { kind: 'ok', tag: 'Saved' });
         }
         catch (e) {
-            setStatus(e && (e.code === 'permission_denied' || e.code === 'not_granted') ? 'denied' : 'error');
+            const denied = e && (e.code === 'permission_denied' || e.code === 'not_granted');
+            setStatus(denied ? 'denied' : 'error');
+            toast(denied ? 'Your account can view this page but not edit it.' : 'Could not save. Check your connection and try again.', { kind: 'err', action: denied ? null : { label: 'Retry', run: () => saveRef.current() } });
         }
     };
+    const saveRef = useRef(save);
+    saveRef.current = save;
     const reset = () => { if (confirm !== 'reset') {
         setConfirm('reset');
         return;
@@ -2595,6 +2671,7 @@ function Copy({ text }) {
             await navigator.clipboard.writeText(text);
             setDone(true);
             setTimeout(() => setDone(false), 1600);
+            toast(`${text} is on your clipboard.`, { kind: 'ok', tag: 'Copied' });
         }
         catch (e) {
             const r = document.createRange();
@@ -2602,6 +2679,7 @@ function Copy({ text }) {
             const s = getSelection();
             s.removeAllRanges();
             s.addRange(r);
+            toast('Your browser blocked the clipboard, so the text is selected instead. Press Ctrl+C or Cmd+C to copy it.', { tag: 'Selected' });
         }
     };
     return (React.createElement("div", { className: "copy" },
@@ -2736,21 +2814,135 @@ function Backdrop() {
         React.createElement("img", { key: p.id, src: p.thumb, alt: "", decoding: "async", ref: (n) => { if (n && n.complete && n.naturalWidth)
                 n.classList.add('ld'); }, onLoad: (e) => e.currentTarget.classList.add('ld') })));
 }
+/* ---------- Error screens: an unknown link (404) and a crashed render share one viewfinder ---------- */
+const ERRORS = {
+    missing: { eyebrow: 'Error 404 · Page not found', title: ['Out of', 'frame'], code: '404', lcd: 'No image',
+        lede: 'This page is not on the card. The link may have a typo, or the page has moved somewhere else on the site.' },
+    crash: { eyebrow: 'Err · Something went wrong', title: ['Shutter', 'jammed'], code: 'Err', lcd: 'Err',
+        lede: 'Part of the site failed to load. Reloading usually clears it, the same way switching a camera off and on does.' },
+};
+const ERROR_PHOTO = 'thumb/kathandeniforest-67.jpg';
+function ErrorScreen({ kind, path, home = '#top', onReload }) {
+    const e = ERRORS[kind];
+    const ref = useRef(null);
+    useEffect(() => {
+        A({ targets: ref.current.querySelectorAll('.ch > span'), translateY: ['115%', '0%'], rotate: [10, 0], delay: anime.stagger(30, { start: 250 }), duration: 1400, easing: SMOOTH });
+        A({ targets: ref.current.querySelectorAll('.fade'), opacity: [0, 1], translateY: [24, 0], delay: anime.stagger(100, { start: 650 }), duration: 1200, easing: SMOOTH });
+    }, []);
+    return (React.createElement("section", { className: "err page wrap", ref: ref },
+        React.createElement("div", { className: "err-copy" },
+            React.createElement("p", { className: "eyebrow fade" }, e.eyebrow),
+            React.createElement("h1", { className: "title page-title err-title", "aria-label": e.title.join(' ') + '.' }, e.title.map((w, i) => (React.createElement("span", { className: "t-line", "aria-hidden": "true", key: w },
+                chars(w),
+                i === e.title.length - 1 && React.createElement("span", { className: "ch dot" },
+                    React.createElement("span", null, ".")))))),
+            React.createElement("p", { className: "lede fade" }, e.lede),
+            React.createElement("div", { className: "cta fade" },
+                onReload
+                    ? React.createElement("button", { className: "btn solid", onClick: onReload },
+                        "Reload the page ",
+                        React.createElement("span", { "aria-hidden": "true" }, "\u21BB"))
+                    : React.createElement("a", { className: "btn solid", href: home },
+                        "Back to home ",
+                        React.createElement("span", { "aria-hidden": "true" }, "\u2192")),
+                React.createElement("a", { className: "btn", href: onReload ? home : '#gallery' }, onReload ? 'Back to home' : 'Open the gallery')),
+            path && React.createElement("p", { className: "mono muted err-path fade" },
+                "Requested ",
+                React.createElement("code", null, path))),
+        React.createElement("figure", { className: 'err-vf fade k-' + kind, "aria-hidden": "true" },
+            React.createElement("img", { src: ERROR_PHOTO, alt: "", decoding: "async" }),
+            React.createElement("span", { className: "vf tl" }),
+            React.createElement("span", { className: "vf tr" }),
+            React.createElement("span", { className: "vf bl" }),
+            React.createElement("span", { className: "vf br" }),
+            React.createElement("span", { className: "err-af" }),
+            React.createElement("span", { className: "err-code" }, e.code),
+            React.createElement("figcaption", { className: "err-lcd mono" },
+                React.createElement("span", null, "f/--"),
+                React.createElement("span", null, "1/--"),
+                React.createElement("span", null, "ISO --"),
+                React.createElement("b", null, e.lcd)))));
+}
+class ErrorBoundary extends React.Component {
+    constructor(props) { super(props); this.state = { failed: false }; }
+    static getDerivedStateFromError() { return { failed: true }; }
+    componentDidCatch(err, info) { console.error(err, info && info.componentStack); }
+    render() {
+        if (!this.state.failed)
+            return this.props.children;
+        return (React.createElement(React.Fragment, null,
+            React.createElement("div", { className: "backdrop", "aria-hidden": "true" }),
+            React.createElement("header", { className: "nav" },
+                React.createElement("div", { className: "nav-in" },
+                    React.createElement("a", { href: "./", className: "mark", "aria-label": "Rissy Graphy, home" },
+                        "Rissy Graphy",
+                        React.createElement("span", { className: "dot" })))),
+            React.createElement("main", null,
+                React.createElement(ErrorScreen, { kind: "crash", home: "./", onReload: () => location.reload() })),
+            React.createElement("div", { className: "grain", "aria-hidden": "true" }),
+            React.createElement("div", { className: "vignette", "aria-hidden": "true" })));
+    }
+}
+/* ---------- Toasts: a viewfinder readout that slides up from the bottom corner ---------- */
+function Toast({ t }) {
+    const ref = useRef(null);
+    const leaving = useRef(false);
+    const close = useCallback(() => {
+        if (leaving.current)
+            return;
+        leaving.current = true;
+        if (REDUCED || !ref.current) {
+            dismissToast(t.id);
+            return;
+        }
+        anime({ targets: ref.current, opacity: 0, translateX: -28, duration: 320, easing: 'easeInQuad', complete: () => dismissToast(t.id) });
+    }, [t.id]);
+    useEffect(() => {
+        A({ targets: ref.current, opacity: [0, 1], translateY: [28, 0], duration: 700, easing: SMOOTH });
+        // the focus bracket snaps onto the message, like AF locking
+        A({ targets: ref.current.querySelector('.t-af'), scale: [1.8, 1], opacity: [0, 1], delay: 140, duration: 900, easing: 'easeOutElastic(1, .6)' });
+    }, []);
+    return (React.createElement("div", { ref: ref, className: 'toast k-' + t.kind },
+        React.createElement("span", { className: "t-af", "aria-hidden": "true" },
+            React.createElement("i", null)),
+        React.createElement("div", { className: "t-body" },
+            React.createElement("span", { className: "t-tag" }, t.tag),
+            React.createElement("p", null, t.text)),
+        t.action && React.createElement("button", { className: "t-act", onClick: () => { t.action.run(); close(); } }, t.action.label),
+        React.createElement("button", { className: "t-x", onClick: close, "aria-label": "Dismiss notification" }, "\u00D7"),
+        React.createElement("span", { className: "t-meter", "aria-hidden": "true" },
+            React.createElement("i", { style: { animationDuration: t.ms + 'ms' }, onAnimationEnd: close }))));
+}
+function Toaster() {
+    const [list, setList] = useState(TOAST.list);
+    useEffect(() => { TOAST.subs.add(setList); return () => { TOAST.subs.delete(setList); }; }, []);
+    return React.createElement("section", { className: "toasts", "aria-live": "polite", "aria-label": "Notifications" }, list.map((t) => React.createElement(Toast, { key: t.id, t: t })));
+}
 /* ---------- App + pages (#gallery and #cv are their own pages) ---------- */
 const PAGES = ['gallery', 'cv', 'about', 'contact'];
-const PAGE_OF = (id) => (PAGES.includes(id) ? id : 'home');
+// sections that live on Home or inside another page; any other hash is a 404
+const SECTIONS = { top: 'home', reel: 'home', numbers: 'home', work: 'home', meet: 'home', 'cv-teaser': 'home', reach: 'home', 'about-me': 'about', 'contact-details': 'contact' };
+const PAGE_OF = (id) => (!id ? 'home' : PAGES.includes(id) ? id : SECTIONS[id] || 'missing');
 function App() {
     const [lb, setLb] = useState(null);
     const [admin, setAdmin] = useState(false);
     const [intro, setIntro] = useState(() => (INTRO.on = !REDUCED && PAGE_OF(location.hash.slice(1)) === 'home' && !introSeen()));
     const [route, setRoute] = useState(() => PAGE_OF(location.hash.slice(1)));
     const routeRef = useRef(route);
+    const [missing, setMissing] = useState(() => location.hash.slice(1));
     const pending = useRef(null);
     const site = useSiteContent();
     applyCaptions(site.content);
     const [shutterEl, runShutter] = useShutter();
     useReveals(route);
     useEffect(() => { startLenis(); }, []);
+    useEffect(() => {
+        const off = () => toast('You are offline. Photos you have not opened yet will load once the connection is back.', { kind: 'err', tag: 'Offline' });
+        const on = () => toast('Back online.', { kind: 'ok', tag: 'Online' });
+        window.addEventListener('offline', off);
+        window.addEventListener('online', on);
+        return () => { window.removeEventListener('offline', off); window.removeEventListener('online', on); };
+    }, []);
     // Hidden entry: Ctrl+Shift+E (Cmd+Shift+E on Mac) opens the editor for editors only
     useEffect(() => {
         if (!site.canEdit)
@@ -2785,7 +2977,7 @@ function App() {
     useEffect(() => {
         const id = pending.current;
         pending.current = null;
-        requestAnimationFrame(() => requestAnimationFrame(() => { if (id && PAGE_OF(id) === 'home' && id !== 'top')
+        requestAnimationFrame(() => requestAnimationFrame(() => { if (id && id !== 'top' && !PAGES.includes(id) && PAGE_OF(id) !== 'missing')
             jumpTo(id);
         else
             toTop(); }));
@@ -2798,8 +2990,9 @@ function App() {
             }
             catch (e) { }
         } };
-        if (page !== routeRef.current) {
-            runShutter(() => { pending.current = id; routeRef.current = page; setRoute(page); setHash(); });
+        if (page !== routeRef.current || page === 'missing') {
+            runShutter(() => { if (page === 'missing')
+                setMissing(id); pending.current = id; routeRef.current = page; setRoute(page); setHash(); });
             return;
         }
         const el = id === 'top' ? document.body : document.getElementById(id);
@@ -2850,6 +3043,7 @@ function App() {
                 React.createElement(SmallPage, { id: "about", eyebrow: "About \u00B7 Nairobi, Kenya", title: ['Meet', 'Lincoln'] }),
                 React.createElement(About, { id: "about-me", asPage: true }),
                 React.createElement(Contact, null)),
+            route === 'missing' && React.createElement(ErrorScreen, { kind: "missing", path: '#' + missing }),
             route === 'contact' && React.createElement(React.Fragment, null,
                 React.createElement(SmallPage, { id: "contact", eyebrow: "Contact \u00B7 Nairobi, Kenya", title: ['Get', 'in', 'touch'], lede: "Have a shoot or a brand that needs pictures? Email or call, or tap Copy to grab the details." }),
                 React.createElement(Contact, { id: "contact-details", asPage: true }))),
@@ -2857,11 +3051,13 @@ function App() {
         intro && React.createElement(Intro, { onDone: () => setIntro(false) }),
         lb && React.createElement(Lightbox, { state: lb, onClose: () => setLb(null), onMove: move }),
         shutterEl,
+        React.createElement(Toaster, null),
         React.createElement("div", { className: "grain", "aria-hidden": "true" }),
         React.createElement("div", { className: "vignette", "aria-hidden": "true" }),
         admin && React.createElement(Admin, { site: site, onClose: () => setAdmin(false) })));
 }
-ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App, null));
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(ErrorBoundary, null,
+    React.createElement(App, null)));
 
 </script>
 </body>
