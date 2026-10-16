@@ -65,9 +65,17 @@ function Admin({ site, onClose }) {
   const tryClose = () => { if (dirty && confirm !== 'close') { setConfirm('close'); return; } finish(); };
   const save = async () => {
     setStatus('saving'); setConfirm('');
-    try { await site.save(draft); savedJSON.current = JSON.stringify(mergeContent(JSON.parse(JSON.stringify(draft)))); setDraft((d) => clone(d)); setStatus('saved'); }
-    catch (e) { setStatus(e && (e.code === 'permission_denied' || e.code === 'not_granted') ? 'denied' : 'error'); }
+    try {
+      await site.save(draft); savedJSON.current = JSON.stringify(mergeContent(JSON.parse(JSON.stringify(draft)))); setDraft((d) => clone(d)); setStatus('saved');
+      toast(site.mode === 'shared' ? 'Everyone now sees this version.' : 'Your changes are saved in this browser.', { kind: 'ok', tag: 'Saved' });
+    } catch (e) {
+      const denied = e && (e.code === 'permission_denied' || e.code === 'not_granted');
+      setStatus(denied ? 'denied' : 'error');
+      toast(denied ? 'Your account can view this page but not edit it.' : 'Could not save. Check your connection and try again.', { kind: 'err', action: denied ? null : { label: 'Retry', run: () => saveRef.current() } });
+    }
   };
+  const saveRef = useRef(save);
+  saveRef.current = save;
   const reset = () => { if (confirm !== 'reset') { setConfirm('reset'); return; } setConfirm(''); setDraft(clone(DEFAULT_CONTENT)); };
   const msg = { saving: 'Saving', saved: site.mode === 'shared' ? 'Saved. Everyone now sees this version.' : 'Saved in this browser.', error: 'Could not save. Check your connection and try again.', denied: 'Your account can view this page but not edit it.' }[status];
   const R = draft.resume;

@@ -654,6 +654,54 @@ main, .site-foot, footer { position: relative; z-index: 1; }
 .copy-text { font-size: 17px; overflow-wrap: anywhere; user-select: all; }
 @media (max-width: 880px) { .contact-grid { grid-template-columns: 1fr; } }
 .foot { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 80px; padding-top: 20px; border-top: 1px solid var(--line); }
+/* error screens: 404 and crash share one out-of-focus viewfinder */
+.err { min-height: calc(100svh - 70px); display: grid; grid-template-columns: 1fr minmax(0, .85fr); gap: clamp(32px, 5vw, 80px); align-items: center; padding-bottom: clamp(48px, 8vw, 96px); }
+.err-copy { min-width: 0; }
+.err-title { font-size: clamp(56px, 9vw, 140px); }
+.err .lede { color: var(--muted); max-width: 44ch; margin: 0 0 32px; }
+.err-path { margin: 28px 0 0; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.err-path code { font: inherit; color: var(--fg); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 4px 8px; overflow-wrap: anywhere; }
+.err-vf { margin: 0; position: relative; width: min(100%, 520px); aspect-ratio: 4 / 5; max-height: 74svh; justify-self: center; border-radius: 10px; overflow: hidden; background: var(--surface); border: 1px solid var(--line); }
+.err-vf img { position: absolute; inset: -6%; width: 112%; height: 112%; object-fit: cover; filter: blur(14px) saturate(.8) brightness(.62); animation: errFocus 5.2s ease-in-out infinite; }
+@keyframes errFocus { 0%, 100% { filter: blur(16px) saturate(.8) brightness(.6); } 28% { filter: blur(5px) saturate(.9) brightness(.68); } 36% { filter: blur(12px) saturate(.8) brightness(.62); } 62% { filter: blur(3px) saturate(.9) brightness(.7); } 70% { filter: blur(18px) saturate(.8) brightness(.58); } }
+.err-vf .vf { border-color: #f4f1ec; }
+.err-af { position: absolute; left: 50%; top: 45%; width: 56px; height: 56px; translate: -50% -50%; border: 1.5px solid var(--ember); border-radius: 4px; animation: errHunt 5.2s cubic-bezier(.65, 0, .35, 1) infinite; }
+@keyframes errHunt { 0%, 100% { left: 38%; top: 38%; } 22% { left: 63%; top: 52%; } 44% { left: 46%; top: 64%; } 66% { left: 60%; top: 34%; } 86% { left: 40%; top: 56%; } }
+.err-code { position: absolute; left: 50%; top: 48%; translate: -50% -50%; font: 800 clamp(84px, 12vw, 170px)/1 var(--display); letter-spacing: -.05em; color: rgba(244, 241, 236, .92); text-shadow: 0 8px 40px rgba(0, 0, 0, .45); white-space: nowrap; }
+.err-lcd { position: absolute; left: 56px; right: 56px; bottom: 14px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 16px; padding: 10px 12px; border-radius: 6px; background: rgba(10, 9, 8, .62); color: #cfc9c0; }
+.err-lcd b { color: var(--ember); font-weight: 500; animation: blink 1s steps(1) infinite; }
+@media (prefers-reduced-motion: reduce) { .err-vf img, .err-af, .err-lcd b { animation: none; } }
+@media (max-width: 880px) { .err { grid-template-columns: 1fr; min-height: 0; } .err-lcd { left: 48px; right: 48px; } .err-vf { aspect-ratio: 4 / 3; width: 100%; max-width: 560px; justify-self: start; } }
+
+/* toasts: a viewfinder readout with an exposure meter that runs down */
+.toasts { position: fixed; left: var(--gutter); bottom: max(20px, calc(env(safe-area-inset-bottom, 0px) + 16px)); z-index: 500; display: flex; flex-direction: column; gap: 10px; width: min(400px, calc(100vw - var(--gutter) - var(--gutter-r))); pointer-events: none; }
+.toast { --c: var(--sky); pointer-events: auto; position: relative; display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 14px; padding: 14px 12px 20px 16px; overflow: hidden;
+  background: color-mix(in srgb, var(--surface) 90%, transparent); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 22px 44px -20px rgba(0, 0, 0, .75), inset 0 1px 0 color-mix(in srgb, var(--fg) 6%, transparent); }
+.toast.k-ok { --c: var(--moss); }
+.toast.k-err { --c: var(--ember); border-color: color-mix(in srgb, var(--ember) 40%, var(--line)); }
+.toast::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--c); }
+.t-af { width: 26px; height: 26px; display: grid; place-items: center; flex: none;
+  background:
+    linear-gradient(var(--c), var(--c)) 0 0 / 8px 2px no-repeat, linear-gradient(var(--c), var(--c)) 0 0 / 2px 8px no-repeat,
+    linear-gradient(var(--c), var(--c)) 100% 0 / 8px 2px no-repeat, linear-gradient(var(--c), var(--c)) 100% 0 / 2px 8px no-repeat,
+    linear-gradient(var(--c), var(--c)) 0 100% / 8px 2px no-repeat, linear-gradient(var(--c), var(--c)) 0 100% / 2px 8px no-repeat,
+    linear-gradient(var(--c), var(--c)) 100% 100% / 8px 2px no-repeat, linear-gradient(var(--c), var(--c)) 100% 100% / 2px 8px no-repeat; }
+.t-af i { width: 6px; height: 6px; border-radius: 50%; background: var(--c); box-shadow: 0 0 10px var(--c); }
+.toast.k-err .t-af i { animation: blink 1s steps(1) infinite; }
+.t-body { min-width: 0; }
+.t-tag { display: block; margin-bottom: 5px; font: 500 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--c); }
+.t-body p { margin: 0; font-size: 14px; line-height: 1.45; color: var(--fg); overflow-wrap: anywhere; }
+.t-act { font: 500 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c); border: 1px solid color-mix(in srgb, var(--c) 60%, transparent); border-radius: 8px; padding: 9px 11px; transition: background .2s, color .2s; }
+.t-act:hover { background: var(--c); color: var(--bg); }
+.t-x { width: 30px; height: 30px; border-radius: 50%; color: var(--muted); font-size: 18px; line-height: 1; transition: color .2s, background .2s; }
+.t-x:hover { color: var(--fg); background: var(--raise); }
+.t-meter { position: absolute; left: 16px; right: 16px; bottom: 8px; height: 4px; background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--fg) 16%, transparent) 0 1px, transparent 1px 6px); }
+.t-meter i { position: absolute; inset: 0; background: repeating-linear-gradient(90deg, var(--c) 0 1px, transparent 1px 6px); animation: tMeter linear forwards; }
+@keyframes tMeter { from { clip-path: inset(0 0 0 0); } to { clip-path: inset(0 100% 0 0); } }
+.toast:hover .t-meter i, .toast:focus-within .t-meter i { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .toast.k-err .t-af i { animation: none; } }
+@media (max-width: 640px) { .toasts { right: var(--gutter-r); width: auto; } .toast { gap: 12px; } }
 </style>
 </head>
 <body>

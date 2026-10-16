@@ -65,3 +65,20 @@ function useReveals(key) {
     return () => { clearTimeout(t); io.disconnect(); };
   }, [key]);
 }
+
+/* Toasts: call toast('Copied', { kind: 'ok' }) from anywhere and <Toaster /> shows it.
+   kind is 'ok', 'err' or 'info'; an action is { label, run }. The same message twice
+   restarts the one already on screen instead of stacking a copy. */
+const TOAST = { list: [], subs: new Set(), n: 0 };
+const TOAST_TAG = { ok: 'Done', err: 'Error', info: 'Note' };
+function toast(text, opts = {}) {
+  const kind = opts.kind || 'info';
+  const t = { id: ++TOAST.n, text, kind, tag: opts.tag || TOAST_TAG[kind], ms: opts.ms || (kind === 'err' ? 7000 : 4200), action: opts.action || null };
+  TOAST.list = [...TOAST.list.filter((x) => !(x.text === text && x.kind === kind)), t].slice(-4);
+  TOAST.subs.forEach((f) => f(TOAST.list));
+  return t.id;
+}
+function dismissToast(id) {
+  TOAST.list = TOAST.list.filter((x) => x.id !== id);
+  TOAST.subs.forEach((f) => f(TOAST.list));
+}
