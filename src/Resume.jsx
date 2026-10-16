@@ -25,8 +25,11 @@ function DownloadButton({ href, name, label = 'Download CV' }) {
         setTimeout(() => URL.revokeObjectURL(u), 3000);
       }
       setSt('done');
+      toast(`${name} is in your downloads.`, { kind: 'ok', tag: 'Saved' });
     } catch (e) {
-      setSt(e && e.code === 'declined' ? 'idle' : 'err');
+      const declined = e && e.code === 'declined';
+      setSt(declined ? 'idle' : 'err');
+      if (!declined) toast('The CV could not be downloaded. Check your connection and try again.', { kind: 'err', action: { label: 'Retry', run: () => go() } });
     }
     setTimeout(() => setSt((s) => (s === 'busy' ? s : 'idle')), 2600);
   };
@@ -65,7 +68,8 @@ function Resume({ data, pdfHref, pdfName }) {
   const [open, setOpen] = useState(0);
   const [copied, setCopied] = useState(false);
   const copy = async () => {
-    try { await navigator.clipboard.writeText(data.email); setCopied(true); setTimeout(() => setCopied(false), 1500); } catch (e) {}
+    try { await navigator.clipboard.writeText(data.email); setCopied(true); setTimeout(() => setCopied(false), 1500); toast(`${data.email} is on your clipboard.`, { kind: 'ok', tag: 'Copied' }); }
+    catch (e) { toast('Your browser blocked the clipboard. The email address is on the page to copy by hand.', { kind: 'err' }); }
   };
   return (
     <div className="cvx" aria-label={`CV of ${data.name}`}>

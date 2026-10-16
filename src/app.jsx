@@ -112,8 +112,11 @@ function Copy({ text }) {
   const [done, setDone] = useState(false);
   const ref = useRef(null);
   const click = async () => {
-    try { await navigator.clipboard.writeText(text); setDone(true); setTimeout(() => setDone(false), 1600); }
-    catch (e) { const r = document.createRange(); r.selectNodeContents(ref.current); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+    try { await navigator.clipboard.writeText(text); setDone(true); setTimeout(() => setDone(false), 1600); toast(`${text} is on your clipboard.`, { kind: 'ok', tag: 'Copied' }); }
+    catch (e) {
+      const r = document.createRange(); r.selectNodeContents(ref.current); const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      toast('Your browser blocked the clipboard, so the text is selected instead. Press Ctrl+C or Cmd+C to copy it.', { tag: 'Selected' });
+    }
   };
   return (
     <div className="copy">
@@ -240,21 +243,123 @@ function Backdrop() {
   );
 }
 
+/* ---------- Error screens: an unknown link (404) and a crashed render share one viewfinder ---------- */
+const ERRORS = {
+  missing: { eyebrow: 'Error 404 · Page not found', title: ['Out of', 'frame'], code: '404', lcd: 'No image',
+    lede: 'This page is not on the card. The link may have a typo, or the page has moved somewhere else on the site.' },
+  crash: { eyebrow: 'Err · Something went wrong', title: ['Shutter', 'jammed'], code: 'Err', lcd: 'Err',
+    lede: 'Part of the site failed to load. Reloading usually clears it, the same way switching a camera off and on does.' },
+};
+const ERROR_PHOTO = 'thumb/kathandeniforest-67.jpg';
+function ErrorScreen({ kind, path, home = '#top', onReload }) {
+  const e = ERRORS[kind];
+  const ref = useRef(null);
+  useEffect(() => {
+    A({ targets: ref.current.querySelectorAll('.ch > span'), translateY: ['115%', '0%'], rotate: [10, 0], delay: anime.stagger(30, { start: 250 }), duration: 1400, easing: SMOOTH });
+    A({ targets: ref.current.querySelectorAll('.fade'), opacity: [0, 1], translateY: [24, 0], delay: anime.stagger(100, { start: 650 }), duration: 1200, easing: SMOOTH });
+  }, []);
+  return (
+    <section className="err page wrap" ref={ref}>
+      <div className="err-copy">
+        <p className="eyebrow fade">{e.eyebrow}</p>
+        <h1 className="title page-title err-title" aria-label={e.title.join(' ') + '.'}>
+          {e.title.map((w, i) => (
+            <span className="t-line" aria-hidden="true" key={w}>{chars(w)}{i === e.title.length - 1 && <span className="ch dot"><span>.</span></span>}</span>
+          ))}
+        </h1>
+        <p className="lede fade">{e.lede}</p>
+        <div className="cta fade">
+          {onReload
+            ? <button className="btn solid" onClick={onReload}>Reload the page <span aria-hidden="true">↻</span></button>
+            : <a className="btn solid" href={home}>Back to home <span aria-hidden="true">→</span></a>}
+          <a className="btn" href={onReload ? home : '#gallery'}>{onReload ? 'Back to home' : 'Open the gallery'}</a>
+        </div>
+        {path && <p className="mono muted err-path fade">Requested <code>{path}</code></p>}
+      </div>
+      <figure className={'err-vf fade k-' + kind} aria-hidden="true">
+        <img src={ERROR_PHOTO} alt="" decoding="async" />
+        <span className="vf tl"></span><span className="vf tr"></span><span className="vf bl"></span><span className="vf br"></span>
+        <span className="err-af"></span>
+        <span className="err-code">{e.code}</span>
+        <figcaption className="err-lcd mono"><span>f/--</span><span>1/--</span><span>ISO --</span><b>{e.lcd}</b></figcaption>
+      </figure>
+    </section>
+  );
+}
+class ErrorBoundary extends React.Component {
+  constructor(props) { super(props); this.state = { failed: false }; }
+  static getDerivedStateFromError() { return { failed: true }; }
+  componentDidCatch(err, info) { console.error(err, info && info.componentStack); }
+  render() {
+    if (!this.state.failed) return this.props.children;
+    return (
+      <>
+        <div className="backdrop" aria-hidden="true"></div>
+        <header className="nav"><div className="nav-in"><a href="./" className="mark" aria-label="Rissy Graphy, home">Rissy Graphy<span className="dot"></span></a></div></header>
+        <main><ErrorScreen kind="crash" home="./" onReload={() => location.reload()} /></main>
+        <div className="grain" aria-hidden="true"></div>
+        <div className="vignette" aria-hidden="true"></div>
+      </>
+    );
+  }
+}
+
+/* ---------- Toasts: a viewfinder readout that slides up from the bottom corner ---------- */
+function Toast({ t }) {
+  const ref = useRef(null);
+  const leaving = useRef(false);
+  const close = useCallback(() => {
+    if (leaving.current) return;
+    leaving.current = true;
+    if (REDUCED || !ref.current) { dismissToast(t.id); return; }
+    anime({ targets: ref.current, opacity: 0, translateX: -28, duration: 320, easing: 'easeInQuad', complete: () => dismissToast(t.id) });
+  }, [t.id]);
+  useEffect(() => {
+    A({ targets: ref.current, opacity: [0, 1], translateY: [28, 0], duration: 700, easing: SMOOTH });
+    // the focus bracket snaps onto the message, like AF locking
+    A({ targets: ref.current.querySelector('.t-af'), scale: [1.8, 1], opacity: [0, 1], delay: 140, duration: 900, easing: 'easeOutElastic(1, .6)' });
+  }, []);
+  return (
+    <div ref={ref} className={'toast k-' + t.kind}>
+      <span className="t-af" aria-hidden="true"><i></i></span>
+      <div className="t-body"><span className="t-tag">{t.tag}</span><p>{t.text}</p></div>
+      {t.action && <button className="t-act" onClick={() => { t.action.run(); close(); }}>{t.action.label}</button>}
+      <button className="t-x" onClick={close} aria-label="Dismiss notification">×</button>
+      <span className="t-meter" aria-hidden="true"><i style={{ animationDuration: t.ms + 'ms' }} onAnimationEnd={close}></i></span>
+    </div>
+  );
+}
+function Toaster() {
+  const [list, setList] = useState(TOAST.list);
+  useEffect(() => { TOAST.subs.add(setList); return () => { TOAST.subs.delete(setList); }; }, []);
+  return <section className="toasts" aria-live="polite" aria-label="Notifications">{list.map((t) => <Toast key={t.id} t={t} />)}</section>;
+}
+
 /* ---------- App + pages (#gallery and #cv are their own pages) ---------- */
 const PAGES = ['gallery', 'cv', 'about', 'contact'];
-const PAGE_OF = (id) => (PAGES.includes(id) ? id : 'home');
+// sections that live on Home or inside another page; any other hash is a 404
+const SECTIONS = { top: 'home', reel: 'home', numbers: 'home', work: 'home', meet: 'home', 'cv-teaser': 'home', reach: 'home', 'about-me': 'about', 'contact-details': 'contact' };
+const PAGE_OF = (id) => (!id ? 'home' : PAGES.includes(id) ? id : SECTIONS[id] || 'missing');
 function App() {
   const [lb, setLb] = useState(null);
   const [admin, setAdmin] = useState(false);
   const [intro, setIntro] = useState(() => (INTRO.on = !REDUCED && PAGE_OF(location.hash.slice(1)) === 'home' && !introSeen()));
   const [route, setRoute] = useState(() => PAGE_OF(location.hash.slice(1)));
   const routeRef = useRef(route);
+  const [missing, setMissing] = useState(() => location.hash.slice(1));
   const pending = useRef(null);
   const site = useSiteContent();
   applyCaptions(site.content);
   const [shutterEl, runShutter] = useShutter();
   useReveals(route);
   useEffect(() => { startLenis(); }, []);
+  useEffect(() => {
+    const off = () => toast('You are offline. Photos you have not opened yet will load once the connection is back.', { kind: 'err', tag: 'Offline' });
+    const on = () => toast('Back online.', { kind: 'ok', tag: 'Online' });
+    window.addEventListener('offline', off);
+    window.addEventListener('online', on);
+    return () => { window.removeEventListener('offline', off); window.removeEventListener('online', on); };
+  }, []);
   // Hidden entry: Ctrl+Shift+E (Cmd+Shift+E on Mac) opens the editor for editors only
   useEffect(() => {
     if (!site.canEdit) return;
@@ -275,14 +380,14 @@ function App() {
   // after a page swap renders, land on the requested spot
   useEffect(() => {
     const id = pending.current; pending.current = null;
-    requestAnimationFrame(() => requestAnimationFrame(() => { if (id && PAGE_OF(id) === 'home' && id !== 'top') jumpTo(id); else toTop(); }));
+    requestAnimationFrame(() => requestAnimationFrame(() => { if (id && id !== 'top' && !PAGES.includes(id) && PAGE_OF(id) !== 'missing') jumpTo(id); else toTop(); }));
   }, [route]);
 
   const go = useCallback((id, viaHistory) => {
     const page = PAGE_OF(id);
     const setHash = () => { if (!viaHistory) { try { history.pushState(null, '', '#' + id); } catch (e) {} } };
-    if (page !== routeRef.current) {
-      runShutter(() => { pending.current = id; routeRef.current = page; setRoute(page); setHash(); });
+    if (page !== routeRef.current || page === 'missing') {
+      runShutter(() => { if (page === 'missing') setMissing(id); pending.current = id; routeRef.current = page; setRoute(page); setHash(); });
       return;
     }
     const el = id === 'top' ? document.body : document.getElementById(id);
@@ -319,12 +424,14 @@ function App() {
         {route === 'gallery' && <><GalleryPage onOpen={open} /><Contact /></>}
         {route === 'cv' && <><CVPage /><Contact /></>}
         {route === 'about' && <><SmallPage id="about" eyebrow="About · Nairobi, Kenya" title={['Meet', 'Lincoln']} /><About id="about-me" asPage /><Contact /></>}
+        {route === 'missing' && <ErrorScreen kind="missing" path={'#' + missing} />}
         {route === 'contact' && <><SmallPage id="contact" eyebrow="Contact · Nairobi, Kenya" title={['Get', 'in', 'touch']} lede="Have a shoot or a brand that needs pictures? Email or call, or tap Copy to grab the details." /><Contact id="contact-details" asPage /></>}
       </main>
       {route === 'home' && <SceneRail key="rail" />}
       {intro && <Intro onDone={() => setIntro(false)} />}
       {lb && <Lightbox state={lb} onClose={() => setLb(null)} onMove={move} />}
       {shutterEl}
+      <Toaster />
       <div className="grain" aria-hidden="true"></div>
       <div className="vignette" aria-hidden="true"></div>
       {admin && <Admin site={site} onClose={() => setAdmin(false)} />}
@@ -332,4 +439,4 @@ function App() {
   );
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+ReactDOM.createRoot(document.getElementById('root')).render(<ErrorBoundary><App /></ErrorBoundary>);
