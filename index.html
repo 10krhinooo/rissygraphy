@@ -1183,6 +1183,8 @@ const SCENE_CAPS = [
     { from: SEG.reel, to: 1.01, k: 'Scene 03 · The gallery', t: 'Keep scrolling for every frame.' },
 ];
 /* ---------- procedural textures ---------- */
+const ZOOM_MARKS = ['18', '24', '35', '50', '70', '105', '200', '300'];
+const ZOOM_STEP = (13 * Math.PI) / 180; // ring travel between two printed focal lengths
 function canvasTex(T, w, h, draw, repeat) {
     const c = document.createElement('canvas');
     c.width = w;
@@ -1219,17 +1221,52 @@ function makeTextures(T) {
             g.fillRect((i * w) / 90, 0, w / 90, h);
         }
     });
-    const marks = canvasTex(T, 2048, 96, (g, w, h) => {
-        g.fillStyle = '#121212';
+    // lens prints wrap round the barrel: u = 0.5 is the top of the lens, u = 0.25 the switch side.
+    // Focal lengths on the zoom ring sit ZOOM_STEP apart going back from the top, so turning the
+    // ring by k steps lines the k-th number up with the index line on the fixed barrel.
+    const marks = canvasTex(T, 2048, 64, (g, w, h) => {
+        g.fillStyle = '#101010';
         g.fillRect(0, 0, w, h);
-        g.fillStyle = '#e9e4dc';
-        g.font = '600 40px Arial, sans-serif';
+        g.fillStyle = '#ece8e1';
+        g.font = '600 34px Arial, sans-serif';
+        g.textAlign = 'center';
         g.textBaseline = 'middle';
-        const f = ['18', '35', '50', '70', '105', '200', '300'];
-        f.forEach((x, i) => g.fillText(x, 120 + i * 120, h / 2));
-        g.font = '600 30px Arial, sans-serif';
+        ZOOM_MARKS.forEach((x, i) => {
+            const cx = w / 2 - (i * ZOOM_STEP / (Math.PI * 2)) * w;
+            g.fillText(x, cx, h / 2 + 2);
+            if (i < ZOOM_MARKS.length - 1)
+                g.fillRect(cx - (ZOOM_STEP / (Math.PI * 4)) * w - 2, h / 2 - 2, 4, 4);
+        });
         g.fillStyle = '#9d978f';
-        g.fillText('AF-S  DX  NIKKOR  18-300mm  1:3.5-6.3G  ED  VR', 1000, h / 2);
+        g.font = '600 24px Arial, sans-serif';
+        g.fillText('LOCK', w / 2 + 70, h / 2 + 2);
+    });
+    const barrel = canvasTex(T, 2048, 240, (g, w, h) => {
+        g.fillStyle = '#070707';
+        g.fillRect(0, 0, w, h);
+        g.textAlign = 'center';
+        g.textBaseline = 'middle';
+        g.fillStyle = '#ece8e1';
+        g.fillRect(w / 2 - 3, 0, 6, 34); // zoom index line
+        g.beginPath();
+        g.arc(w / 2, h - 18, 9, 0, 7);
+        g.fill(); // mount index dot
+        g.font = '600 26px Arial, sans-serif';
+        g.fillText('AF-S  DX  NIKKOR  18-300mm  1:3.5-6.3G  ED', w * 0.39, h * 0.5);
+        g.fillText('A/M', w * 0.285, h * 0.66);
+        g.fillText('M', w * 0.285, h * 0.4);
+        g.fillText('ON', w * 0.215, h * 0.66);
+        g.fillText('OFF', w * 0.215, h * 0.4);
+        g.fillText('VR', w * 0.215, h * 0.82);
+        g.strokeStyle = '#c9a24a';
+        g.lineWidth = 4;
+        g.strokeRect(w * 0.6 - 46, h * 0.5 - 26, 92, 52);
+        g.fillStyle = '#c9a24a';
+        g.font = 'italic 800 38px Arial, sans-serif';
+        g.fillText('VR', w * 0.6, h * 0.5 + 1);
+        g.fillStyle = '#ece8e1';
+        g.font = '600 24px Arial, sans-serif';
+        g.fillText('SWM   ED   IF   ASPHERICAL', w * 0.6 + 230, h * 0.5);
     });
     // brand on the prism hump and model plate on the front, as on the D3100/D5600 body
     const badge = canvasTex(T, 512, 128, (g, w, h) => {
@@ -1266,8 +1303,8 @@ function makeTextures(T) {
     lcdCanvas.width = 1200;
     lcdCanvas.height = 800;
     const lcd = new T.CanvasTexture(lcdCanvas);
-    [marks, badge, plate, lcd].forEach((t) => (t.encoding = T.sRGBEncoding));
-    return { pebble, ribs, knurl, marks, badge, plate, shadow, lcd, lcdCanvas };
+    [marks, barrel, badge, plate, lcd].forEach((t) => (t.encoding = T.sRGBEncoding));
+    return { pebble, ribs, knurl, marks, barrel, badge, plate, shadow, lcd, lcdCanvas };
 }
 /* ---------- the camera model: a Nikon D3100/D5600-class body, units are centimetres
    measured off a reference model (body 12.1 x 7.1 x 5.3, grip out to 4.4, 18-300 style zoom) ---------- */
@@ -1282,9 +1319,13 @@ function buildDSLR(T, tex) {
         gloss: new T.MeshPhysicalMaterial({ color: 0x050505, roughness: 0.12, clearcoat: 1, clearcoatRoughness: 0.05, envMapIntensity: 0.45 }),
         gold: new T.MeshPhysicalMaterial({ color: 0xc9a24a, metalness: 1, roughness: 0.35, envMapIntensity: 0.7 }),
         red: new T.MeshPhysicalMaterial({ color: 0x8c0c0c, roughness: 0.45, clearcoat: 0.3, emissive: 0x1a0101 }),
-        glass: new T.MeshPhysicalMaterial({ color: 0x020305, metalness: 0.3, roughness: 0.03, clearcoat: 1, clearcoatRoughness: 0, iridescence: 1, iridescenceIOR: 1.8, iridescenceThicknessRange: [220, 700], envMapIntensity: 0.9 }),
+        glass: new T.MeshPhysicalMaterial({ color: 0x020305, metalness: 0.3, roughness: 0.03, clearcoat: 1, clearcoatRoughness: 0, iridescence: 1, iridescenceIOR: 1.8, iridescenceThicknessRange: [220, 700], envMapIntensity: 0.9, transparent: true, opacity: 0.6, depthWrite: false }),
         black: new T.MeshBasicMaterial({ color: 0x030303 }),
-        marks: new T.MeshPhysicalMaterial({ map: tex.marks, roughness: 0.5, metalness: 0.1 }),
+        marks: new T.MeshPhysicalMaterial({ map: tex.marks, roughness: 0.45, metalness: 0.1 }),
+        barrel: new T.MeshPhysicalMaterial({ map: tex.barrel, roughness: 0.3, clearcoat: 0.6, clearcoatRoughness: 0.2, envMapIntensity: 0.4 }),
+        ribbed: new T.MeshPhysicalMaterial({ color: 0x0b0b0b, roughness: 0.8, flatShading: true, envMapIntensity: 0.3 }),
+        coat: new T.MeshPhysicalMaterial({ color: 0x0a1410, metalness: 0.6, roughness: 0.05, clearcoat: 1, iridescence: 1, iridescenceIOR: 2.1, iridescenceThicknessRange: [300, 900], envMapIntensity: 1.1 }),
+        white: new T.MeshBasicMaterial({ color: 0xe9e5de }),
         badge: new T.MeshPhysicalMaterial({ map: tex.badge, transparent: true, metalness: 0.2, roughness: 0.4 }),
         plate: new T.MeshPhysicalMaterial({ map: tex.plate, metalness: 0.6, roughness: 0.3 }),
         af: new T.MeshPhysicalMaterial({ color: 0xd8d4cc, metalness: 0.2, roughness: 0.15, clearcoat: 1, emissive: 0x1a1612 }),
@@ -1295,6 +1336,58 @@ function buildDSLR(T, tex) {
     const cyl = (rt, rb, h, m, seg = 96) => new T.Mesh(new T.CylinderGeometry(rt, rb, h, seg, 1, false), m);
     const zCyl = (r, h, m, x, y, z) => { const c = cyl(r, r, h, m, 48); c.rotation.x = Math.PI / 2; c.position.set(x, y, z); return c; };
     const at = (o, x, y, z) => { o.position.set(x, y, z); return o; };
+    // printed decals: transparent canvases at 120 px per cm. face 'front' looks +Z, 'back' -Z,
+    // 'up' +Y with the text reading from behind the camera, like the real top plate.
+    const PX = 120, INK = '#e9e5de';
+    const print = (w, h, draw) => {
+        const t = canvasTex(T, Math.round(w * PX), Math.round(h * PX), (g, W, H) => { g.fillStyle = g.strokeStyle = INK; g.textAlign = 'center'; g.textBaseline = 'middle'; draw(g, W, H); });
+        t.encoding = T.sRGBEncoding;
+        return new T.MeshPhysicalMaterial({ map: t, transparent: true, roughness: 0.5, depthWrite: false });
+    };
+    const place = (m, x, y, z, face) => { m.position.set(x, y, z); if (face === 'back')
+        m.rotation.y = Math.PI; if (face === 'up')
+        m.rotation.set(-Math.PI / 2, 0, Math.PI); return m; };
+    const decal = (w, h, draw, x, y, z, face = 'front') => place(new T.Mesh(new T.PlaneGeometry(w, h), print(w, h, draw)), x, y, z, face);
+    const word = (s, size, weight = 700) => (g, W, H) => { g.font = `${weight} ${size * PX}px Arial, sans-serif`; g.fillText(s, W / 2, H / 2); };
+    // text set round a circle (mode dial, lens front ring); angle 0 is the top of the canvas
+    const ringText = (items, rr) => (g, W, H) => items.forEach(([s, a, size, col]) => {
+        g.save();
+        g.translate(W / 2, H / 2);
+        g.rotate(a);
+        g.fillStyle = col || INK;
+        g.font = `700 ${size * PX}px Arial, sans-serif`;
+        g.fillText(s, 0, -rr * PX);
+        g.restore();
+    });
+    const arcText = (s, size, rr, a0) => (g, W, H) => {
+        g.font = `600 ${size * PX}px Arial, sans-serif`;
+        let a = a0;
+        for (const ch of s) {
+            const da = g.measureText(ch).width / (rr * PX);
+            g.save();
+            g.translate(W / 2, H / 2);
+            g.rotate(a + da / 2);
+            g.fillText(ch, 0, -rr * PX);
+            g.restore();
+            a += da;
+        }
+    };
+    // raised ribs: alternate radial segments are pulled in so the grip catches real light
+    const ribbedCyl = (r, h, ribs, depth = 0.05) => {
+        const g = new T.CylinderGeometry(r, r, h, ribs * 2, 1, false), pa = g.attributes.position;
+        for (let i = 0; i < pa.count; i++) {
+            const x = pa.getX(i), z = pa.getZ(i), d = Math.hypot(x, z);
+            if (d < r * 0.5)
+                continue;
+            const k = Math.round(((Math.atan2(x, z) + Math.PI * 2) % (Math.PI * 2)) / (Math.PI / ribs));
+            if (k % 2) {
+                pa.setX(i, (x * (r - depth)) / d);
+                pa.setZ(i, (z * (r - depth)) / d);
+            }
+        }
+        g.computeVertexNormals();
+        return new T.Mesh(g, M.ribbed);
+    };
     const cam = new T.Group();
     // body slab, deep rounded grip with the red flash, leather on the lens-release side
     cam.add(at(rbox(12.1, 7.1, 5.3, 1.0, M.plastic), 0, -0.25, 0.15));
@@ -1317,70 +1410,126 @@ function buildDSLR(T, tex) {
     hg.computeVertexNormals();
     cam.add(new T.Mesh(hg, M.plastic));
     cam.add(mesh(new T.PlaneGeometry(2.3, 0.58), M.badge, 1.2, 3.95, 4.66));
-    cam.add(mesh(new T.BoxGeometry(2.2, 0.2, 2.0), M.darkMetal, 1.2, 5.6, 0.4)); // hot shoe
+    // hot shoe: base, two rails folded over the top, contacts in the middle
+    cam.add(mesh(new T.BoxGeometry(2.2, 0.14, 2.0), M.darkMetal, 1.2, 5.55, 0.4));
+    [0.25, 2.15].forEach((x) => { cam.add(mesh(new T.BoxGeometry(0.16, 0.16, 2.0), M.chrome, x, 5.68, 0.4)); cam.add(mesh(new T.BoxGeometry(0.4, 0.04, 2.0), M.chrome, x + (x < 1.2 ? 0.2 : -0.2), 5.77, 0.4)); });
+    [[1.2, 0.4], [0.85, 0.75], [1.55, 0.75], [0.85, 0.05], [1.55, 0.05]].forEach(([x, z], i) => cam.add(at(cyl(i ? 0.07 : 0.16, i ? 0.07 : 0.16, 0.04, M.chrome, 20), x, 5.64, z)));
+    // stereo microphone holes on top of the flash housing
+    [0.35, 2.05].forEach((x) => [[0, 0], [0.16, 0], [-0.16, 0], [0, 0.16], [0, -0.16]].forEach(([dx, dz]) => cam.add(place(new T.Mesh(new T.CircleGeometry(0.05, 12), M.black), x + dx, 5.505, 1.0 + dz, 'up'))));
     cam.add(mesh(new T.PlaneGeometry(1.1, 0.42), M.plate, 5.15, 1.4, 2.81));
-    // top plate: mode dial, shutter button in its power collar, two small buttons
+    // top plate: printed mode dial with its index, shutter button in the ON/OFF collar, Info and +/- buttons
     const dial = cyl(1.2, 1.2, 0.6, M.dial, 64);
     dial.position.set(-2.6, 3.6, -0.15);
     cam.add(dial);
-    cam.add(mesh(new T.CylinderGeometry(1.0, 1.0, 0.02, 48), M.darkMetal, -2.6, 3.91, -0.15));
-    cam.add(mesh(new T.SphereGeometry(0.09, 12, 8), M.chrome, -2.6, 3.94, 0.65));
+    cam.add(at(cyl(1.0, 1.0, 0.02, M.darkMetal, 48), -2.6, 3.91, -0.15));
+    const modes = [['AUTO', 0, 0.17, '#7fd17f'], ['P', -0.55, 0.22], ['S', -0.95, 0.22], ['A', -1.35, 0.22], ['M', -1.75, 0.22], ['GUIDE', 0.62, 0.14, '#f2c94c'], ['·', 1.1, 0.3], ['·', 1.55, 0.3], ['·', 2.0, 0.3], ['·', 2.45, 0.3], ['·', 2.9, 0.3]];
+    // AUTO sits at the index, which points at the prism hump (+X, the left of the canvas once laid face up)
+    cam.add(place(new T.Mesh(new T.CircleGeometry(0.98, 48), print(1.96, 1.96, ringText(modes.map(([s, a, z, c]) => [s, a - Math.PI / 2, z, c]), 0.7))), -2.6, 3.925, -0.15, 'up'));
+    cam.add(place(new T.Mesh(new T.PlaneGeometry(0.34, 0.1), M.white), -1.25, 3.305, -0.15, 'up'));
     cam.add(at(cyl(0.75, 0.75, 0.16, M.darkMetal, 48), -4.4, 2.75, 2.3));
+    cam.add(at(rbox(0.6, 0.14, 0.34, 0.06, M.darkMetal), -3.55, 2.75, 2.55)); // power lever
+    cam.add(decal(0.9, 0.3, (g, W, H) => { g.font = `700 ${0.13 * PX}px Arial, sans-serif`; g.fillText('OFF', W * 0.25, H / 2); g.fillText('ON', W * 0.75, H / 2); }, -4.4, 2.705, 3.25, 'up'));
     cam.add(at(cyl(0.42, 0.42, 0.26, M.chrome, 48), -4.4, 2.88, 2.3));
     cam.add(at(cyl(0.22, 0.22, 0.14, M.plastic, 24), -5.1, 2.76, 1.0));
+    cam.add(decal(0.36, 0.36, word('±', 0.22), -5.1, 2.835, 1.0, 'up'));
     cam.add(at(cyl(0.22, 0.22, 0.14, M.plastic, 24), -3.6, 3.35, 1.0));
+    cam.add(decal(0.5, 0.2, word('INFO', 0.1), -3.6, 3.305, 0.55, 'up'));
     // strap lugs
     [-6.15, 6.15].forEach((x) => { const t = new T.Mesh(new T.TorusGeometry(0.36, 0.09, 12, 32), M.chrome); t.position.set(x, 2.5, 0); t.rotation.y = Math.PI / 2; cam.add(t); });
-    // AF-assist lamp and lens release
+    // AF-assist lamp, lens release, flash pop-up button, port cover on the side
     cam.add(mesh(new T.SphereGeometry(0.3, 24, 16), M.af, -2.15, 2.0, 2.7));
     cam.add(at(rbox(0.55, 1.0, 0.3, 0.14, M.plastic), 5.0, -0.7, 2.9));
+    const pop = zCyl(0.26, 0.16, M.plastic, 3.85, 2.5, 2.86);
+    cam.add(pop);
+    cam.add(decal(0.32, 0.32, word('ϟ', 0.24), 3.85, 2.5, 2.95));
+    cam.add(at(rbox(0.12, 3.6, 3.0, 0.05, M.leather), 6.07, -0.6, 0.2));
+    // F mount: chrome throat ring round the lens and the white mounting dot at one o'clock
+    cam.add(at(new T.Mesh(new T.RingGeometry(2.95, 3.25, 96), M.chrome), 1.3, -0.3, 2.805));
+    cam.add(mesh(new T.CircleGeometry(0.09, 16), M.white, 1.3 + 3.42 * Math.cos(1.13), -0.3 + 3.42 * Math.sin(1.13), 2.805));
     // back: screen with its bezel, playback column, multi-selector, AE-L, live view, eyecup
     cam.add(at(rbox(6.9, 4.9, 0.2, 0.18, M.gloss), 1.22, -0.83, -2.55));
     const scr = mesh(new T.PlaneGeometry(6.45, 4.3), screen, 1.22, -0.83, -2.66);
     scr.rotation.y = Math.PI;
     cam.add(scr);
-    [1.12, 0.11, -0.86, -1.86, -2.82].forEach((y) => cam.add(zCyl(0.3, 0.2, M.plastic, 5.15, y, -2.52)));
+    const col = [['▶', 0.2], ['MENU', 0.11], ['?', 0.2], ['⊕', 0.22], ['⊖', 0.22]];
+    [1.12, 0.11, -0.86, -1.86, -2.82].forEach((y, i) => { cam.add(zCyl(0.3, 0.2, M.plastic, 5.15, y, -2.52)); cam.add(decal(0.56, 0.56, word(col[i][0], col[i][1]), 5.15, y, -2.625, 'back')); });
     cam.add(zCyl(0.95, 0.24, M.plastic, -3.6, -1.32, -2.5));
+    cam.add(decal(1.9, 1.9, (g, W, H) => [0, 1, 2, 3].forEach((k) => { g.save(); g.translate(W / 2, H / 2); g.rotate((k * Math.PI) / 2); g.beginPath(); g.moveTo(0, -0.8 * PX); g.lineTo(-0.1 * PX, -0.66 * PX); g.lineTo(0.1 * PX, -0.66 * PX); g.fill(); g.restore(); }), -3.6, -1.32, -2.625, 'back'));
     cam.add(zCyl(0.4, 0.3, M.darkMetal, -3.6, -1.32, -2.56));
+    cam.add(decal(0.6, 0.4, word('OK', 0.2), -3.6, -1.32, -2.715, 'back'));
     cam.add(zCyl(0.36, 0.22, M.plastic, -2.08, 2.58, -2.5));
+    cam.add(decal(0.66, 0.5, (g, W, H) => { g.font = `700 ${0.13 * PX}px Arial, sans-serif`; g.fillText('AE-L', W / 2, H * 0.36); g.fillText('AF-L', W / 2, H * 0.66); }, -2.08, 2.58, -2.615, 'back'));
     cam.add(zCyl(0.3, 0.2, M.plastic, -3.09, -3.14, -2.5));
+    cam.add(decal(0.5, 0.5, (g, W, H) => { const u = PX / 100; g.fillRect(W / 2 - 9 * u, H / 2 - 9 * u, 18 * u, 3 * u); g.fillRect(W / 2 - 3 * u, H / 2 - 12 * u, 6 * u, 3 * u); g.strokeStyle = INK; g.lineWidth = 2.6 * u; g.strokeRect(W / 2 - 6.5 * u, H / 2 - 5 * u, 13 * u, 15 * u); }, -3.09, -3.14, -2.605, 'back'));
     cam.add(at(rbox(0.6, 1.2, 0.3, 0.14, M.plastic), -2.56, 0.48, -2.52));
     cam.add(mesh(new T.SphereGeometry(0.12, 16, 10), M.red, -2.56, 0.48, -2.68));
+    cam.add(decal(0.5, 0.3, word('Lv', 0.18), -2.56, 1.3, -2.505, 'back'));
     cam.add(at(rbox(1.4, 1.6, 0.3, 0.3, M.leather), -4.9, 1.1, -2.5));
-    cam.add(at(rbox(1.6, 0.3, 0.1, 0.05, M.gloss), -4.6, 2.76, -2.52)); // speaker
+    cam.add(decal(0.5, 0.4, word('i', 0.26), -4.9, 1.1, -2.655, 'back'));
+    // speaker grille as a grid of holes
+    cam.add(decal(1.6, 0.4, (g, W, H) => { for (let i = 0; i < 12; i++)
+        for (let j = 0; j < 3; j++) {
+            g.beginPath();
+            g.arc(W * (0.06 + i * 0.08), H * (0.25 + j * 0.25), 0.035 * PX, 0, 7);
+            g.fill();
+        } }, -4.6, 2.76, -2.505, 'back'));
+    // eyecup with a framed eyepiece and the dioptre wheel beside it
     cam.add(at(rbox(3.6, 2.8, 0.7, 0.35, M.leather), 1.16, 3.4, -2.6));
-    const eyeGlass = mesh(new T.PlaneGeometry(1.5, 0.95), M.gloss, 1.16, 3.0, -2.96);
+    cam.add(at(rbox(1.8, 1.25, 0.06, 0.12, M.darkMetal), 1.16, 3.0, -2.95));
+    const eyeGlass = mesh(new T.PlaneGeometry(1.5, 0.95), M.coat, 1.16, 3.0, -2.985);
     eyeGlass.rotation.y = Math.PI;
     cam.add(eyeGlass);
-    // lens, built along +Y then turned to face +Z: mount, gold VR band, zoom ring, then the barrel that extends
+    const diop = cyl(0.26, 0.26, 0.16, M.dial, 32);
+    diop.rotation.z = Math.PI / 2;
+    diop.position.set(-0.75, 4.1, -2.45);
+    cam.add(diop);
+    // lens, built along +Y then turned to face +Z. Fixed barrel (prints, switches, index line),
+    // zoom ring with the focal scale, then the inner barrel that extends with the focus ring and front.
     const L = new T.Group();
     L.position.set(1.3, -0.3, 2.8);
     L.rotation.x = Math.PI / 2;
     cam.add(L);
     L.add(mesh(new T.CylinderGeometry(2.9, 2.9, 0.25, 96), M.chrome, 0, 0.12, 0));
-    L.add(mesh(new T.CylinderGeometry(2.95, 3.0, 1.0, 96), M.plastic, 0, 0.75, 0));
-    L.add(mesh(new T.CylinderGeometry(2.97, 2.97, 0.08, 96), M.gold, 0, 1.3, 0));
-    L.add(mesh(new T.CylinderGeometry(2.95, 2.95, 1.6, 96), M.gloss, 0, 2.15, 0));
-    L.add(mesh(new T.CylinderGeometry(2.97, 2.97, 0.6, 128), M.marks, 0, 3.25, 0));
-    const zoomRing = mesh(new T.CylinderGeometry(3.28, 3.28, 2.8, 128), M.rubber, 0, 5.0, 0);
-    L.add(zoomRing);
+    L.add(mesh(new T.CylinderGeometry(2.97, 3.0, 2.15, 128), M.barrel, 0, 1.525, 0));
+    L.add(mesh(new T.CylinderGeometry(3.0, 2.97, 0.2, 128), M.gloss, 0, 2.7, 0));
+    // A/M-M and VR ON/OFF slide switches on the left of the barrel (+X)
+    [[1.25, 0.5], [2.05, -0.5]].forEach(([y, s]) => {
+        const sw = new T.Group();
+        sw.position.set(2.99, y, -0.43);
+        L.add(sw);
+        sw.add(at(rbox(0.12, 0.62, 0.36, 0.05, M.gloss), 0, 0, 0));
+        sw.add(at(rbox(0.12, 0.2, 0.26, 0.05, M.darkMetal), 0.05, s * 0.17, 0));
+    });
+    const zoomRing = new T.Group();
+    L.add(zoomRing); // turns as the lens zooms
+    zoomRing.add(mesh(new T.CylinderGeometry(3.2, 3.2, 0.5, 128), M.marks, 0, 3.05, 0));
+    zoomRing.add(at(ribbedCyl(3.32, 2.5, 72), 0, 4.55, 0));
     const inner = new T.Group();
     L.add(inner); // extends as the lens zooms
-    inner.add(mesh(new T.CylinderGeometry(2.85, 2.85, 3.0, 96), M.gloss, 0, 7.0, 0));
-    const focusRing = mesh(new T.CylinderGeometry(3.1, 3.1, 0.7, 128), M.rubber, 0, 8.15, 0);
+    inner.add(mesh(new T.CylinderGeometry(2.85, 2.85, 2.4, 96), M.gloss, 0, 6.6, 0));
+    const focusRing = at(ribbedCyl(3.12, 0.7, 90, 0.04), 0, 8.15, 0);
     inner.add(focusRing);
     const lip = [[2.45, 8.5], [3.12, 8.5], [3.2, 8.65], [3.15, 9.0], [2.6, 9.05]].map(([r, y]) => new T.Vector2(r, y));
     inner.add(new T.Mesh(new T.LatheGeometry(lip, 128), M.darkMetal));
-    const disc = mesh(new T.CircleGeometry(2.6, 64), M.black, 0, 8.75, 0);
+    // front ring inscription, read from in front of the lens
+    const fr = new T.Mesh(new T.RingGeometry(2.62, 3.1, 128), print(6.2, 6.2, arcText('Nikon   DX   AF-S NIKKOR   18-300mm  1:3.5-6.3G  ED  VR   ø67', 0.13, 2.86, -2.4)));
+    fr.rotation.x = -Math.PI / 2;
+    fr.position.y = 9.06;
+    inner.add(fr);
+    // inside: a black tube, a coated inner element and the front element in front of it
+    inner.add(mesh(new T.CylinderGeometry(2.55, 2.55, 1.6, 64, 1, true), M.black, 0, 8.1, 0));
+    const disc = mesh(new T.CircleGeometry(2.6, 64), M.black, 0, 7.35, 0);
     disc.rotation.x = -Math.PI / 2;
     inner.add(disc);
-    const iring = new T.Mesh(new T.TorusGeometry(1.7, 0.05, 8, 96), M.darkMetal);
+    const r2 = 4.2, phi2 = Math.asin(2.1 / r2);
+    inner.add(mesh(new T.SphereGeometry(r2, 64, 16, 0, Math.PI * 2, 0, phi2), M.coat, 0, 8.2 - r2 * Math.cos(phi2), 0));
+    const iring = new T.Mesh(new T.TorusGeometry(2.15, 0.06, 8, 96), M.darkMetal);
     iring.rotation.x = Math.PI / 2;
-    iring.position.y = 8.9;
+    iring.position.y = 8.2;
     inner.add(iring);
     const R = 6.5, phi = Math.asin(2.58 / R);
     inner.add(mesh(new T.SphereGeometry(R, 96, 24, 0, Math.PI * 2, 0, phi), M.glass, 0, 8.85 - R * Math.cos(phi), 0));
-    return { cam, inner, zoomRing, focusRing, screen, screenCenter: new T.Vector3(1.22, -0.83, -2.66), screenSize: [6.45, 4.3] };
+    return { cam, inner, zoomRing, focusRing, zoomStep: ZOOM_STEP, screen, screenCenter: new T.Vector3(1.22, -0.83, -2.66), screenSize: [6.45, 4.3] };
 }
 /* ---------- draws the rear LCD ---------- */
 function drawLCD(c, img, p, i, n) {
@@ -1550,7 +1699,7 @@ function CameraScene({ onOpen }) {
                 model.cam.rotation.set(((S.rx + 8 * I.spin) * Math.PI) / 180 + par.y * 0.05 * free, ((S.ry - 160 * I.spin) * Math.PI) / 180 + par.x * 0.08 * free, 0);
                 model.cam.scale.setScalar(S.sc * (1 - 0.3 * I.spin));
                 model.inner.position.y = S.ext;
-                model.zoomRing.rotation.y = S.focus;
+                model.zoomRing.rotation.y = (S.ext / 1.4) * 5 * model.zoomStep; // 18 mm to 105 mm at the index
                 model.focusRing.rotation.y = -S.focus * 0.6;
                 model.screen.emissiveIntensity = S.lcd * 1.15;
                 model.cam.updateMatrixWorld(true);
